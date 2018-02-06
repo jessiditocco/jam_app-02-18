@@ -28,12 +28,12 @@ def index():
     return render_template("homepage.html")
 
 
-
 @app.route('/register', methods=['GET'])
 def register_form():
     """Show form for user signup."""
 
     return render_template("registration_form.html")
+
 
 @app.route('/register', methods=['POST'])
 def register_proccess():
@@ -50,16 +50,59 @@ def register_proccess():
     db.session.commit()
 
     # Flash a message saying that the user has successfully registered
-    flash("User {} successfully added".format(email))
+    flash("User {} successfully added".format(name))
 
     return redirect('/')
+
+
+@app.route('/login', methods=['GET'])
+def login_form():
+    """Shows login form."""
+
+    return render_template("login.html")
+
+
+@app.route('/login', methods=['POST'])
+def login_proccess():
+    """Proccesses user and adds user to session."""
+    #### IS THIS THE BEST WAY TO CHECK LOGIN?
+
+    # Get form variables
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    # Check the DB to see if user exists and login matches
+    user = db.session.query(User).filter((User.email == email) & (User.password == password)).first()
+
+    # If user is in DB, add user to the session
+    # Flash success message
+    # Return redirect to homepage
+    if user:
+        session["user_id"] = user.user_id
+        flash("User successfully logged in")
+        return redirect('/')
+    # If user is not in session, redirect to login page
+    else:
+        flash("Email/password combination doesn't exist. Try again")
+        return redirect('/login')
+
+
+@app.route('/logout', methods=["GET"])
+def logout():
+    """Logs user out; removes user from session."""
+
+    print session
+    del session["user_id"]
+    print session
+    flash("User has been successfully logged out")
+    return redirect("/")
+
+
 
 @app.route('/show_events', methods=["POST"])
 def show_events_by_keyword():
 
     search_term = request.form.get("event")
-    print "!!!!!!!!!!!!!!!!!", search_term
-    
 
     r = requests.get('https://www.eventbriteapi.com/v3/events/search/?token=K24Y3YW4SN66CIIPMPNG&q={}'.format(search_term))
 
@@ -69,6 +112,7 @@ def show_events_by_keyword():
     return redirect('/')
 
 
+################################################################################
 # listening for requests
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
