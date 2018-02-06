@@ -83,7 +83,6 @@ class Event(db.Model):
                                     Bookmark.event_id == self.event_id).all())
 
 
-
 class Bookmark(db.Model):
     """User's bookmarks of specific events on jams website."""
 
