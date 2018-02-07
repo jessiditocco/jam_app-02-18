@@ -1,4 +1,6 @@
 """Jams server"""
+# Requests library to talk to API
+import requests
 
 from jinja2 import StrictUndefined
 
@@ -7,11 +9,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
 
-import requests
+from eventbrite_helper import get_events, get_details
 # When we create a Flask app, it needs to know what module to scan for things
 # like routes so the __name__ is required
 # this instantiates an object of the class flask
-
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
@@ -101,15 +102,29 @@ def logout():
 
 @app.route('/show_events', methods=["POST"])
 def show_events_by_keyword():
+    """Returns html template with events by keyword."""
 
     search_term = request.form.get("event")
 
-    r = requests.get('https://www.eventbriteapi.com/v3/events/search/?token=K24Y3YW4SN66CIIPMPNG&q={}'.format(search_term))
+    events = get_events(search_term)
 
-    print r.json()
+    return render_template("events.html", events=events, search_term=search_term)
 
 
-    return redirect('/')
+
+@app.route('/event_details')
+def show_event_details():
+    """Renders HTML template with information about a specific event"""
+
+    event_id = request.args.get('event_id')
+
+    data = get_details(event_id)
+
+    ######### THIS IS THE ROUTE IM WORKING ON-- figure out why the event isn't being returned correclty
+    print "!!!!!!!!!!!!", data
+
+    return redirect("/")
+
 
 
 ################################################################################

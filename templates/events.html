@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<h1>{{ search_term }} Events</h1>
+<ul>
+    {% for event in events %}
+    <div>
+        <li>
+            Event Name: {{ event["name"] }}<br>
+            Event ID: {{ event ["event_id"] }}<br>
+            Link: <a href="/event_details?event_id={{ event['event_id'] }}">{{ event['name'] }}</a><br>
+        </li>
+    </div>        
+
+    <!-- This is like using a get request form: in the flask route request.form.get("event_id") -->
+
+    <!-- <li><a href="/event/details/{{ event }}">{{ event }}</li> -->
+
+    {% endfor %}
+</ul>
+
+{% endblock %}
