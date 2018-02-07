@@ -4,6 +4,15 @@
     <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
 </head>
 <body>
+    <a href="/register">Register User</a><br>
+
+    {% if "user_id" not in session %}
+    <a href="/login">Login</a><div>
+
+    {% else %}
+    <a href="/logout">Logout</a><div>
+    {% endif %}
+    
     <ul>
         {% for message in get_flashed_messages() %}
             <li>{{ message }}</li>

@@ -9,7 +9,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
 
-from eventbrite_helper import get_events, get_details
+from eventbrite_helper import get_events
+from eventbrite_helper import get_event_details
+
+
 # When we create a Flask app, it needs to know what module to scan for things
 # like routes so the __name__ is required
 # this instantiates an object of the class flask
@@ -105,8 +108,10 @@ def show_events_by_keyword():
     """Returns html template with events by keyword."""
 
     search_term = request.form.get("event")
+    location = request.form.get("location")
+    start_date_kw = request.form.get("start_date_kw")
 
-    events = get_events(search_term)
+    events = get_events(search_term, location, start_date_kw)
 
     return render_template("events.html", events=events, search_term=search_term)
 
@@ -118,12 +123,9 @@ def show_event_details():
 
     event_id = request.args.get('event_id')
 
-    data = get_details(event_id)
+    event_details = get_event_details(event_id)
 
-    ######### THIS IS THE ROUTE IM WORKING ON-- figure out why the event isn't being returned correclty
-    print "!!!!!!!!!!!!", data
-
-    return redirect("/")
+    return render_template("event_details.html", event_id=event_id)
 
 
 

@@ -4,11 +4,19 @@
 {%block content %}
 <h1>the JAM</h1><br>
     <form action="/show_events" method="POST">
-        search: <input type="text" name="event"><br>
+        Search Events: <input type="text" name="event"><br>
+        Location: <input type="text" name="location"><br>
+        Date: <select name="start_date_kw">
+                    <option value="today">Today</option>
+                    <option value="tomorrow">Tomorrow</option>
+                    <option value="this_week">This Week</option>
+                    <option value="this_weekend">This Weekend</option>
+                    <option value="next_week">Next Week</option>
+                    <option value="this_month">This Month</option>
+                    <option value="next_month">Next Month</option>
+                    
+            </select>
+
         <input type="submit">
     </form>
-
-<a href="/register">Register User</a><br>
-<a href="/login">Login</a><div>
-<a href="/logout">Logout</a><div>
 {% endblock %}

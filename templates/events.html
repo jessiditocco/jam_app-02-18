@@ -7,17 +7,21 @@
     {% for event in events %}
     <div>
         <li>
-            Event Name: {{ event["name"] }}<br>
-            Event ID: {{ event ["event_id"] }}<br>
-            Link: <a href="/event_details?event_id={{ event['event_id'] }}">{{ event['name'] }}</a><br>
+            <h2 style="color:red">Event Name: {{ event["name"] }}</h2>
+            <p>Event ID: {{ event["event_id"] }}</p>
+            <p>Event Start: {{ event["start_time"] }}</p>
+            <p>Event End: {{ event["end_time"] }}</p>
+            <img style="height: 200px;width=200px" src="{{ event["logo"] }}"><br></div>
+            <a href="/event_details?event_id={{ event['event_id'] }}">Details: {{ event['name'] }}</a><br>
         </li>
-    </div>        
+    </div><br>        
 
     <!-- This is like using a get request form: in the flask route request.form.get("event_id") -->
-
-    <!-- <li><a href="/event/details/{{ event }}">{{ event }}</li> -->
 
     {% endfor %}
 </ul>
 
 {% endblock %}
+
+ height: 200px;
+    width: 50%;
