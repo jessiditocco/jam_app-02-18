@@ -91,6 +91,26 @@ def get_event_details(event_id):
 
     response = requests.get(EVENTBRITE_URL + "events/{}/".format(event_id), headers=headers, verify=True)
 
-    event_details = response.json()
+    data = response.json()
+    # Get fields back from json respons
+    name = data['name']['text']
+    description = data['description']['text']
+    eb_url = data['url']
+    start_time = parse_datetime(data['start']['timezone'], data['start']['local'])
+    end_time = parse_datetime(data['end']['timezone'], data['end']['local'])
+    venue_id = data['venue_id']
+    logo = data['logo']
+
+    # Checks logo for url
+    if logo is not None:
+        logo = logo["original"]["url"]
+     
+    else:
+        logo = "https://upload.wikimedia.org/wikipedia/commons/6/69/Dog_morphological_variation.png"
+
+    # Create event details dictionary to pass through to Jinja
+    event_details = {'name': name, 'description': description, 'eb_url': eb_url, 
+    'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 'logo': logo}
+
 
     return event_details

@@ -125,7 +125,9 @@ def show_event_details():
 
     event_details = get_event_details(event_id)
 
-    return render_template("event_details.html", event_id=event_id)
+    print event_details
+
+    return render_template("event_details.html", event_id=event_id, event_details=event_details)
 
 
 
