@@ -10,9 +10,9 @@ from dateutil import parser
 import pytz
 
 
-
 EVENTBRITE_TOKEN = os.getenv('EVENTBRITE_TOKEN')
 EVENTBRITE_URL = "https://www.eventbriteapi.com/v3/"
+
 
 def parse_datetime(timezone, local_dt_str):
     """Takes a timezone and local datetime string and returns date and time"""
@@ -31,6 +31,29 @@ def parse_datetime(timezone, local_dt_str):
     return local_time
 
 
+def get_venue_details(venue_id):
+    """Gets information about a venue based on the venue id."""
+
+    headers = {'Authorization': 'Bearer ' + EVENTBRITE_TOKEN}
+
+    response = requests.get(EVENTBRITE_URL + "venues/{}/".format(venue_id), headers=headers, verify=True)
+
+    data = response.json()
+
+    # Get fields back from the JSON response
+    name = data["name"]
+    address = data["address"]["address_1"]
+    city = data["address"]["city"]
+    region = data["address"]["region"]
+    latitude = data["address"]["latitude"]
+    longitude = data["address"]["longitude"]
+    full_address = data["address"]["localized_address_display"]
+
+    venue_details = {"name": name, "address": address, 'full_address': full_address, "city": city, "region": region, "latitude": latitude, "longitude":longitude}
+    
+    return venue_details
+
+
 def get_events(search_term, location, start_date_kw):
     """Gets events from evenbrite API based on search keyword."""
 
@@ -38,7 +61,10 @@ def get_events(search_term, location, start_date_kw):
 
     headers = {'Authorization': 'Bearer ' + EVENTBRITE_TOKEN}
 
-    payload = {'q': search_term, 'location.address': location, 'start_date.keyword': start_date_kw}
+    # Will return only events with category ID that corresponds to music 
+    category_id = "103"
+
+    payload = {'q': search_term, 'location.address': location, 'start_date.keyword': start_date_kw, 'categories': category_id}
 
     response = requests.get(EVENTBRITE_URL + "events/search/", headers=headers, verify=True, params=payload)
 
@@ -94,23 +120,30 @@ def get_event_details(event_id):
     data = response.json()
     # Get fields back from json respons
     name = data['name']['text']
-    description = data['description']['text']
+    description = data['description']['html']
     eb_url = data['url']
     start_time = parse_datetime(data['start']['timezone'], data['start']['local'])
     end_time = parse_datetime(data['end']['timezone'], data['end']['local'])
     venue_id = data['venue_id']
     logo = data['logo']
 
+    # Get details about a venue by id
+    venue_details = get_venue_details(venue_id)
+
+    venue_address = venue_details["full_address"]
+    venue_name = venue_details["name"]
+
     # Checks logo for url
     if logo is not None:
         logo = logo["original"]["url"]
-     
+    
     else:
         logo = "https://upload.wikimedia.org/wikipedia/commons/6/69/Dog_morphological_variation.png"
 
     # Create event details dictionary to pass through to Jinja
     event_details = {'name': name, 'description': description, 'eb_url': eb_url, 
-    'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 'logo': logo}
+    'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 
+    'logo': logo, 'venue_name': venue_name, 'venue_address': venue_address}
 
 
     return event_details

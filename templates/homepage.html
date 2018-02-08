@@ -4,9 +4,9 @@
 {%block content %}
 <h1>the JAM</h1><br>
     <form action="/show_events" method="POST">
-        Search Events: <input type="text" name="event"><br>
-        Location: <input type="text" name="location"><br>
-        Date: <select name="start_date_kw">
+        Search Events: <input type="text" name="event" required><br>
+        Location: <input type="text" name="location" required><br>
+        Date: <select name="start_date_kw" required>
                     <option value="today">Today</option>
                     <option value="tomorrow">Tomorrow</option>
                     <option value="this_week">This Week</option>
