@@ -11,6 +11,13 @@
             <div id="latitude" hidden>Latitude: {{ event_details['latitude'] }}</div><br>
             <div id="start_time">Start Time: {{ event_details['start_time'] }}</div><br>
             <div id="end_time">End Time: {{ event_details['end_time'] }}</div><br>
+
+            <div id="start_time_tz" hidden>Start Time Tz: {{ event_details['start_time_tz'] }}</div><br>
+            <div id="start_time_local" hidden>Start Time (Local): {{ event_details['start_time_local'] }}</div><br>
+            <div id="end_time_tz" hidden>End Time Tz: {{ event_details['end_time_tz'] }}</div><br>
+            <div id="end_time_tz" hidden>End Time (Local): {{ event_details['end_time_local'] }}</div><br>
+            
+
             <div id="eb_url">
                 <a href="{{ event_details['eb_url'] }}">Browse Tickets on Evenbrite</a>
             </div><br>

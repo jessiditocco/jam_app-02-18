@@ -9,8 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
 
-from eventbrite_helper import get_events
-from eventbrite_helper import get_event_details
+from eventbrite_helper import get_events, get_event_details, add_event_to_db
 
 
 # When we create a Flask app, it needs to know what module to scan for things
@@ -134,44 +133,56 @@ def show_event_details():
 def bookmark_event():
     """Adds event bookmark to user profile."""
 
-    event_added = "Logged in & added event"
-    not_logged = "Not logged in; no event added"
+    bookmark_success = "Successfully bookmarked {}".format(request.form.get("name"))
+    bookmark_failure = "You must be logged in to bookmark an event"
 
+    # Get event ID
+    event_id = request.form.get("event_id")
+    # Status of bookmark type "going", "interested"
+    status = request.form.get("status")
+    # Get user ID from session
     user_id = session.get("user_id")
+    # Get the status: going or interested
+    status = request.form.get("status")
 
+
+    # If the user is logged in 
     if user_id:
+        # Add the event that they pin to db
+        add_event_to_db()
+         # Make a bookmark in the bookmarks table
 
-        event_id = request.form.get("event_id")
-        status = request.form.get("status")
-        name = request.form.get("name")
-        start_time = request.form.get("start_time")
-        end_time = request.form.get("end_time")
-        address = request.form.get("address")
-        latitude = request.form.get("latitude")
-        longitude = request.form.get("longitude")
-        eb_url = request.form.get("eb_url")
-        description = request.form.get("description")
-        venue_name = request.form.get("venue_name")
-        logo = request.form.get("logo")
-        
-        # Get event by event id
-        event = Event.query.get(event_id)
-        # if that event doesn't exist in the table: add it
-        if event == None:
-            # Add event to table
-            event = Event(event_id=event_id, name=name, start_time=start_time, 
-            end_time=end_time, address=address, latitude=latitude, longitude=longitude, venue_name=venue_name, logo=logo)
+        # Get BookmarkType object out of DB based on status
+        bookmark_type_object = db.session.query(BookmarkType).filter_by(bookmark_type=status).one()
 
-            db.session.add(event)
-            db.session.commit()
-
-        return event_added
+        # Get the bookmark_type_id out of the db
+        bookmark_type_id = bookmark_type_object.bookmark_type_id
+        # Make a new Bookmark, passing it the user_id, event_id, and bookmarktype object
+        # Add to DB
+        bookmark = Bookmark(user_id=user_id, event_id=event_id, bookmark_type_id=bookmark_type_id)
+        db.session.add(bookmark)
+        db.session.commit()
+        # Return success message as JSON to AJAX
+        return bookmark_success
 
     else:
-        flash("You cannot bookmark an event without being logged in; please login")
-        return not_logged
+        return bookmark_failure
 
+@app.route('/profile')
+def display_profile():
+    """Displays user profile which has users events by bookmark types."""
+    ##### WORKING ON THIS; get_attendees() must be called with an EVENT
+    # instance as the first argument
 
+    # events_going = Event.query.filter_by()
+
+    # events_going = Event.get_attendees("going")
+    # events_interested = Events.get_attendees("interested")
+
+    # print events_going
+    # print events_interested
+
+    return redirect("/")
  
 
 ################################################################################

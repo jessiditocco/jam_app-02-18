@@ -55,15 +55,23 @@ class Event(db.Model):
 
     event_id = db.Column(db.String(200), autoincrement=False, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
+    # This is start and end time formated nicely
     start_time = db.Column(db.String(100), nullable=False)
     end_time = db.Column(db.String(100), nullable=False)
+    # This is start and end time in datetime format
+    start_time_tz = db.Column(db.String(200), nullable=True)
+    start_time_local = db.Column(db.DateTime, nullable=True)
+    end_time_tz = db.Column(db.String(200), nullable=True)
+    end_time_local = db.Column(db.DateTime, nullable=True)
+
     address = db.Column(db.String(200), nullable=False)
     latitude = db.Column(db.String(100), nullable=False)
     longitude = db.Column(db.String(100), nullable=False)
     eb_url = db.Column(db.String(300), nullable=True)
-    description = db.Column(db.String(10000), nullable=True)
+    description = db.Column(db.Text, nullable=True)
     venue_name = db.Column(db.String(100), nullable=False)
     logo = db.Column(db.String(200), nullable=True)
+
 
     def __repr__(self):
         """Provide helpful representation when event is printed."""

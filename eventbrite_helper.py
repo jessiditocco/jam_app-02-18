@@ -8,7 +8,8 @@ import os
 from dateutil import parser
 # To user the pytz library which converts timezones
 import pytz
-
+from flask import request
+from model import db, connect_to_db, Event
 
 EVENTBRITE_TOKEN = os.getenv('EVENTBRITE_TOKEN')
 EVENTBRITE_URL = "https://www.eventbriteapi.com/v3/"
@@ -29,7 +30,6 @@ def parse_datetime(timezone, local_dt_str):
     # local_time = local_time.ctime()
 
     local_time = local_time.strftime('%A, %B %-d at %-I:%M%p')
-    print local_time
 
     return local_time
 
@@ -126,8 +126,15 @@ def get_event_details(event_id):
     name = data['name']['text']
     description = data['description']['html']
     eb_url = data['url']
+    # We will return the nicely formated start and end times
     start_time = parse_datetime(data['start']['timezone'], data['start']['local'])
     end_time = parse_datetime(data['end']['timezone'], data['end']['local'])
+    # We will pass timezone and local times to the front end so we can seed our events database with correct datetime format
+    start_time_tz = data['start']['timezone']
+    start_time_local = data['start']['local']
+    end_time_tz = data['end']['timezone']
+    end_time_local = data['end']['local']
+
     venue_id = data['venue_id']
     logo = data['logo']
 
@@ -147,9 +154,49 @@ def get_event_details(event_id):
         logo = "https://upload.wikimedia.org/wikipedia/commons/6/69/Dog_morphological_variation.png"
 
     # Create event details dictionary to pass through to Jinja
-    event_details = {'event_id': event_id, 'name': name, 'description': description, 'eb_url': eb_url, 
-    'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 
-    'logo': logo, 'venue_name': venue_name, 'address': address, 'longitude': longitude, 'latitude': latitude, 'address': address}
-
+    event_details = {'event_id': event_id, 'name': name, 'description': description, 
+    'eb_url': eb_url, 'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 
+    'logo': logo, 'venue_name': venue_name, 'address': address, 'longitude': longitude, 
+    'latitude': latitude, 'address': address, 'start_time_tz': start_time_tz,
+    'start_time_local': start_time_local, 'end_time_tz': end_time_tz, 
+    'end_time_local': end_time_local}
 
     return event_details
+
+def add_event_to_db():
+    """Adds an event to the database if a userbookmarks the event as going or interested."""
+
+    event_id = request.form.get("event_id")
+    status = request.form.get("status")
+    name = request.form.get("name")
+    # Start end end time in a nice format
+    start_time = request.form.get("start_time")
+    end_time = request.form.get("end_time")
+    address = request.form.get("address")
+    latitude = request.form.get("latitude")
+    longitude = request.form.get("longitude")
+    eb_url = request.form.get("eb_url")
+    description = request.form.get("description")
+    venue_name = request.form.get("venue_name")
+    logo = request.form.get("logo")
+    # This gets our timezone back in the datetime format
+    start_time_tz = request.form.get("start_time_tz")
+    start_time_local = request.form.get("start_time_local")
+    end_time_tz = request.form.get("end_time_tz")
+    end_time_local = request.form.get("end_time_local")
+
+    
+    # Get event by event id
+    event = Event.query.get(event_id)
+    # if that event doesn't exist in the table: add it
+    if event == None:
+        # Add event to table
+        event = Event(event_id=event_id, name=name, start_time=start_time, 
+        end_time=end_time, address=address, latitude=latitude, 
+        longitude=longitude, venue_name=venue_name, logo=logo, 
+        start_time_tz=start_time_tz, start_time_local=start_time_local, 
+        end_time_tz=end_time_tz, end_time_local=end_time_local)
+
+        db.session.add(event)
+        db.session.commit()
+
