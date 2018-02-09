@@ -51,18 +51,19 @@ class Event(db.Model):
 
     __tablename__ = "events"
 
-    #### do i need event brite ID and event_id????
-    event_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    eventbrite_id = db.Column(db.Integer, nullable=False)
-    title = db.Column(db.String(200), nullable=False)
-    start_time = db.Column(db.DateTime, nullable=False)
-    end_time = db.Column(db.DateTime, nullable=False)
-    address = db.Column(db.String(50), nullable=False)
-    latitude = db.Column(db.Float, nullable=False)
-    url = db.Column(db.Integer, nullable=False)
-    description = db.Column(db.String(500), nullable=False)
-    venue = db.Column(db.String(100), nullable=False)
-    image_url = db.Column(db.String(200), nullable=False)
+    # Made desc, logo, and eb_url nullable for testing purposes
+
+    event_id = db.Column(db.String(200), autoincrement=False, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    start_time = db.Column(db.String(100), nullable=False)
+    end_time = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    latitude = db.Column(db.String(100), nullable=False)
+    longitude = db.Column(db.String(100), nullable=False)
+    eb_url = db.Column(db.String(300), nullable=True)
+    description = db.Column(db.String(10000), nullable=True)
+    venue_name = db.Column(db.String(100), nullable=False)
+    logo = db.Column(db.String(200), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when event is printed."""
@@ -90,7 +91,7 @@ class Bookmark(db.Model):
 
     bookmark_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    event_id = db.Column(db.Integer, db.ForeignKey("events.event_id"), nullable=False)
+    event_id = db.Column(db.String(200), db.ForeignKey("events.event_id"), nullable=False)
     bookmark_type_id = db.Column(db.Integer, db.ForeignKey("bookmark_types.bookmark_type_id"), nullable=False)
 
     # # Define a relationship to user
@@ -99,7 +100,7 @@ class Bookmark(db.Model):
     # # Define a relationship to events
     # event = db.relationship("Events")
     # # Define a relationship to
-    # bookmark_type = db.relationship("Bookmark_type", backref="bookmarks")
+    bookmark_type = db.relationship("BookmarkType", backref="bookmarks")
 
     def __repr__(self):
         """Provide helpful representation when a bookmark is printed."""
@@ -129,7 +130,7 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     # foreign key relationship takes tablename.fieldname as attributes
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), nullable=False)
+    event_id = db.Column(db.String(200), db.ForeignKey('events.event_id'), nullable=False)
     comment = db.Column(db.String(800), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
 
@@ -147,11 +148,11 @@ class Comment(db.Model):
 ################################################################################
 # Helper functions
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri=DB_URI):
     """Connect the database to our Flask app."""
 
     # Configure to use our PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)

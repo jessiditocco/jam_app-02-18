@@ -130,6 +130,49 @@ def show_event_details():
     return render_template("event_details.html", event_id=event_id, event_details=event_details)
 
 
+@app.route('/add-bookmark', methods=["POST"])
+def bookmark_event():
+    """Adds event bookmark to user profile."""
+
+    event_added = "Logged in & added event"
+    not_logged = "Not logged in; no event added"
+
+    user_id = session.get("user_id")
+
+    if user_id:
+
+        event_id = request.form.get("event_id")
+        status = request.form.get("status")
+        name = request.form.get("name")
+        start_time = request.form.get("start_time")
+        end_time = request.form.get("end_time")
+        address = request.form.get("address")
+        latitude = request.form.get("latitude")
+        longitude = request.form.get("longitude")
+        eb_url = request.form.get("eb_url")
+        description = request.form.get("description")
+        venue_name = request.form.get("venue_name")
+        logo = request.form.get("logo")
+        
+        # Get event by event id
+        event = Event.query.get(event_id)
+        # if that event doesn't exist in the table: add it
+        if event == None:
+            # Add event to table
+            event = Event(event_id=event_id, name=name, start_time=start_time, 
+            end_time=end_time, address=address, latitude=latitude, longitude=longitude, venue_name=venue_name, logo=logo)
+
+            db.session.add(event)
+            db.session.commit()
+
+        return event_added
+
+    else:
+        flash("You cannot bookmark an event without being logged in; please login")
+        return not_logged
+
+
+ 
 
 ################################################################################
 # listening for requests

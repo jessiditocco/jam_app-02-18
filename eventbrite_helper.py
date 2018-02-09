@@ -26,7 +26,10 @@ def parse_datetime(timezone, local_dt_str):
     # Makes a new datetime object with timezone
     local_time = tz.localize(dt_obj)
 
-    local_time = local_time.ctime()
+    # local_time = local_time.ctime()
+
+    local_time = local_time.strftime('%A, %B %-d at %-I:%M%p')
+    print local_time
 
     return local_time
 
@@ -61,7 +64,7 @@ def get_events(search_term, location, start_date_kw):
 
     headers = {'Authorization': 'Bearer ' + EVENTBRITE_TOKEN}
 
-    # Will return only events with category ID that corresponds to music 
+    # Will return only events with category ID that corresponds to music
     category_id = "103"
 
     payload = {'q': search_term, 'location.address': location, 'start_date.keyword': start_date_kw, 'categories': category_id}
@@ -118,7 +121,8 @@ def get_event_details(event_id):
     response = requests.get(EVENTBRITE_URL + "events/{}/".format(event_id), headers=headers, verify=True)
 
     data = response.json()
-    # Get fields back from json respons
+    # Get fields back from json response
+
     name = data['name']['text']
     description = data['description']['html']
     eb_url = data['url']
@@ -130,8 +134,10 @@ def get_event_details(event_id):
     # Get details about a venue by id
     venue_details = get_venue_details(venue_id)
 
-    venue_address = venue_details["full_address"]
+    address = venue_details["full_address"]
     venue_name = venue_details["name"]
+    longitude = venue_details["longitude"]
+    latitude = venue_details["latitude"]
 
     # Checks logo for url
     if logo is not None:
@@ -141,9 +147,9 @@ def get_event_details(event_id):
         logo = "https://upload.wikimedia.org/wikipedia/commons/6/69/Dog_morphological_variation.png"
 
     # Create event details dictionary to pass through to Jinja
-    event_details = {'name': name, 'description': description, 'eb_url': eb_url, 
+    event_details = {'event_id': event_id, 'name': name, 'description': description, 'eb_url': eb_url, 
     'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 
-    'logo': logo, 'venue_name': venue_name, 'venue_address': venue_address}
+    'logo': logo, 'venue_name': venue_name, 'address': address, 'longitude': longitude, 'latitude': latitude, 'address': address}
 
 
     return event_details
