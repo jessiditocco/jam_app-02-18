@@ -170,19 +170,19 @@ def bookmark_event():
 
 @app.route('/profile')
 def display_profile():
-    """Displays user profile which has users events by bookmark types."""
-    ##### WORKING ON THIS; get_attendees() must be called with an EVENT
-    # instance as the first argument
+    """Displays user's profile which has user's events by bookmark types."""
 
-    # events_going = Event.query.filter_by()
+    user_id = session.get("user_id")
 
-    # events_going = Event.get_attendees("going")
-    # events_interested = Events.get_attendees("interested")
+    user = User.query.filter_by(user_id=user_id).one()
+    print "!!!!!!!!!!!!!!!", user
 
-    # print events_going
-    # print events_interested
+    events_going = user.get_events("going")
 
-    return redirect("/")
+    events_interested = user.get_events("interested")
+
+    return render_template("profile.html", events_going=events_going, 
+        events_interested=events_interested)
  
 
 ################################################################################

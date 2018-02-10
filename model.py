@@ -76,7 +76,7 @@ class Event(db.Model):
     def __repr__(self):
         """Provide helpful representation when event is printed."""
 
-        return "<Event ID={} Eventbrite ID={} Title={}".format(self.event_id, self.eventbrite_id, self.title)
+        return "<Event ID={} Name={}".format(self.event_id, self.name)
 
     # Makes relationship between events and users based on bookmark types
     def get_attendees(self, status):

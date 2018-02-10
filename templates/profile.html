@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h1>Your Profile</h1>
+
+<ul>
+    <h1>Events You Are Going To</h1>
+    {% for event in events_going %}
+        <li>{{ event.name }}</li>
+        <ul>
+            <li>{{ event.start_time }}</li>
+            <li>{{ event.end_time }}</li>
+            <li>{{ event.address }}</li>
+        </ul>
+
+    {% endfor %}
+</ul>
+
+<ul>
+    <h1>Events You Are Interested In</h1>
+    {% for event in events_interested %}
+        <li>{{ event.name }}</li>
+        <ul>
+            <li>{{ event.start_time }}</li>
+            <li>{{ event.end_time }}</li>
+            <li>{{ event.address }}</li>
+        </ul>
+
+    {% endfor %}
+</ul>
+
+
+{% endblock %}
+
+<!-- 
+events_going=events_going, 
+        events_interested=events_interested -->
+
+  <!--       [<Event ID=42411172960 Name=Max Chanowitz: Jazz Banshee, <Event ID=42768491710 Name=DJ Karma at Infusion Lounge Free Guestlist - 2/09/2018, <Event ID=42546856794 Name=Infinity at Temple feat. Disco Donutz] -->
