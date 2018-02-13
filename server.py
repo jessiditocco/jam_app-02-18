@@ -9,7 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
 
-from eventbrite_helper import get_events, get_event_details, add_event_to_db
+from eventbrite_helper import get_events, get_event_details, add_event_to_db, add_comment_to_db, remove_non_ascii
 
 
 # When we create a Flask app, it needs to know what module to scan for things
@@ -124,8 +124,6 @@ def show_event_details():
 
     event_details = get_event_details(event_id)
 
-    print event_details
-
     return render_template("event_details.html", event_id=event_id, event_details=event_details)
 
 
@@ -133,9 +131,12 @@ def show_event_details():
 def bookmark_event():
     """Adds event bookmark to user profile."""
 
-    bookmark_success = "Successfully bookmarked {}".format(request.form.get("name"))
-    bookmark_failure = "You must be logged in to bookmark an event"
+    name = request.form.get("name")
+    name = remove_non_ascii(name)
 
+    bookmark_success = "Successfully bookmarked {}".format(name)
+
+    bookmark_failure = "You must be logged in to bookmark and event."
     # Get event ID
     event_id = request.form.get("event_id")
     # Status of bookmark type "going", "interested"
@@ -163,6 +164,7 @@ def bookmark_event():
         db.session.add(bookmark)
         db.session.commit()
         # Return success message as JSON to AJAX
+
         return bookmark_success
 
     else:
@@ -175,7 +177,6 @@ def display_profile():
     user_id = session.get("user_id")
 
     user = User.query.filter_by(user_id=user_id).one()
-    print "!!!!!!!!!!!!!!!", user
 
     events_going = user.get_events("going")
 
@@ -183,6 +184,29 @@ def display_profile():
 
     return render_template("profile.html", events_going=events_going, 
         events_interested=events_interested)
+
+
+@app.route('/add_comment', methods=["POST"])
+def post_comment():
+    """Adds users comment to the database."""
+
+    # Get userID from the session
+    user_id = session.get("user_id")
+    # Get eventID from the event details page
+    event_id = request.form.get("event_id")
+    # Get comment text from the payload
+    comment = request.form.get("comment")
+
+    # Get the current timestamp
+    ## Not sure about this????
+
+    # If the user is logged in, add the comment to the DB
+    add_comment_to_db(user_id, event_id, comment)
+
+
+    return comment
+
+
  
 
 ################################################################################

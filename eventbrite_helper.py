@@ -9,7 +9,8 @@ from dateutil import parser
 # To user the pytz library which converts timezones
 import pytz
 from flask import request
-from model import db, connect_to_db, Event
+from model import db, connect_to_db, Event, Comment
+
 
 EVENTBRITE_TOKEN = os.getenv('EVENTBRITE_TOKEN')
 EVENTBRITE_URL = "https://www.eventbriteapi.com/v3/"
@@ -138,6 +139,7 @@ def get_event_details(event_id):
     venue_id = data['venue_id']
     logo = data['logo']
 
+
     # Get details about a venue by id
     venue_details = get_venue_details(venue_id)
 
@@ -151,8 +153,8 @@ def get_event_details(event_id):
         logo = logo["original"]["url"]
     
     else:
-        logo = "https://upload.wikimedia.org/wikipedia/commons/6/69/Dog_morphological_variation.png"
-
+        logo = "http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg"
+    
     # Create event details dictionary to pass through to Jinja
     event_details = {'event_id': event_id, 'name': name, 'description': description, 
     'eb_url': eb_url, 'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 
@@ -161,10 +163,13 @@ def get_event_details(event_id):
     'start_time_local': start_time_local, 'end_time_tz': end_time_tz, 
     'end_time_local': end_time_local}
 
+    print event_details
+
     return event_details
 
 def add_event_to_db():
     """Adds an event to the database if a userbookmarks the event as going or interested."""
+    
 
     event_id = request.form.get("event_id")
     status = request.form.get("status")
@@ -178,14 +183,15 @@ def add_event_to_db():
     eb_url = request.form.get("eb_url")
     description = request.form.get("description")
     venue_name = request.form.get("venue_name")
+    # This gets just the image url back from logo div
     logo = request.form.get("logo")
+
     # This gets our timezone back in the datetime format
     start_time_tz = request.form.get("start_time_tz")
     start_time_local = request.form.get("start_time_local")
     end_time_tz = request.form.get("end_time_tz")
     end_time_local = request.form.get("end_time_local")
 
-    
     # Get event by event id
     event = Event.query.get(event_id)
     # if that event doesn't exist in the table: add it
@@ -200,3 +206,17 @@ def add_event_to_db():
         db.session.add(event)
         db.session.commit()
 
+def add_comment_to_db(user_id, event_id, comment):
+    """Adds a comment to the database if the user is logged in."""
+
+    # Add comment to the comments table
+    comment = Comment(user_id=user_id, event_id=event_id, comment=comment)
+
+    db.session.add(comment)
+    db.session.commit()
+
+
+def remove_non_ascii(text):
+    """Removes non ascii charecters from string."""
+
+    return ''.join(i for i in text if ord(i)<128)

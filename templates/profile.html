@@ -12,6 +12,8 @@
             <li>{{ event.start_time }}</li>
             <li>{{ event.end_time }}</li>
             <li>{{ event.address }}</li>
+            <li><img class="logo" src="{{ event.logo }}"></li>
+            <li><a href="/event_details?event_id={{ event.event_id }}">Event Details</a></li>
         </ul>
 
     {% endfor %}
@@ -25,6 +27,8 @@
             <li>{{ event.start_time }}</li>
             <li>{{ event.end_time }}</li>
             <li>{{ event.address }}</li>
+             <li><img class="logo" src="{{ event.logo }}"></li>
+            <li><a href="/event_details?event_id={{ event.event_id }}">Event Details</a></li>
         </ul>
 
     {% endfor %}
@@ -32,9 +36,3 @@
 
 
 {% endblock %}
-
-<!-- 
-events_going=events_going, 
-        events_interested=events_interested -->
-
-  <!--       [<Event ID=42411172960 Name=Max Chanowitz: Jazz Banshee, <Event ID=42768491710 Name=DJ Karma at Infusion Lounge Free Guestlist - 2/09/2018, <Event ID=42546856794 Name=Infinity at Temple feat. Disco Donutz] -->

@@ -15,15 +15,14 @@
             <div id="start_time_tz" hidden>Start Time Tz: {{ event_details['start_time_tz'] }}</div><br>
             <div id="start_time_local" hidden>Start Time (Local): {{ event_details['start_time_local'] }}</div><br>
             <div id="end_time_tz" hidden>End Time Tz: {{ event_details['end_time_tz'] }}</div><br>
-            <div id="end_time_tz" hidden>End Time (Local): {{ event_details['end_time_local'] }}</div><br>
+            <div id="end_time_tz" hidden>End Time (Local): {{ event_details['end_time_local'] }}</div>
             
-
             <div id="eb_url">
                 <a href="{{ event_details['eb_url'] }}">Browse Tickets on Evenbrite</a>
-            </div><br>
-            <div id="logo">
-                <img src="{{ event_details['logo'] }}">
-            </div><br>
+            </div>
+
+            <img class="logo" src="{{ event_details['logo'] }}">
+            <div id="logo" hidden>{{ event_details['logo'] }}</div>
 
         <h1>Bookmark Event</h2>
             <button class="bookmark" data-eventid="{{ event_id }}" data-status="going">I'm Going!
@@ -32,10 +31,28 @@
             </button>
     </div> 
 
-<h1>Event Description</h1>
-    <div id="description">{{ event_details['description'] | safe }}</div><br>
+    <div>
+        <h1>Comments</h1>
+            <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
+                <p>
+                    Leave a comment:
+                </p>
+                <textarea id="comment_text"></textarea><br>
+                <input type="submit">
+            </form>
 
+            <div id="user_comments">Comments Will Go Here</div>
+    </div>
+
+
+
+
+    <div>
+        <h1>Event Description</h1>
+            <div id="description">{{ event_details['description'] | safe }}</div><br>
+    </div>
     <!--Javascript needs to be in the body below all of the html that it calls on. Make sure to include jquery CDN also (in base html)-->
     <script src="/static/jams.js"></script>
+    <script src="/static/comments.js"></script>
 
 {% endblock %}

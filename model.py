@@ -91,6 +91,10 @@ class Event(db.Model):
                                     User.user_id == Bookmark.user_id,
                                     Bookmark.event_id == self.event_id).all())
 
+    def parse_logo_html(self):
+        """Parses logo html to get back a string of the img src."""
+
+        
 
 class Bookmark(db.Model):
     """User's bookmarks of specific events on jams website."""
@@ -140,7 +144,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     event_id = db.Column(db.String(200), db.ForeignKey('events.event_id'), nullable=False)
     comment = db.Column(db.String(800), nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=True)
 
     # Define a relationship to user
     user = db.relationship("User", backref="comments")
