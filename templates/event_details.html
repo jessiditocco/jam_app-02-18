@@ -41,10 +41,18 @@
                 <input type="submit">
             </form>
 
-            <div id="user_comments">Comments Will Go Here</div>
+            <div id="user_comments">{{ comments }}</div>
     </div>
 
+<ul>
+    {% for comment in comments %}
+    <div>
+        <li>{{ comment.user.name}}: {{ comment.comment }}</li>
+    </div>      
 
+
+    {% endfor %}
+</ul>
 
 
     <div>

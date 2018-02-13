@@ -124,7 +124,12 @@ def show_event_details():
 
     event_details = get_event_details(event_id)
 
-    return render_template("event_details.html", event_id=event_id, event_details=event_details)
+    # Gets all of the comments for the event; returns a list of comment objects
+    comments = db.session.query(Comment).filter(Comment.event_id == event_id).all()
+
+    print comments 
+
+    return render_template("event_details.html", event_id=event_id, event_details=event_details, comments=comments)
 
 
 @app.route('/add-bookmark', methods=["POST"])
@@ -151,7 +156,7 @@ def bookmark_event():
     if user_id:
         # Add the event that they pin to db
         add_event_to_db()
-         # Make a bookmark in the bookmarks table
+        # Make a bookmark in the bookmarks table
 
         # Get BookmarkType object out of DB based on status
         bookmark_type_object = db.session.query(BookmarkType).filter_by(bookmark_type=status).one()
@@ -202,7 +207,6 @@ def post_comment():
 
     # If the user is logged in, add the comment to the DB
     add_comment_to_db(user_id, event_id, comment)
-
 
     return comment
 
