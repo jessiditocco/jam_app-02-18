@@ -132,7 +132,7 @@ def show_event_details():
 
     user_object = db.session.query(User).filter(User.user_id == user_id).one()
     user_name = user_object.name
-    import pdb; pdb.set_trace()
+
     return render_template("event_details.html", event_id=event_id, 
     event_details=event_details, comments=comments, user_name=user_name)
 
