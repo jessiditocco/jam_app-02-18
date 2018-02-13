@@ -3,36 +3,71 @@
 
 {%block content %}
     <div>
-        <h1>Event Details</h1>
-        <h2><div id="name">{{ event_details['name'] }}</div></h2><br>
-            <div id="venue_name">Venue Name: {{ event_details['venue_name'] }}</div><br>
-            <div id="address">Venue Address: {{ event_details['address'] }}</div>
-            <div id="longitude" hidden>Longitude: {{ event_details['longitude'] }}</div>
-            <div id="latitude" hidden>Latitude: {{ event_details['latitude'] }}</div><br>
-            <div id="start_time">Start Time: {{ event_details['start_time'] }}</div><br>
-            <div id="end_time">End Time: {{ event_details['end_time'] }}</div><br>
+        <h1>
+            Event Details
+        </h1>
+        <h2>
+            <div id="name">
+                {{ event_details['name'] }}
+            </div>
+        </h2><br>
+            <div id="venue_name">
+                Venue Name: {{ event_details['venue_name'] }}
+            </div><br>
+            <div id="address">
+                Venue Address: {{ event_details['address'] }}
+            </div>
+            <div id="longitude" hidden>
+                Longitude: {{ event_details['longitude'] }}
+            </div>
+            <div id="latitude" hidden>
+                Latitude: {{ event_details['latitude'] }}
+            </div><br>
+            <div id="start_time">
+                Start Time: {{ event_details['start_time'] }}
+            </div><br>
+            <div id="end_time">
+                End Time: {{ event_details['end_time'] }}
+            </div><br>
 
-            <div id="start_time_tz" hidden>Start Time Tz: {{ event_details['start_time_tz'] }}</div><br>
-            <div id="start_time_local" hidden>Start Time (Local): {{ event_details['start_time_local'] }}</div><br>
-            <div id="end_time_tz" hidden>End Time Tz: {{ event_details['end_time_tz'] }}</div><br>
-            <div id="end_time_tz" hidden>End Time (Local): {{ event_details['end_time_local'] }}</div>
+            <div id="start_time_tz" hidden>
+                Start Time Tz: {{ event_details['start_time_tz'] }}
+            </div><br>
+            <div id="start_time_local" hidden>
+                Start Time (Local): {{ event_details['start_time_local'] }}
+            </div><br>
+            <div id="end_time_tz" hidden>
+                End Time Tz: {{ event_details['end_time_tz'] }}
+            </div><br>
+            <div id="end_time_tz" hidden>
+                End Time (Local): {{ event_details['end_time_local'] }}
+            </div>
             
             <div id="eb_url">
-                <a href="{{ event_details['eb_url'] }}">Browse Tickets on Evenbrite</a>
+                <a href="{{ event_details['eb_url'] }}">
+                    Browse Tickets on Evenbrite
+                </a>
+            </div>
+            <img class="logo" src="{{ event_details['logo'] }}">
+            <div id="logo" hidden>
+                {{ event_details['logo'] }}
             </div>
 
-            <img class="logo" src="{{ event_details['logo'] }}">
-            <div id="logo" hidden>{{ event_details['logo'] }}</div>
-
-        <h1>Bookmark Event</h2>
-            <button class="bookmark" data-eventid="{{ event_id }}" data-status="going">I'm Going!
+        <h1>
+            Bookmark Event
+        </h2>
+            <button class="bookmark" data-eventid="{{ event_id }}" data-status="going">
+                I'm Going!
             </button>
-            <button class="bookmark" data-eventid="{{ event_id }}" data-status="interested">Interested
+            <button class="bookmark" data-eventid="{{ event_id }}" data-status="interested">
+                Interested
             </button>
     </div> 
 
     <div>
-        <h1>Comments</h1>
+        <h1>
+            Comments
+        </h1>
             <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
                 <p>
                     Leave a comment:
@@ -40,18 +75,16 @@
                 <textarea id="comment_text"></textarea><br>
                 <input type="submit">
             </form>
-
-            <div id="user_comments">{{ comments }}</div>
     </div>
 
-<ul>
+<ul id="comment-list">
     {% for comment in comments %}
-    <div>
-        <li>{{ comment.user.name}}: {{ comment.comment }}</li>
-    </div>      
 
+        <li>{{ comment.user.name}}: {{ comment.comment }}</li>
 
     {% endfor %}
+<!--     <li id="hidden_comment" hidden>{{ user_name }}:
+    </li> -->
 </ul>
 
 

@@ -9,11 +9,18 @@ from dateutil import parser
 # To user the pytz library which converts timezones
 import pytz
 from flask import request
-from model import db, connect_to_db, Event, Comment
+from model import db, connect_to_db, Event, Comment, User
 
 
 EVENTBRITE_TOKEN = os.getenv('EVENTBRITE_TOKEN')
 EVENTBRITE_URL = "https://www.eventbriteapi.com/v3/"
+
+def create_user(name, email, password):
+    """Creates a new user in the DB."""
+
+    new_user = User(email=email, name=name, password=password)
+    db.session.add(new_user)
+    db.session.commit()
 
 
 def parse_datetime(timezone, local_dt_str):

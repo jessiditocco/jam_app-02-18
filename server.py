@@ -9,7 +9,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
 
-from eventbrite_helper import get_events, get_event_details, add_event_to_db, add_comment_to_db, remove_non_ascii
+from eventbrite_helper import (get_events, get_event_details, add_event_to_db, 
+add_comment_to_db, remove_non_ascii, create_user)
 
 
 # When we create a Flask app, it needs to know what module to scan for things
@@ -48,9 +49,7 @@ def register_proccess():
     password = request.form.get('password')
 
     # Register new user and add user to DB, commit user
-    new_user = User(email=email, name=name, password=password)
-    db.session.add(new_user)
-    db.session.commit()
+    create_user(name, email, password)
 
     # Flash a message saying that the user has successfully registered
     flash("User {} successfully added".format(name))
@@ -94,10 +93,11 @@ def login_proccess():
 def logout():
     """Logs user out; removes user from session."""
 
-    print session
+    # Delete the user from the session
     del session["user_id"]
-    print session
+    # Flash a message the the user has been succesfully logged out
     flash("User has been successfully logged out")
+    # Redirect user back to homepage
     return redirect("/")
 
 
@@ -127,16 +127,24 @@ def show_event_details():
     # Gets all of the comments for the event; returns a list of comment objects
     comments = db.session.query(Comment).filter(Comment.event_id == event_id).all()
 
-    print comments 
+    # Gets current users email to pass through to comment feature
+    user_id = session.get("user_id")
 
-    return render_template("event_details.html", event_id=event_id, event_details=event_details, comments=comments)
+    user_object = db.session.query(User).filter(User.user_id == user_id).one()
+    user_name = user_object.name
+    import pdb; pdb.set_trace()
+    return render_template("event_details.html", event_id=event_id, 
+    event_details=event_details, comments=comments, user_name=user_name)
 
 
-@app.route('/add-bookmark', methods=["POST"])
+
+
+@app.route('/add_bookmark', methods=["POST"])
 def bookmark_event():
     """Adds event bookmark to user profile."""
 
     name = request.form.get("name")
+    # Removes non_ascii charecters from event names
     name = remove_non_ascii(name)
 
     bookmark_success = "Successfully bookmarked {}".format(name)
@@ -152,7 +160,7 @@ def bookmark_event():
     status = request.form.get("status")
 
 
-    # If the user is logged in 
+    # If the user is logged in
     if user_id:
         # Add the event that they pin to db
         add_event_to_db()
@@ -178,13 +186,13 @@ def bookmark_event():
 @app.route('/profile')
 def display_profile():
     """Displays user's profile which has user's events by bookmark types."""
-
+    # Get the users id from the sessino
     user_id = session.get("user_id")
-
+    # Get the user object filtered by user_id 
     user = User.query.filter_by(user_id=user_id).one()
-
+    # Returns a list of event objects that the user is going to
     events_going = user.get_events("going")
-
+    # Returns a list of events that the user is interested in
     events_interested = user.get_events("interested")
 
     return render_template("profile.html", events_going=events_going, 
@@ -197,7 +205,7 @@ def post_comment():
 
     # Get userID from the session
     user_id = session.get("user_id")
-    # Get eventID from the event details page
+    # Get the event id from data div
     event_id = request.form.get("event_id")
     # Get comment text from the payload
     comment = request.form.get("comment")
@@ -220,6 +228,8 @@ if __name__ == "__main__":
     # that we invoke the DebugToolbarExtension
     # app.debug = True
     app.debug = True
+    # Defeat the cache if debug mode true
+    app.jinja_env.auto_reload = app.debug
     connect_to_db(app)
 
     # Use the DebugToolbar
