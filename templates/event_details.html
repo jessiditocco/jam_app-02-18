@@ -53,29 +53,33 @@
                 {{ event_details['logo'] }}
             </div>
 
-        <h1>
-            Bookmark Event
-        </h2>
-            <button class="bookmark" data-eventid="{{ event_id }}" data-status="going">
-                I'm Going!
-            </button>
-            <button class="bookmark" data-eventid="{{ event_id }}" data-status="interested">
-                Interested
-            </button>
-    </div> 
+        {% if "user_id" in session %}   
+        
+            <h1>
+                Bookmark Event
+            </h1>
+                <button class="bookmark" data-eventid="{{ event_id }}" data-status="going">
+                    I'm Going!
+                </button>
+                <button class="bookmark" data-eventid="{{ event_id }}" data-status="interested">
+                    Interested
+                </button>
+       
 
-    <div>
-        <h1>
-            Comments
-        </h1>
-            <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
-                <p>
-                    Leave a comment:
-                </p>
-                <textarea id="comment_text"></textarea><br>
-                <input type="submit">
-            </form>
-    </div>
+            <div>
+                <h1>
+                    Comments
+                </h1>
+                <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
+                    <p>
+                        Leave a comment:
+                    </p>
+                    <textarea id="comment_text"></textarea><br>
+                    <input type="submit">
+                </form>
+            </div>
+        {% endif %}
+
 
 <ul id="comment-list">
     {% for comment in comments %}
@@ -83,8 +87,7 @@
         <li>{{ comment.user.name}}: {{ comment.comment }}</li>
 
     {% endfor %}
-<!--     <li id="hidden_comment" hidden>{{ user_name }}:
-    </li> -->
+
 </ul>
 
 

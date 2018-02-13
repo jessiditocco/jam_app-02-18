@@ -127,11 +127,16 @@ def show_event_details():
     # Gets all of the comments for the event; returns a list of comment objects
     comments = db.session.query(Comment).filter(Comment.event_id == event_id).all()
 
-    # Gets current users email to pass through to comment feature
     user_id = session.get("user_id")
-
-    user_object = db.session.query(User).filter(User.user_id == user_id).one()
-    user_name = user_object.name
+    # If the user_id exists in session, get the user object
+    if user_id:
+        # Get the user object from user_id
+        user_object = db.session.query(User).filter(User.user_id == user_id).one()
+        # Get the user's name from the user object
+        user_name = user_object.name
+        # Gets current users email to pass through to comment feature
+    else:
+        user_name = "Not logged In."
 
     return render_template("event_details.html", event_id=event_id, 
     event_details=event_details, comments=comments, user_name=user_name)
@@ -209,17 +214,23 @@ def post_comment():
     event_id = request.form.get("event_id")
     # Get comment text from the payload
     comment = request.form.get("comment")
+    # Add comment to DB
+    add_comment_to_db(user_id, event_id, comment)
 
+############ THIS IS ALL NEW ##################
+    # Get the user object from user_id so that i can add user name to comment
+    user_object = db.session.query(User).filter(User.user_id == user_id).one()
+    # Get the user's name from the user object
+    user_name = user_object.name
+
+
+    comment = {"comment": comment,
+                "user_name": user_name}
+############ THIS IS ALL NEW ##################
     # Get the current timestamp
     ## Not sure about this????
 
-    # If the user is logged in, add the comment to the DB
-    add_comment_to_db(user_id, event_id, comment)
-
-    return comment
-
-
- 
+    return jsonify(comment)
 
 ################################################################################
 # listening for requests
