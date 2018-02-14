@@ -15,6 +15,7 @@ from model import db, connect_to_db, Event, Comment, User
 EVENTBRITE_TOKEN = os.getenv('EVENTBRITE_TOKEN')
 EVENTBRITE_URL = "https://www.eventbriteapi.com/v3/"
 
+
 def create_user(name, email, password):
     """Creates a new user in the DB."""
 
@@ -47,7 +48,8 @@ def get_venue_details(venue_id):
 
     headers = {'Authorization': 'Bearer ' + EVENTBRITE_TOKEN}
 
-    response = requests.get(EVENTBRITE_URL + "venues/{}/".format(venue_id), headers=headers, verify=True)
+    response = requests.get(EVENTBRITE_URL + "venues/{}/".format(venue_id), 
+        headers=headers, verify=True)
 
     data = response.json()
 
@@ -60,8 +62,9 @@ def get_venue_details(venue_id):
     longitude = data["address"]["longitude"]
     full_address = data["address"]["localized_address_display"]
 
-    venue_details = {"name": name, "address": address, 'full_address': full_address, "city": city, "region": region, "latitude": latitude, "longitude":longitude}
-    
+    venue_details = {"name": name, "address": address, 'full_address': full_address, 
+    "city": city, "region": region, "latitude": latitude, "longitude":longitude}
+
     return venue_details
 
 
@@ -75,9 +78,11 @@ def get_events(search_term, location, start_date_kw):
     # Will return only events with category ID that corresponds to music
     category_id = "103"
 
-    payload = {'q': search_term, 'location.address': location, 'start_date.keyword': start_date_kw, 'categories': category_id}
+    payload = {'q': search_term, 'location.address': location, 
+    'start_date.keyword': start_date_kw, 'categories': category_id}
 
-    response = requests.get(EVENTBRITE_URL + "events/search/", headers=headers, verify=True, params=payload)
+    response = requests.get(EVENTBRITE_URL + "events/search/", headers=headers, 
+        verify=True, params=payload)
 
    # Verifies SSL certificate
     verify = True
@@ -170,13 +175,11 @@ def get_event_details(event_id):
     'start_time_local': start_time_local, 'end_time_tz': end_time_tz, 
     'end_time_local': end_time_local}
 
-    print event_details
-
     return event_details
+
 
 def add_event_to_db():
     """Adds an event to the database if a userbookmarks the event as going or interested."""
-    
 
     event_id = request.form.get("event_id")
     status = request.form.get("status")
@@ -187,7 +190,13 @@ def add_event_to_db():
     address = request.form.get("address")
     latitude = request.form.get("latitude")
     longitude = request.form.get("longitude")
+    
+    # Since we are getting URL from form, we are getting entire element
+    # We must split the URL to get only the link
     eb_url = request.form.get("eb_url")
+    eb_url = eb_url.split("\"")
+    eb_url = eb_url[1]
+
     description = request.form.get("description")
     venue_name = request.form.get("venue_name")
     # This gets just the image url back from logo div
@@ -201,17 +210,18 @@ def add_event_to_db():
 
     # Get event by event id
     event = Event.query.get(event_id)
-    # if that event doesn't exist in the table: add it
+    # if that event doesn't exist in the table: add it to the table
     if event == None:
         # Add event to table
         event = Event(event_id=event_id, name=name, start_time=start_time, 
         end_time=end_time, address=address, latitude=latitude, 
         longitude=longitude, venue_name=venue_name, logo=logo, 
         start_time_tz=start_time_tz, start_time_local=start_time_local, 
-        end_time_tz=end_time_tz, end_time_local=end_time_local)
+        end_time_tz=end_time_tz, end_time_local=end_time_local, eb_url=eb_url)
 
         db.session.add(event)
         db.session.commit()
+
 
 def add_comment_to_db(user_id, event_id, comment):
     """Adds a comment to the database if the user is logged in."""
@@ -227,3 +237,4 @@ def remove_non_ascii(text):
     """Removes non ascii charecters from string."""
 
     return ''.join(i for i in text if ord(i)<128)
+

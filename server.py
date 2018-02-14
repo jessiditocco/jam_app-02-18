@@ -191,6 +191,7 @@ def bookmark_event():
 @app.route('/profile')
 def display_profile():
     """Displays user's profile which has user's events by bookmark types."""
+
     # Get the users id from the sessino
     user_id = session.get("user_id")
     # Get the user object filtered by user_id 
@@ -201,7 +202,7 @@ def display_profile():
     events_interested = user.get_events("interested")
 
     return render_template("profile.html", events_going=events_going, 
-        events_interested=events_interested)
+        events_interested=events_interested, user=user)
 
 
 @app.route('/add_comment', methods=["POST"])
@@ -224,13 +225,13 @@ def post_comment():
     user_name = user_object.name
 
 
-    comment = {"comment": comment,
+    comment_details = {"comment": comment,
                 "user_name": user_name}
 ############ THIS IS ALL NEW ##################
     # Get the current timestamp
     ## Not sure about this????
 
-    return jsonify(comment)
+    return jsonify(comment_details)
 
 ################################################################################
 # listening for requests

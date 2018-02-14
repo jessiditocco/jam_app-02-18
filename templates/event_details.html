@@ -2,74 +2,91 @@
 {% block title %}EventDetails{% endblock %}
 
 {%block content %}
-    <div>
-        <h1>
-            Event Details
-        </h1>
-        <h2>
-            <div id="name">
-                {{ event_details['name'] }}
-            </div>
-        </h2><br>
-            <div id="venue_name">
-                Venue Name: {{ event_details['venue_name'] }}
-            </div><br>
-            <div id="address">
-                Venue Address: {{ event_details['address'] }}
-            </div>
-            <div id="longitude" hidden>
-                Longitude: {{ event_details['longitude'] }}
-            </div>
-            <div id="latitude" hidden>
-                Latitude: {{ event_details['latitude'] }}
-            </div><br>
-            <div id="start_time">
-                Start Time: {{ event_details['start_time'] }}
-            </div><br>
-            <div id="end_time">
-                End Time: {{ event_details['end_time'] }}
-            </div><br>
+<!--Event Details-->
+<div class="event_details">
 
-            <div id="start_time_tz" hidden>
-                Start Time Tz: {{ event_details['start_time_tz'] }}
-            </div><br>
-            <div id="start_time_local" hidden>
-                Start Time (Local): {{ event_details['start_time_local'] }}
-            </div><br>
-            <div id="end_time_tz" hidden>
-                End Time Tz: {{ event_details['end_time_tz'] }}
-            </div><br>
-            <div id="end_time_tz" hidden>
-                End Time (Local): {{ event_details['end_time_local'] }}
-            </div>
-            
-            <div id="eb_url">
-                <a href="{{ event_details['eb_url'] }}">
-                    Browse Tickets on Evenbrite
-                </a>
-            </div>
-            <img class="logo" src="{{ event_details['logo'] }}">
-            <div id="logo" hidden>
-                {{ event_details['logo'] }}
-            </div>
+    <h1>
+        Event Details
+    </h1>
+        <h2 id="name">
+            {{ event_details['name'] }}
+        </h2>
 
-        {% if "user_id" in session %}   
+        <img class="logo" src="{{ event_details['logo'] }}">
+
+        <p id="venue_name">
+            Venue Name: {{ event_details['venue_name'] }}
+        </p>
+
+        <p id="address">
+            Venue Address: {{ event_details['address'] }}
+        </p>
+
+        <p id="start_time">
+            Start Time: {{ event_details['start_time'] }}
+        </p>
+
+        <p id="end_time">
+            End Time: {{ event_details['end_time'] }}
+        </p>
+
+        <div id="eb_url">
+            <a href="{{ event_details['eb_url'] }}">
+                Browse Tickets on Evenbrite
+            </a>
+        </div>
+
+</div>
+
+<!--Hidden divs for passing data-->     
+
+        <div id="longitude" hidden>
+            Longitude: {{ event_details['longitude'] }}
+        </div>
+        <div id="latitude" hidden>
+            Latitude: {{ event_details['latitude'] }}
+        </div>
+        <div id="start_time_tz" hidden>
+            Start Time Tz: {{ event_details['start_time_tz'] }}
+        </div><br>
+        <div id="start_time_local" hidden>
+            Start Time (Local): {{ event_details['start_time_local'] }}
+        </div><br>
+        <div id="end_time_tz" hidden>
+            End Time Tz: {{ event_details['end_time_tz'] }}
+        </div><br>
+        <div id="end_time_tz" hidden>
+            End Time (Local): {{ event_details['end_time_local'] }}
+        </div>
+        <div id="logo" hidden>
+            {{ event_details['logo'] }}
+        </div>
         
+<!--If the user is in the session, display bookmarks and comments ability-->
+        {% if "user_id" in session %}   
+
+        <div class="bookmark">
+
             <h1>
                 Bookmark Event
             </h1>
+
                 <button class="bookmark" data-eventid="{{ event_id }}" data-status="going">
                     I'm Going!
                 </button>
+
                 <button class="bookmark" data-eventid="{{ event_id }}" data-status="interested">
                     Interested
                 </button>
+        </div>
        
 
-            <div>
-                <h1>
+        <div>
+
+            <h1 class="comments">
                     Comments
-                </h1>
+            </h1>
+
                 <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
                     <p>
                         Leave a comment:
@@ -77,25 +94,34 @@
                     <textarea id="comment_text"></textarea><br>
                     <input type="submit">
                 </form>
-            </div>
+
+        </div>
         {% endif %}
 
+<!--Displays list of comments-->
+        <ul id="comment-list">
 
-<ul id="comment-list">
-    {% for comment in comments %}
+            {% for comment in comments %}
+                <li>{{ comment.user.name}}: {{ comment.comment }}</li>
+            {% endfor %}
 
-        <li>{{ comment.user.name}}: {{ comment.comment }}</li>
+        </ul>
 
-    {% endfor %}
+<!--Show event description-->
+    <p class="event_description">
 
-</ul>
+        <h1>
+            Event Description
+        </h1>
 
+        <p id="description">
+            {{ event_details['description'] | safe }}
+        </p>
+        
+    </p>
 
-    <div>
-        <h1>Event Description</h1>
-            <div id="description">{{ event_details['description'] | safe }}</div><br>
-    </div>
-    <!--Javascript needs to be in the body below all of the html that it calls on. Make sure to include jquery CDN also (in base html)-->
+<!--Javascript needs to be in the body below all of the html that it calls on. Make sure to include jquery CDN also (in base html)-->
+
     <script src="/static/bookmark.js"></script>
     <script src="/static/comments.js"></script>
 

@@ -2,22 +2,26 @@
 {% block title %}Events{% endblock %}
 
 {% block content %}
-<h1>{{ search_term }} Events</h1>
+<h1>{{ search_term }}</h1>
+
 <ul>
     {% for event in events %}
-    <div>
+        <li><h2 style="color:blue">Event Name: {{ event["name"] }}</h2></li>
+
+        <div class="logo"><img class="logo" src="{{ event["logo"] }}"></div>
+
+        <li>Event ID: {{ event["event_id"] }}</li>
+
+        <li>Event Start: {{ event["start_time"] }}</li>
+
+        <li>Event End: {{ event["end_time"] }}</li>
+
+        <!-- This is like using a get request form: in the flask route request.form.get("event_id") -->
         <li>
-            <h2 style="color:red">Event Name: {{ event["name"] }}</h2>
-            <p>Event ID: {{ event["event_id"] }}</p>
-            <p>Event Start: {{ event["start_time"] }}</p>
-            <p>Event End: {{ event["end_time"] }}</p>
-            <img class="logo" src="{{ event["logo"] }}"><br></div>
-            <a href="/event_details?event_id={{ event['event_id'] }}">Details: {{ event['name'] }}</a><br>
-        </li>
-    </div><br>        
-
-    <!-- This is like using a get request form: in the flask route request.form.get("event_id") -->
-
+            <a href="/event_details?event_id={{ event['event_id'] }}">Click fo Event Details: {{ event['name'] }}
+            </a>
+        </li>    
+  
     {% endfor %}
 </ul>
 

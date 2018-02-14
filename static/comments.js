@@ -2,9 +2,6 @@
 
 function showComments(comment_details) {
 
-    console.log(comment_details['comment'])
-    console.log(comment_details['user_name'])
-
     $("#comment-list").append(
         '<li>' + comment_details["user_name"] + ": " + comment_details["comment"] + '</li>'
         );
