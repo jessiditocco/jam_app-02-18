@@ -48,13 +48,23 @@ def register_proccess():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # Register new user and add user to DB, commit user
-    create_user(name, email, password)
+    # Query the DB and make sure that the user doesn't already exist
+    user = db.session.query(User).filter((User.email == email) & (User.password == password)).first()
+    # If user returns none, we want to create user
+    if user == None:
+        # Register new user and add user to DB, commit user
+        create_user(name, email, password)
+        flash("User {} successfully added".format(name))
+        return redirect('/')
+    # Else, flash user already exists
+    else:
+        flash("That email/password combination already exists. Try again")
+        return redirect('/register')
 
     # Flash a message saying that the user has successfully registered
-    flash("User {} successfully added".format(name))
+    
 
-    return redirect('/')
+    
 
 
 @app.route('/login', methods=['GET'])
@@ -67,7 +77,6 @@ def login_form():
 @app.route('/login', methods=['POST'])
 def login_proccess():
     """Proccesses user and adds user to session."""
-    #### IS THIS THE BEST WAY TO CHECK LOGIN?
 
     # Get form variables
     email = request.form.get("email")

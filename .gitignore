@@ -1,4 +1,4 @@
 *secrets.*
 env
-*.py*
+*.pyc
 .DS_Store
