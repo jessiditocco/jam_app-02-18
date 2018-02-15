@@ -1,5 +1,11 @@
 // Document ready prevents JS from loading until all HTML has loaded
 
+function flashSuccessMessage(results) {
+  alert(results);
+
+}
+
+
 $(document).ready(
     function() {
     $(".bookmark").on("click", function(evt) {
@@ -18,11 +24,19 @@ $(document).ready(
                    "venue_name": $("#venue_name").html(), 
                    "logo": $("#logo").html()};
 
-    $.post("/add_bookmark", payload, function (results) {
-        alert(results);
+    $.post("/add_bookmark", payload, flashSuccessMessage)
 
     });
 
 
 });
-});
+
+//Change the color of the button when clicked
+
+
+function changeColor(evt) {
+  $("#going_button").css("background-color", "red");
+}
+
+
+$("#going_button").on("click", changeColor);

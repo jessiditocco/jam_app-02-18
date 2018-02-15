@@ -65,17 +65,17 @@
 <!--If the user is in the session, display bookmarks and comments ability-->
         {% if "user_id" in session %}   
 
-        <div class="bookmark">
+        <div>
 
             <h1>
                 Bookmark Event
             </h1>
 
-                <button class="bookmark" data-eventid="{{ event_id }}" data-status="going">
+                <button class="bookmark" id="going_button" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue">
                     I'm Going!
                 </button>
 
-                <button class="bookmark" data-eventid="{{ event_id }}" data-status="interested">
+                <button class="bookmark" id="interested_button" data-eventid="{{ event_id }}" data-status="interested">
                     Interested
                 </button>
         </div>
