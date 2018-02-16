@@ -74,7 +74,7 @@
         </div>
         
 <!--If the user is in the session, display bookmarks and comments ability-->
-        {% if "user_id" in session %}   
+    {% if "user_id" in session %}   
 
         <div>
 
@@ -82,20 +82,24 @@
                 Bookmark Event
             </h1>
 
-     <!--            <button class="bookmark" id="going_button" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue">
-                    I'm Going!
-                </button>
+            <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue"
 
-                <button class="bookmark" id="interested_button" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue">
-                    Interested
-                </button>
- -->
+            {% if bookmark and bookmark.bookmark_type_id == 1 %}
+            checked 
+            {% endif %}
 
+            /> I'm Going!
 
 
-                <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue"/> I'm Going!
+            <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue"
 
-                <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue"/> Interested 
+             {% if bookmark and bookmark.bookmark_type_id == 2 %}
+            checked 
+            {% endif %}
+
+            /> Interested 
+
+
         </div>
        
 
@@ -114,7 +118,6 @@
                 </form>
 
         </div>
-        {% endif %}
 
 <!--Displays list of comments-->
         <ul id="comment-list">
@@ -124,6 +127,7 @@
             {% endfor %}
 
         </ul>
+    {% endif %}
 
 <!--Show event description-->
     <p class="event_description">

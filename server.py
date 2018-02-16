@@ -133,12 +133,13 @@ def show_event_details():
 
     event_details = get_event_details(event_id)
 
-    # Gets all of the comments for the event; returns a list of comment objects
-    comments = db.session.query(Comment).filter(Comment.event_id == event_id).all()
-
     user_id = session.get("user_id")
     # If the user_id exists in session, get the user object
     if user_id:
+        # Gets all of the comments for the event; returns a list of comment objects
+        # Only retrieve comments if user is logged in
+        comments = db.session.query(Comment).filter(Comment.event_id == event_id).all()
+
         # Get the user object from user_id
         user_object = db.session.query(User).filter(User.user_id == user_id).one()
         # Get the user's name from the user object
@@ -147,30 +148,16 @@ def show_event_details():
         # We want to display user's bookmarks if they have already bookmarked the event
         bookmark = db.session.query(Bookmark).filter((Bookmark.user_id == user_id) & (Bookmark.event_id == event_id)).first()
         print "This is the bookmark if the user boomarked ONNN evt.deets ", bookmark
-        # print "This is the status", bookmark.bookmark_type_id
-        # if bookmark:
-        #     if bookmark.bookmark_type_id == 1 or bookmark.bookmark_type_id == 2:
-        #         check_button = "checked"
-
-        #     else:
-        #         check_button = "unchecked"
-
-    #     <!--  if {{ bookmark.bookmark_type_id }} == 1:
-    #     set default on the going button to clicked
-
-    # if {{ bookmark.bookmark_type_id }} == 2:
-    #     set default on the interested button to clicked
-
-    # if {{ bookmark.bookmark_type_id }} == None:
-    #     dont pass anything through jinja
 
 
     else:
         user_name = "Not logged In."
         # check_button = "unchecked"
+        bookmark = None
+        comments = None
 
     return render_template("event_details.html", event_id=event_id, 
-    event_details=event_details, comments=comments, user_name=user_name)
+    event_details=event_details, comments=comments, user_name=user_name, bookmark=bookmark)
 
 
 
