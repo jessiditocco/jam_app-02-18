@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
 
 from eventbrite_helper import (get_events, get_event_details, add_event_to_db, 
-add_comment_to_db, remove_non_ascii, create_user)
+add_comment_to_db, create_user, add_bookmark_to_db)
 
 
 # When we create a Flask app, it needs to know what module to scan for things
@@ -158,12 +158,6 @@ def bookmark_event():
     """Adds event bookmark to user profile."""
 
     name = request.form.get("name")
-    # Removes non_ascii charecters from event names
-    name = remove_non_ascii(name)
-
-    bookmark_success = "Successfully bookmarked {}".format(name)
-
-    bookmark_failure = "You must be logged in to bookmark and event."
     # Get event ID
     event_id = request.form.get("event_id")
     # Status of bookmark type "going", "interested"
@@ -173,30 +167,9 @@ def bookmark_event():
     # Get the status: going or interested
     status = request.form.get("status")
 
+    # This helper function returns either bookmark_success or bookmark_failure message
+    return add_bookmark_to_db(status, name, event_id, user_id)
 
-    # If the user is logged in
-    if user_id:
-        # Add the event that they pin to db
-        add_event_to_db()
-
-        # Get BookmarkType object out of DB based on status
-        bookmark_type_object = db.session.query(BookmarkType).filter_by(bookmark_type=status).one()
-
-        # Get the bookmark_type_id out of the db
-        bookmark_type_id = bookmark_type_object.bookmark_type_id
-        # Make a new Bookmark, passing it the user_id, event_id, and bookmarktype object
-        # Add to DB
-
-        # Before make bookmark, check whether it exists; if it doesn't, create it, if it does, update it w different bookmark type
-        bookmark = Bookmark(user_id=user_id, event_id=event_id, bookmark_type_id=bookmark_type_id)
-        db.session.add(bookmark)
-        db.session.commit()
-        # Return success message as JSON to AJAX
-
-        return bookmark_success
-
-    else:
-        return bookmark_failure
 
 @app.route('/profile')
 def display_profile():

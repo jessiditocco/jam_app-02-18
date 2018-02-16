@@ -9,7 +9,7 @@ from dateutil import parser
 # To user the pytz library which converts timezones
 import pytz
 from flask import request
-from model import db, connect_to_db, Event, Comment, User
+from model import db, connect_to_db, Event, Comment, User, BookmarkType, Bookmark
 
 
 EVENTBRITE_TOKEN = os.getenv('EVENTBRITE_TOKEN')
@@ -237,4 +237,56 @@ def remove_non_ascii(text):
     """Removes non ascii charecters from string."""
 
     return ''.join(i for i in text if ord(i)<128)
+
+
+def add_bookmark_to_db(status, name, event_id, user_id):
+    """Adds bookmark to DB or updates bookmark type if bookmark already exists"""
+
+    bookmark_success = "Successfully bookmarked {} as {}".format(name, status)
+    bookmark_failure = "You must be logged in to bookmark and event."
+    # Removes non_ascii charecters from event names
+    name = remove_non_ascii(name)
+
+
+    # If the user is logged in
+    if user_id:
+        # Add the event that they pin to db only if the event doesn't already exist
+        add_event_to_db()
+
+        # Get BookmarkType object out of DB based on status
+        bookmark_type_object = db.session.query(BookmarkType).filter_by(bookmark_type=status).one()
+
+        print "1", bookmark_type_object, type(bookmark_type_object)
+
+        # Get the bookmark_type_id out of the db, 1 for going, 2 for interested: gives us an int
+        bookmark_type_id = bookmark_type_object.bookmark_type_id
+
+        print "2", bookmark_type_object, type(bookmark_type_id)
+
+        # Before make bookmark, check whether it exists; if it doesn't, create it, if it does, update it w bookmark type
+        # We use .first() instead of .one() because with .one() if there are none, we get error
+        # With .first() none gets returned if there isn't a bookmark
+        bookmark_for_event = db.session.query(Bookmark).filter((Bookmark.event_id == event_id) & (Bookmark.user_id == user_id)).first()
+        print "3", bookmark_for_event, type(bookmark_for_event)
+
+        # If bookmark for event doesn't already exist, we want to create the bookmark
+        if bookmark_for_event == None:
+            # Make a new Bookmark, passing it the user_id, event_id, and bookmarktype object, add & commit
+            bookmark = Bookmark(user_id=user_id, event_id=event_id, bookmark_type_id=bookmark_type_id)
+            print "If event doesn't exists, we make bookmark", bookmark
+            db.session.add(bookmark)
+            db.session.commit()
+            # Return success message
+            return bookmark_success
+        # If the bookmark for event already exist, we want to update the bookmark type
+        else:
+            bookmark_for_event.bookmark_type_id = bookmark_type_id
+            print "If event does exist, we want to update the status", bookmark_for_event
+            db.session.commit()
+            return bookmark_success
+
+    # If the user is not logged in, return please login message
+    else:
+        return bookmark_failure
+
 
