@@ -143,9 +143,31 @@ def show_event_details():
         user_object = db.session.query(User).filter(User.user_id == user_id).one()
         # Get the user's name from the user object
         user_name = user_object.name
-        # Gets current users email to pass through to comment feature
+        # Gets bookmark for the event if the user has already bookmarked the event and is logged in
+        # We want to display user's bookmarks if they have already bookmarked the event
+        bookmark = db.session.query(Bookmark).filter((Bookmark.user_id == user_id) & (Bookmark.event_id == event_id)).first()
+        print "This is the bookmark if the user boomarked ONNN evt.deets ", bookmark
+        # print "This is the status", bookmark.bookmark_type_id
+        # if bookmark:
+        #     if bookmark.bookmark_type_id == 1 or bookmark.bookmark_type_id == 2:
+        #         check_button = "checked"
+
+        #     else:
+        #         check_button = "unchecked"
+
+    #     <!--  if {{ bookmark.bookmark_type_id }} == 1:
+    #     set default on the going button to clicked
+
+    # if {{ bookmark.bookmark_type_id }} == 2:
+    #     set default on the interested button to clicked
+
+    # if {{ bookmark.bookmark_type_id }} == None:
+    #     dont pass anything through jinja
+
+
     else:
         user_name = "Not logged In."
+        # check_button = "unchecked"
 
     return render_template("event_details.html", event_id=event_id, 
     event_details=event_details, comments=comments, user_name=user_name)
@@ -200,19 +222,13 @@ def post_comment():
     comment = request.form.get("comment")
     # Add comment to DB
     add_comment_to_db(user_id, event_id, comment)
-
-############ THIS IS ALL NEW ##################
     # Get the user object from user_id so that i can add user name to comment
     user_object = db.session.query(User).filter(User.user_id == user_id).one()
     # Get the user's name from the user object
     user_name = user_object.name
 
-
     comment_details = {"comment": comment,
                 "user_name": user_name}
-############ THIS IS ALL NEW ##################
-    # Get the current timestamp
-    ## Not sure about this????
 
     return jsonify(comment_details)
 
