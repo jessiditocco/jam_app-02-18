@@ -38,6 +38,17 @@
 
 </div>
 
+<div>
+    <h1>
+        Other Jam Users Going to {{ event_details['name'] }}
+    </h1>
+        <ul id="users_going">
+            <li>
+                User
+            </li>
+        </ul>
+</div>
+
 <!--Hidden divs for passing data-->     
 
         <div id="longitude" hidden>
@@ -71,13 +82,17 @@
                 Bookmark Event
             </h1>
 
-                <button class="bookmark" id="going_button" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue">
+     <!--            <button class="bookmark" id="going_button" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue">
                     I'm Going!
                 </button>
 
-                <button class="bookmark" id="interested_button" data-eventid="{{ event_id }}" data-status="interested">
+                <button class="bookmark" id="interested_button" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue">
                     Interested
                 </button>
+ -->
+                <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue"/> I'm Going!
+
+                <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue"/> Interested 
         </div>
        
 

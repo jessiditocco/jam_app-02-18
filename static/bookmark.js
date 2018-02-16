@@ -1,7 +1,9 @@
 // Document ready prevents JS from loading until all HTML has loaded
 
 function flashSuccessMessage(results) {
+  console.log(results)
   alert(results);
+  console.log(results)
 
 }
 
@@ -9,9 +11,9 @@ function flashSuccessMessage(results) {
 $(document).ready(
     function() {
     $(".bookmark").on("click", function(evt) {
-    let eventId = $(this).data("eventid");
-    let status = $(this).data("status");
-    let payload = {"event_id": eventId,
+      let eventId = $(this).data("eventid");
+      let status = $(this).data("status");
+      let payload = {"event_id": eventId,
                    "status": status,
                    "name": $("#name").html(),
                    "start_time": $('#start_time').html(),
@@ -24,19 +26,21 @@ $(document).ready(
                    "venue_name": $("#venue_name").html(), 
                    "logo": $("#logo").html()};
 
-    $.post("/add_bookmark", payload, flashSuccessMessage)
+      $.post("/add_bookmark", payload, flashSuccessMessage);
+
+      // if ($(this).attr('id') === 'going_button') {
+      //   $(this).css("background-color", "red");
+      //   console.log("WORKING");
+      // } 
+      
+      // else {
+      //   $(this).css("background-color", "red");
+      //   console.log("WORKING");
+      // }
 
     });
 
+    
+
 
 });
-
-//Change the color of the button when clicked
-
-
-function changeColor(evt) {
-  $("#going_button").css("background-color", "red");
-}
-
-
-$("#going_button").on("click", changeColor);

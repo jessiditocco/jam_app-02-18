@@ -178,7 +178,6 @@ def bookmark_event():
     if user_id:
         # Add the event that they pin to db
         add_event_to_db()
-        # Make a bookmark in the bookmarks table
 
         # Get BookmarkType object out of DB based on status
         bookmark_type_object = db.session.query(BookmarkType).filter_by(bookmark_type=status).one()
@@ -187,6 +186,8 @@ def bookmark_event():
         bookmark_type_id = bookmark_type_object.bookmark_type_id
         # Make a new Bookmark, passing it the user_id, event_id, and bookmarktype object
         # Add to DB
+
+        # Before make bookmark, check whether it exists; if it doesn't, create it, if it does, update it w different bookmark type
         bookmark = Bookmark(user_id=user_id, event_id=event_id, bookmark_type_id=bookmark_type_id)
         db.session.add(bookmark)
         db.session.commit()
