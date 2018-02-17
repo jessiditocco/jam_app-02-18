@@ -288,5 +288,3 @@ def add_bookmark_to_db(status, name, event_id, user_id):
     # If the user is not logged in, return please login message
     else:
         return bookmark_failure
-
-

@@ -2,6 +2,10 @@
 {% block title %}EventDetails{% endblock %}
 
 {%block content %}
+<!--Link to profile icon stylesheet-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!--Event Details-->
 <div class="event_details">
 
@@ -37,17 +41,27 @@
         </div>
 
 </div>
+<!--List of other users going to selected events-->
 
 <div>
     <h1>
         Other Jam Users Going to {{ event_details['name'] }}
     </h1>
-        <ul id="users_going">
-            <li>
-                User
-            </li>
-        </ul>
+            {% for user in users_going %}
+                <div class="card">
+                  <img src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png" alt="John" style="width:100%">
+                  <h1>{{ user.name }}</h1>
+                  <p class="title">theJAM user</p>
+                  <p>University of Florida</p>
+                  <a href="#"><i class="fa fa-dribbble"></i></a> 
+                  <a href="#"><i class="fa fa-twitter"></i></a> 
+                  <a href="#"><i class="fa fa-linkedin"></i></a> 
+                  <a href="#"><i class="fa fa-facebook"></i></a> 
+                  <p><button>Profile/ Contact</button></p>
+                </div>
+            {% endfor %}
 </div>
+
 
 <!--Hidden divs for passing data-->     
 

@@ -2,8 +2,25 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<h1>{{ user.name }}'s Profile</h1>
 
+<!-- Add icon library that has User Profile Img Card-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="card">
+  <img src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png" alt="John" style="width:100%">
+  <h1>{{ user.name }}</h1>
+  <p class="title">theJAM user</p>
+  <p>University of Florida</p>
+  <a href="#"><i class="fa fa-dribbble"></i></a> 
+  <a href="#"><i class="fa fa-twitter"></i></a> 
+  <a href="#"><i class="fa fa-linkedin"></i></a> 
+  <a href="#"><i class="fa fa-facebook"></i></a> 
+  <p><button>Contact</button></p>
+</div>
+
+
+
+<!--List of events user is going to-->
 <ul>
     <h3>Events You Are Going To</h3>
     {% for event in events_going %}
@@ -21,6 +38,7 @@
     {% endfor %}
 </ul>
 
+<!--List of events user is interested in-->
 <ul>
     <h3>Events You Are Interested In</h3>
     {% for event in events_interested %}
