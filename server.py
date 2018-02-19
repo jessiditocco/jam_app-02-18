@@ -149,18 +149,27 @@ def show_event_details():
         bookmark = db.session.query(Bookmark).filter((Bookmark.user_id == user_id) & (Bookmark.event_id == event_id)).first()
         print "This is the bookmark if the user boomarked ONNN evt.deets ", bookmark
 
-        # Get users going to the event
-        event = db.session.query(Event).filter(Event.event_id == event_id).one()
-        users_going = event.get_attendees("going")
-        print "THIS ARE PEOPLE GOIN !!!!", users_going
-       
-
     else:
         user_name = "Not logged In."
         bookmark = None
         comments = None
         going_bookmarks = None
 
+    # Get all of the other users going to the event
+    # We will only get other users going if the user is logged in AND that event exists in the DB
+    # event will return none if the event isn't already in the DB      
+    event = db.session.query(Event).filter(Event.event_id == event_id).first()
+    print "THIS IS THE EVENT, should be none?", event
+    
+
+    if user_id and event:
+        users_going = event.get_attendees("going")
+        print "THIS ARE PEOPLE GOIN !!!!", users_going
+    else:
+        users_going = None
+        print "SHOULD BE THIS!", users_going
+       
+    
     return render_template("event_details.html", event_id=event_id, 
     event_details=event_details, comments=comments, user_name=user_name, 
     bookmark=bookmark, users_going=users_going)
@@ -190,7 +199,7 @@ def bookmark_event():
 def display_my_profile():
     """Displays user's profile which has user's events by bookmark types."""
 
-    # Get the users id from the sessino
+    # Get the users id from the sessi
     user_id = session.get("user_id")
     # Get the user object filtered by user_id 
     user = User.query.filter_by(user_id=user_id).one()

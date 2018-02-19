@@ -41,26 +41,6 @@
         </div>
 
 </div>
-<!--List of other users going to selected events-->
-
-<div>
-    <h1>
-        Other Jam Users Going to {{ event_details['name'] }}
-    </h1>
-            {% for user in users_going %}
-                <div class="card">
-                  <img src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png" alt="John" style="width:100%">
-                  <h1>{{ user.name }}</h1>
-                  <p class="title">theJAM user</p>
-                  <p>University of Florida</p>
-                  <a href="#"><i class="fa fa-dribbble"></i></a> 
-                  <a href="#"><i class="fa fa-twitter"></i></a> 
-                  <a href="#"><i class="fa fa-linkedin"></i></a> 
-                  <a href="#"><i class="fa fa-facebook"></i></a> 
-                  <p><button>Profile/ Contact</button></p>
-                </div>
-            {% endfor %}
-</div>
 
 
 <!--Hidden divs for passing data-->     
@@ -87,9 +67,10 @@
             {{ event_details['logo'] }}
         </div>
         
-<!--If the user is in the session, display bookmarks and comments ability-->
-    {% if "user_id" in session %}   
+<!--If the user is in the session, display bookmarks and comments ability, and other users going-->
+{% if "user_id" in session %}   
 
+    <!--Bookmark div-->
         <div>
 
             <h1>
@@ -116,7 +97,7 @@
 
         </div>
        
-
+    <!--Comment div-->
         <div>
 
             <h1 class="comments">
@@ -133,7 +114,7 @@
 
         </div>
 
-<!--Displays list of comments-->
+    <!--Displays list of comments-->
         <ul id="comment-list">
 
             {% for comment in comments %}
@@ -141,7 +122,38 @@
             {% endfor %}
 
         </ul>
-    {% endif %}
+
+
+    <!--List of other users going to selected events-->
+
+    {% if users_going %}   
+    <div>
+        <h1>
+            Jam Users Going to {{ event_details['name'] }}
+        </h1>
+                {% for user in users_going %}
+                    <div class="card">
+                      <img src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png" alt="John" style="width:100%">
+                      <h1>{{ user.name }}</h1>
+                      <p class="title">theJAM user</p>
+                      <p>University of Florida</p>
+                      <a href="#"><i class="fa fa-dribbble"></i></a> 
+                      <a href="#"><i class="fa fa-twitter"></i></a> 
+                      <a href="#"><i class="fa fa-linkedin"></i></a> 
+                      <a href="#"><i class="fa fa-facebook"></i></a> 
+                      <form action="/my_profile" method="get">
+                        <input name="user_id" value="{{ user.user_id }}" hidden>
+                        <input id="contact_card_button" type="submit" value="Profile/Contact">
+                      </form>
+                    </div><br>
+                {% endfor %}
+    </div>
+
+    {% endif %}   
+
+<!--Ends if about being logged into session-->
+
+{% endif %}
 
 <!--Show event description-->
     <p class="event_description">
