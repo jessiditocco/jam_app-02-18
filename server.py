@@ -143,8 +143,6 @@ def show_event_details():
         # Gets bookmark for the event if the user has already bookmarked the event and is logged in
         # We want to display user's bookmarks if they have already bookmarked the event
         bookmark = db.session.query(Bookmark).filter((Bookmark.user_id == user_id) & (Bookmark.event_id == event_id)).first()
-        print "This is the bookmark if the user boomarked ONNN evt.deets ", bookmark
-
 
     else:
         user_name = "Not logged In."
@@ -154,9 +152,9 @@ def show_event_details():
 
     # Get users going to the event
     event = db.session.query(Event).filter(Event.event_id == event_id).first()
+    # If a user is logged in and the event exits in the database, we want to get all of the users going
     if user_id and event:
         users_going = event.get_attendees("going")
-        print "THIS ARE PEOPLE GOIN !!!!", users_going
     else:
         users_going = None
        
@@ -188,9 +186,18 @@ def bookmark_event():
 @app.route('/my_profile')
 def display_my_profile():
     """Displays user's profile which has user's events by bookmark types."""
+    
+    # Get the user_id from the profile/contact form
+    user_id_from_form = request.args.get("user_id")
 
-    # Get the users id from the sessi
-    user_id = session.get("user_id")
+    # if there is a user_id from the profile/contact form, make that the user_id
+    if user_id_from_form:
+        user_id = user_id_from_form
+    # If there isn't a user_id from the profile/contact form, user id from session
+    else: 
+        user_id = session.get("user_id")
+        print "This is the user_id from sessionm", user_id
+
     # Get the user object filtered by user_id 
     user = User.query.filter_by(user_id=user_id).one()
     # Returns a list of event objects that the user is going to
