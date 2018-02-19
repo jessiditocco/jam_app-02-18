@@ -179,7 +179,7 @@ def get_event_details(event_id):
 
 
 def add_event_to_db():
-    """Adds an event to the database if a userbookmarks the event as going or interested."""
+    """Adds an event to the database if a user bookmarks the event as going or interested."""
 
     event_id = request.form.get("event_id")
     status = request.form.get("status")
