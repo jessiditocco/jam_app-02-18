@@ -185,8 +185,8 @@ def bookmark_event():
     return add_bookmark_to_db(status, name, event_id, user_id)
 
 
-@app.route('/my_profile')
-def display_my_profile():
+@app.route('/profile')
+def display_profile():
     """Displays user's profile which has user's events by bookmark types."""
     
     # Get the user_id from the profile/contact form
@@ -207,7 +207,7 @@ def display_my_profile():
     # Returns a list of events that the user is interested in
     events_interested = user.get_events("interested")
 
-    return render_template("my_profile.html", events_going=events_going, 
+    return render_template("profile.html", events_going=events_going, 
         events_interested=events_interested, user=user)
 
 

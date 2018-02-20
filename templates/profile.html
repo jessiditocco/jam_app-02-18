@@ -14,17 +14,20 @@
   <a href="#"><i class="fa fa-dribbble"></i></a> 
   <a href="#"><i class="fa fa-twitter"></i></a> 
   <a href="#"><i class="fa fa-linkedin"></i></a> 
-  <a href="#"><i class="fa fa-facebook"></i></a> 
-  <p><button>Contact</button></p>
+  <a href="#"><i class="fa fa-facebook"></i></a>
+  <!-- Button to the trigger modal -->
+  <!-- Button should only show if your on another user's profile -->
+  {% if user.user_id != session["user_id"] %}
+  <p>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+          Email {{ user.name }}
+    </button>
+  </p>
+  {% endif %}
 </div>
 
 
-<!--Email the user!!-->
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
+<!--Email the user: This is the modal window!-->
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -39,7 +42,7 @@
             Subject:<br>
             <input type="text" id="subject"><br>
             Comment:<br>
-            <input type="text" id="comment" size="50"><br><br>
+            <input type="textarea" id="comment" size="50"><br><br>
             <!--We are on the profile of the user we want to send the email to-->
             <input id="send_to" value="{{ user.email }}" hidden>
         </form>

@@ -132,6 +132,7 @@
             Jam Users Going to {{ event_details['name'] }}
         </h1>
                 {% for user in users_going %}
+                    {% if user.user_id != session["user_id"] %}
                     <div class="card">
                       <img src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png" alt="John" style="width:100%">
                       <h1>{{ user.name }}</h1>
@@ -141,11 +142,12 @@
                       <a href="#"><i class="fa fa-twitter"></i></a> 
                       <a href="#"><i class="fa fa-linkedin"></i></a> 
                       <a href="#"><i class="fa fa-facebook"></i></a> 
-                      <form action="/my_profile" method="get">
+                      <form action="/profile" method="get">
                         <input name="user_id" value="{{ user.user_id }}" hidden>
                         <input id="contact_card_button" type="submit" value="Profile/Contact">
                       </form>
                     </div><br>
+                    {% endif %}
                 {% endfor %}
     </div>
 
