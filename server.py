@@ -252,7 +252,9 @@ def email_user():
 
     send_email(name, send_from, subject, comment, send_to)
 
-    return redirect("/")
+    success = {"message": "success"}
+
+    return jsonify(success)
 
 
 ################################################################################

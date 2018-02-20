@@ -28,15 +28,6 @@ $(document).ready(
 
       $.post("/add_bookmark", payload, flashSuccessMessage);
 
-      // if ($(this).attr('id') === 'going_button') {
-      //   $(this).css("background-color", "red");
-      //   console.log("WORKING");
-      // } 
-      
-      // else {
-      //   $(this).css("background-color", "red");
-      //   console.log("WORKING");
-      // }
 
     });
 
