@@ -19,6 +19,30 @@
 </div>
 
 
+<!--Email the user!!-->
+
+<h2> Email {{ user.name }} </h2>
+  <form action="/email" method="post"> 
+      Your Name:<br>
+        <input type="text" name="name"><br>
+      Your Email:<br>
+        <input type="text" name="email"><br>
+      Subject:<br>
+        <input type="text" name="subject"><br>
+      Comment:<br>
+        <input type="text" name="comment" size="50"><br><br>
+        <!--We are on the profile of the user we want to send the email to-->
+        <input name="send_to" value="{{ user.email }}" hidden>
+
+        <input type="submit" value="Send">
+        <input type="reset" value="Rest">
+</form>
+
+<p>{{ user.name }}: {{ user.email }}</p>
+
+
+
+
 
 <!--List of events user is going to-->
 <ul>

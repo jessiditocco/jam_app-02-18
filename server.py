@@ -12,6 +12,8 @@ from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Commen
 from eventbrite_helper import (get_events, get_event_details, add_event_to_db, 
 add_comment_to_db, create_user, add_bookmark_to_db)
 
+from sendgrid_helper import send_email
+
 
 # When we create a Flask app, it needs to know what module to scan for things
 # like routes so the __name__ is required
@@ -196,7 +198,7 @@ def display_my_profile():
     # If there isn't a user_id from the profile/contact form, user id from session
     else: 
         user_id = session.get("user_id")
-        print "This is the user_id from sessionm", user_id
+        print "This is the user_id from session", user_id
 
     # Get the user object filtered by user_id 
     user = User.query.filter_by(user_id=user_id).one()
@@ -230,6 +232,23 @@ def post_comment():
                 "user_name": user_name}
 
     return jsonify(comment_details)
+
+@app.route('/email', methods=["POST"])
+def email_user():
+    """Emails the user using sendgrid api"""
+
+    email = request.form.get("email")
+    name = request.form.get("name")
+    subject = request.form.get("subject")
+    comment = request.form.get("comment")
+    send_to = request.form.get("send_to")
+
+    print "SEND TOO!!!!!!!!", send_to
+
+    send_email(name, email, subject, comment, send_to)
+
+    return redirect("/")
+
 
 ################################################################################
 # listening for requests
