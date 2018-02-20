@@ -237,15 +237,20 @@ def post_comment():
 def email_user():
     """Emails the user using sendgrid api"""
 
-    email = request.form.get("email")
+    # Get userID from the session
+    # The user must be logged in bc can only see their profile if logged in
+    user_id = session.get("user_id")
+    # Get the current user from db
+    current_user = db.session.query(User).filter(User.user_id == user_id).one()
+    
+    # Send_from will grab the users email from the current_user in the session
+    send_from = current_user.email
     name = request.form.get("name")
     subject = request.form.get("subject")
     comment = request.form.get("comment")
     send_to = request.form.get("send_to")
 
-    print "SEND TOO!!!!!!!!", send_to
-
-    send_email(name, email, subject, comment, send_to)
+    send_email(name, send_from, subject, comment, send_to)
 
     return redirect("/")
 
