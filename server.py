@@ -130,13 +130,14 @@ def login_proccess():
 
     # Check the DB to see if user exists and login matches
     user = db.session.query(User).filter((User.email == email) & (User.password == password)).first()
-
+    print "This is the user!!!", user
     # If user is in DB, add user to the session
     # Flash success message
     # Return redirect to homepage
     if user:
         session["user_id"] = user.user_id
         result = {"message": "success"}
+        print "session at user id!!!!", session["user_id"]
         return jsonify(result)
     else:
         result = {"message": "Wrong username/password combo"}
@@ -146,16 +147,29 @@ def login_proccess():
 
 
 
+# @app.route('/logout', methods=["GET"])
+# def logout():
+#     """Logs user out; removes user from session."""
+
+#     # Delete the user from the session
+#     del session["user_id"]
+#     # Flash a message the the user has been succesfully logged out
+#     flash("User has been successfully logged out")
+#     # Redirect user back to homepage
+#     return redirect("/")
+
+
 @app.route('/logout', methods=["GET"])
 def logout():
     """Logs user out; removes user from session."""
 
     # Delete the user from the session
     del session["user_id"]
-    # Flash a message the the user has been succesfully logged out
-    flash("User has been successfully logged out")
     # Redirect user back to homepage
-    return redirect("/")
+
+    result = {"message": "success"}
+    return jsonify(result)
+
 
 
 

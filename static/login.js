@@ -1,15 +1,22 @@
-/// was working on this function; get it to close after the user logs in
-// if the user doesn't log in correctly, get a message to pop up saying try again
+// Javascript for login and logout
 
 function showLoginSuccess(result) {
     console.log(result);
 
     if (result["message"] === "success") {
         $("#close_login_modal").click();
+        $("#login_button").hide();
+        $("#logout_button").show();
+
         alert("User has been succesfully logged in");
+
+
+    } else {
+        $("#incorrect_login_message").html("Email/password combo incorrect. Try again please.");
 
     }
 }
+
 
 function loginUser(evt) {
     evt.preventDefault();
@@ -21,5 +28,21 @@ function loginUser(evt) {
 }
 
 
-
 $("#submit_login_button").on("click", loginUser);
+
+
+function showLogoutSuccess(result) {
+    console.log(result);
+    $("#logout_button").hide();
+    $("#login_button").show();
+    alert("User has been succesfully logged out of session.")
+}
+
+
+function logoutUser(evt) {
+    evt.preventDefault();
+
+    $.get("/logout", showLogoutSuccess);
+}
+
+$("#logout_button").on("click", logoutUser);

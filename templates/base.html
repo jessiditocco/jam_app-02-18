@@ -24,14 +24,17 @@
 
     <a href="/">Home</a><br>
  <!--    <a href="/register">Register User</a><br> -->
+  {% if "user_id" in session %}
+  <a href="/profile">Your Profile</a><div>
+  {% endif %}
 
-    {% if "user_id" not in session %}
+<!--     {% if "user_id" not in session %}
     <a href="/login">Login</a><div>
 
     {% else %}
     <a href="/profile">Your Profile</a><div>
     <a href="/logout">Logout</a><div>
-    {% endif %}
+    {% endif %} -->
 
     <ul>
         {% for message in get_flashed_messages() %}
@@ -39,9 +42,10 @@
         {% endfor %}
     </ul>       
 
+<!--Button For Registration-->
+
+
 <!--Modal button For Registration-->
-
-
 
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registration_modal">
   Register User
@@ -77,10 +81,13 @@
 
 
 <!-- Modal Button For Login -->
+<!-- If the user is in the session, the login button should be hidden -->
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login_modal">
+
+<button id="login_button" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login_modal" {% if 'user_id' in session%} style="display:none" {% endif %}>
   Login
 </button>
+
 
 <!-- Modal Window For Login -->
 
@@ -92,7 +99,7 @@
         <h4 class="modal-title" id="myModalLabel">Login</h4>
       </div>
       <div class="modal-body">
-        
+        <div id="incorrect_login_message"></div>
         <form id="login_form" action="/login" method="POST">
             Email: 
             <input id="login_email" type="email"><br>
@@ -110,9 +117,13 @@
 </div>
 
 
+<!-- Button for Logout -->
+<!-- If the user is not logged in, the login button should be hidden-->
 
-
-
+<button id="logout_button" type="button" class="btn btn-primary btn-lg"
+{% if 'user_id' not in session %} style="display:none" {% endif %}>
+  Logout
+</button>
 
 
 <!-- Javascript for Registration-->
