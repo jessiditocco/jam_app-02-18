@@ -24,10 +24,10 @@
 
     <a href="/">Home</a><br>
  <!--    <a href="/register">Register User</a><br> -->
-  {% if "user_id" in session %}
-  <a href="/profile">Your Profile</a><div>
-  {% endif %}
+<!-- 
+  <a href="/profile" {% if "user_id" not in session%} id="profile_link"style="display:none" {% endif %}>Your Profile</a>
 
+ -->
 <!--     {% if "user_id" not in session %}
     <a href="/login">Login</a><div>
 
@@ -42,7 +42,12 @@
         {% endfor %}
     </ul>       
 
-<!--Button For Registration-->
+
+<!--Button for My Profile; should only show if the user is logged in-->
+
+<a href="/profile"><button id="my_profile_button" type="button" class="btn btn-primary btn-lg" data-toggle="modal" {% if "user_id" not in session%} id="profile_link"style="display:none" {% endif %}>
+   My Profile
+</button></a>
 
 
 <!--Modal button For Registration-->

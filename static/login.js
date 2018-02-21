@@ -7,6 +7,7 @@ function showLoginSuccess(result) {
         $("#close_login_modal").click();
         $("#login_button").hide();
         $("#logout_button").show();
+        $("#my_profile_button").show();
 
         alert("User has been succesfully logged in");
 
@@ -35,6 +36,7 @@ function showLogoutSuccess(result) {
     console.log(result);
     $("#logout_button").hide();
     $("#login_button").show();
+    $("#my_profile_button").hide();
     alert("User has been succesfully logged out of session.")
 }
 
