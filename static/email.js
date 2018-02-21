@@ -3,7 +3,7 @@
 function showSuccess(success) {
     $("#close_modal").click();
     console.log(success);
-    alert("Hiii!!");
+    alert("You have succesfully sent an email!");
 
 }
 
@@ -13,7 +13,7 @@ function sendEmail(evt) {
 
     let payload = {
         "subject": $("#subject").val(),
-        "comment": $("#comment").val(),
+        "email_body": $("#email_body").val(),
         "send_to": $("#send_to").val()
     };
     console.log(payload);
@@ -23,4 +23,4 @@ function sendEmail(evt) {
 }
 
 
-$("#modal_button").on("click", sendEmail);
+$("#email_user_button").on("click", sendEmail);

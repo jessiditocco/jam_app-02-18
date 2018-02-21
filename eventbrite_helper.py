@@ -137,7 +137,7 @@ def get_event_details(event_id):
     # Get fields back from json response
 
     name = data['name']['text']
-    description = data['description']['html']
+    description = data['description']['text']
     eb_url = data['url']
     # We will return the nicely formated start and end times
     start_time = parse_datetime(data['start']['timezone'], data['start']['local'])

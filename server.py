@@ -247,14 +247,19 @@ def email_user():
     send_from = current_user.email
     name = request.form.get("name")
     subject = request.form.get("subject")
-    comment = request.form.get("comment")
+    email_body = request.form.get("email_body")
     send_to = request.form.get("send_to")
 
-    send_email(name, send_from, subject, comment, send_to)
+    send_email(name, send_from, subject, email_body, send_to)
 
     success = {"message": "success"}
 
     return jsonify(success)
+
+@app.route("/register_test")
+def test_register():
+
+    return render_template("register_test.html")
 
 
 ################################################################################

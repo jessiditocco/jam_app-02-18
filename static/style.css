@@ -6,7 +6,8 @@
     height: 300px;
 }
 
-.card {
+
+.profile_card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
     margin: auto;
@@ -18,7 +19,7 @@
     font-size: 18px;
 }
 
-button {
+.profile_card button {
     border: none;
     outline: 0;
     display: inline-block;
