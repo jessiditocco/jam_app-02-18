@@ -89,11 +89,35 @@ def register_proccess():
 
 
 
-@app.route('/login', methods=['GET'])
-def login_form():
-    """Shows login form."""
+# @app.route('/login', methods=['GET'])
+# def login_form():
+#     """Shows login form."""
 
-    return render_template("login.html")
+#     return render_template("login.html")
+
+
+# @app.route('/login', methods=['POST'])
+# def login_proccess():
+#     """Proccesses user and adds user to session."""
+
+#     # Get form variables
+#     email = request.form.get("email")
+#     password = request.form.get("password")
+
+#     # Check the DB to see if user exists and login matches
+#     user = db.session.query(User).filter((User.email == email) & (User.password == password)).first()
+
+#     # If user is in DB, add user to the session
+#     # Flash success message
+#     # Return redirect to homepage
+#     if user:
+#         session["user_id"] = user.user_id
+#         flash("User successfully logged in")
+#         return redirect('/')
+#     # If user is not in session, redirect to login page
+#     else:
+#         flash("Email/password combination doesn't exist. Try again")
+#         return redirect('/login')
 
 
 @app.route('/login', methods=['POST'])
@@ -112,12 +136,14 @@ def login_proccess():
     # Return redirect to homepage
     if user:
         session["user_id"] = user.user_id
-        flash("User successfully logged in")
-        return redirect('/')
-    # If user is not in session, redirect to login page
+        result = {"message": "success"}
+        return jsonify(result)
     else:
-        flash("Email/password combination doesn't exist. Try again")
-        return redirect('/login')
+        result = {"message": "Wrong username/password combo"}
+        return jsonify(result)
+
+
+
 
 
 @app.route('/logout', methods=["GET"])

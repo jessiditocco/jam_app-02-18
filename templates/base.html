@@ -43,12 +43,12 @@
 
 
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registration_modal">
   Register User
 </button>
 
 <!-- Modal Window for Registration-->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="registration_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -59,11 +59,11 @@
         <div id="user_in_db"></div>
         <form id="registration_form" action="/register" method="POST">
         Name: 
-            <input type="text" name="name" id="name"><br>
+            <input type="text" name="name" id="registration_name"><br>
         Email: 
-            <input type="email" name="email" id="email"><br>
+            <input type="email" name="email" id="registration_email"><br>
         Password: 
-            <input type="password" name="password" id="password"><br>
+            <input type="password" name="password" id="registration_password"><br>
        <!--  <input type="submit"> -->
         </form>
       </div>
@@ -75,16 +75,49 @@
   </div>
 </div>
 
+
 <!-- Modal Button For Login -->
 
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login_modal">
+  Login
+</button>
+
 <!-- Modal Window For Login -->
+
+<div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Login</h4>
+      </div>
+      <div class="modal-body">
+        
+        <form id="login_form" action="/login" method="POST">
+            Email: 
+            <input id="login_email" type="email"><br>
+            Password: 
+            <input id="login_password" type="password"><br>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button id="close_login_modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="submit_login_button">Login</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 
 
 
 <!-- Javascript for Registration-->
-
 <script src="/static/registration.js"></script>
+<script src="/static/login.js"></script>
 
 
     {% block content %}BODY CONTENT GOES HERE{% endblock %}
