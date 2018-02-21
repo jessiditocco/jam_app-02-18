@@ -34,14 +34,38 @@ def index():
     return render_template("homepage.html")
 
 
-@app.route('/register', methods=['GET'])
-def register_form():
-    """Show form for user signup."""
+# @app.route('/register', methods=['GET'])
+# def register_form():
+#     """Show form for user signup."""
 
-    return render_template("registration_form.html")
+#     return render_template("registration_form.html")
 
 
-@app.route('/register', methods=['POST'])
+# @app.route('/register', methods=['POST'])
+# def register_proccess():
+#     """Proccess registration"""
+
+#     # Get variables from form
+#     name = request.form.get("name")
+#     email = request.form.get('email')
+#     password = request.form.get('password')
+
+#     # Query the DB and make sure that the user doesn't already exist
+#     user = db.session.query(User).filter((User.email == email) & (User.password == password)).first()
+#     # If user returns none, we want to create user
+#     if user == None:
+#         # Register new user and add user to DB, commit user
+#         create_user(name, email, password)
+#         flash("User {} successfully added".format(name))
+#         return redirect('/')
+#     # Else, flash user already exists
+#     else:
+#         flash("That email/password combination already exists. Try again")
+#         return redirect('/register')
+
+#     # Flash a message saying that the user has successfully registered
+
+@app.route('/register_new_user', methods=['POST'])
 def register_proccess():
     """Proccess registration"""
 
@@ -56,14 +80,13 @@ def register_proccess():
     if user == None:
         # Register new user and add user to DB, commit user
         create_user(name, email, password)
-        flash("User {} successfully added".format(name))
-        return redirect('/')
-    # Else, flash user already exists
-    else:
-        flash("That email/password combination already exists. Try again")
-        return redirect('/register')
+        result = {"message": "success"}
+        return jsonify(result)
 
-    # Flash a message saying that the user has successfully registered
+    else:
+        result = {"message": "user was already in the DB"}
+        return jsonify(result)
+
 
 
 @app.route('/login', methods=['GET'])
@@ -255,11 +278,6 @@ def email_user():
     success = {"message": "success"}
 
     return jsonify(success)
-
-@app.route("/register_test")
-def test_register():
-
-    return render_template("register_test.html")
 
 
 ################################################################################

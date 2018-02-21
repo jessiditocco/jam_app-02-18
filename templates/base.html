@@ -23,7 +23,7 @@
 <!--Navbar-->
 
     <a href="/">Home</a><br>
-    <a href="/register">Register User</a><br>
+ <!--    <a href="/register">Register User</a><br> -->
 
     {% if "user_id" not in session %}
     <a href="/login">Login</a><div>
@@ -39,40 +39,50 @@
         {% endfor %}
     </ul>       
 
-<!--Modal For Registration-->
+<!--Modal button For Registration-->
 
 
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="register_user_button">
-  Register
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Register User
 </button>
 
-<!-- Modal -->
+<!-- Modal Window for Registration-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel">Register New User</h4>
       </div>
       <div class="modal-body">
-        <form action="/register" method="POST">
+        <div id="user_in_db"></div>
+        <form id="registration_form" action="/register" method="POST">
         Name: 
-            <input type="text" name="name"><br>
+            <input type="text" name="name" id="name"><br>
         Email: 
-            <input type="email" name="email"><br>
+            <input type="email" name="email" id="email"><br>
         Password: 
-            <input type="password" name="password"><br>
-        <input type="submit">
+            <input type="password" name="password" id="password"><br>
+       <!--  <input type="submit"> -->
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" id="close_registration_modal" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="register_user_button">Register User</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal Button For Login -->
+
+<!-- Modal Window For Login -->
+
+
+
+
+<!-- Javascript for Registration-->
 
 <script src="/static/registration.js"></script>
 

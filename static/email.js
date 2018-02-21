@@ -1,4 +1,4 @@
-// Javascript for posting comments on the page without reloading the page
+// Javascript for seding email to users from the profile page
 
 function showSuccess(success) {
     $("#close_modal").click();
