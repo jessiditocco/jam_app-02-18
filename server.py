@@ -55,6 +55,7 @@ def index():
 
         print "This should be a list of 5 dictionaries!!!", random_events
 
+
     return render_template("homepage.html", random_events=random_events)
 
 
@@ -217,6 +218,8 @@ def show_event_details():
     """Renders HTML template with information about a specific event"""
 
     event_id = request.args.get('event_id')
+
+    print "THIS SHOULD BE EVENT ID GRABBED FROM HOMEPAGE", event_id
 
     event_details = get_event_details(event_id)
 
