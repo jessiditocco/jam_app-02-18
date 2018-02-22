@@ -54,7 +54,8 @@ def index():
             random_events.append(random_event)
 
         print "This should be a list of 5 dictionaries!!!", random_events
-
+    else:
+        random_events = None
 
     return render_template("homepage.html", random_events=random_events)
 
@@ -309,10 +310,13 @@ def post_comment():
 
     # Get userID from the session
     user_id = session.get("user_id")
+    print "This is the user id!", user_id
     # Get the event id from data div
     event_id = request.form.get("event_id")
+    print "This is the event_id!!!!!", event_id
     # Get comment text from the payload
     comment = request.form.get("comment")
+    print "This is the comment!!!!!", comment
     # Add comment to DB
     add_comment_to_db(user_id, event_id, comment)
     # Get the user object from user_id so that i can add user name to comment

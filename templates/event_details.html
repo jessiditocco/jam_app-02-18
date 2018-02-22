@@ -134,20 +134,23 @@
     <div>
         <h1>
             Jam Users Going to {{ event_details['name'] }}
-        </h1>
-            <ul>   
+        </h1> 
                 {% for user in users_going %}
                     {% if user.user_id != session["user_id"] %}
 
-                    <li><div class="container">
-                        <p>{{ user.name}}:
-                        <a href="/profile?user_id={{ user.user_id }}">
-                        <span class="glyphicon glyphicon-user"></span>
-                        </a></p></div>
-                    </li>
+                    <div class="container">
+                        <p>
+                            {{ user.name}}:
+                            <a href="/profile?user_id={{ user.user_id }}">
+
+                                <span class="glyphicon glyphicon-user">
+                                </span>
+                            </a>
+                        </p>
+                    </div>
+                
                     {% endif %}
                 {% endfor %}
-            </ul>
     </div>
 
     {% endif %}   
