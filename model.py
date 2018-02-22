@@ -27,6 +27,7 @@ class User(db.Model):
     name = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
 
+
     def __repr__(self):
         """Provide helpful representation when user is printed."""
 
@@ -44,6 +45,16 @@ class User(db.Model):
                             .filter(Bookmark.bookmark_type_id == type_id,
                                     Bookmark.user_id == self.user_id,
                                     Event.event_id == Bookmark.event_id).all())
+
+    def get_recent_searches(self):
+        """Gets a list of five most recent search objects for a particular user."""
+
+        return (db.session.query(Search)
+                          .filter(Search.user_id == self.user_id)
+                          .order_by(Search.timestamp.desc())
+                          .limit(5)
+                          .all())
+
 
 
 class Event(db.Model):
@@ -91,10 +102,6 @@ class Event(db.Model):
                                     User.user_id == Bookmark.user_id,
                                     Bookmark.event_id == self.event_id).all())
 
-    def parse_logo_html(self):
-        """Parses logo html to get back a string of the img src."""
-
-        
 
 class Bookmark(db.Model):
     """User's bookmarks of specific events on jams website."""
@@ -155,6 +162,18 @@ class Comment(db.Model):
         """Provide helpful representation when a comment is printed."""
 
         return "<Comment ID={} User ID={} Event ID {}".format(self.comment_id, self.user_id, self.event_id)
+
+
+class Search(db.Model):
+    """Searches on jams website"""
+
+    __tablename__ = "searches"
+
+    search_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    search_term = db.Column(db.String(200), nullable=False)
+    search_location = db.Column(db.String(200), nullable=False)
 
 
 ################################################################################

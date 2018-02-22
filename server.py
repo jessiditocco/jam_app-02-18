@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
 
 from eventbrite_helper import (get_events, get_event_details, add_event_to_db, 
-add_comment_to_db, create_user, add_bookmark_to_db)
+add_comment_to_db, create_user, add_bookmark_to_db, save_search_to_db)
 
 from sendgrid_helper import send_email
 
@@ -144,9 +144,6 @@ def login_proccess():
         return jsonify(result)
 
 
-
-
-
 # @app.route('/logout', methods=["GET"])
 # def logout():
 #     """Logs user out; removes user from session."""
@@ -181,6 +178,11 @@ def show_events_by_keyword():
     location = request.form.get("location")
     start_date_kw = request.form.get("start_date_kw")
 
+    user_id = session.get("user_id")
+    # If the user is in the session, save the users' search to DB
+    if user_id:
+        save_search_to_db(user_id, search_term, location)
+    # Get a list of events based on search term to pass to render events page
     events = get_events(search_term, location, start_date_kw)
 
     return render_template("events.html", events=events, search_term=search_term)

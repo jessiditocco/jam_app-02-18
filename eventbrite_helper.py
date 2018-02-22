@@ -9,7 +9,10 @@ from dateutil import parser
 # To user the pytz library which converts timezones
 import pytz
 from flask import request
-from model import db, connect_to_db, Event, Comment, User, BookmarkType, Bookmark
+from model import db, connect_to_db, Event, Comment, User, BookmarkType, Bookmark, Search
+
+# To use datetime module
+from datetime import datetime
 
 
 EVENTBRITE_TOKEN = os.getenv('EVENTBRITE_TOKEN')
@@ -288,3 +291,14 @@ def add_bookmark_to_db(status, name, event_id, user_id):
     # If the user is not logged in, return please login message
     else:
         return bookmark_failure
+
+def save_search_to_db(user_id, search_term, location):
+    """Saves searches to DB based on user_id."""
+
+    timestamp = datetime.now()
+
+    new_search = Search(user_id=user_id, timestamp=timestamp, search_term=search_term, search_location=location)
+
+    db.session.add(new_search)
+    db.session.commit()
+

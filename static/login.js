@@ -8,7 +8,7 @@ function showLoginSuccess(result) {
         $("#login_button").hide();
         $("#logout_button").show();
         $("#my_profile_button").show();
-
+        window.location = "/profile";
         alert("User has been succesfully logged in");
 
 
@@ -37,7 +37,9 @@ function showLogoutSuccess(result) {
     $("#logout_button").hide();
     $("#login_button").show();
     $("#my_profile_button").hide();
-    alert("User has been succesfully logged out of session.")
+    // Changes url of what page you are on-- like a JS redirect
+    window.location = "/";
+    alert("User has been succesfully logged out of session.");
 }
 
 
