@@ -7,12 +7,14 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment
+from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment, Search
 
 from eventbrite_helper import (get_events, get_event_details, add_event_to_db, 
-add_comment_to_db, create_user, add_bookmark_to_db, save_search_to_db)
+add_comment_to_db, create_user, add_bookmark_to_db, save_search_to_db, get_recent_searches)
 
 from sendgrid_helper import send_email
+
+import random
 
 
 # When we create a Flask app, it needs to know what module to scan for things
@@ -31,7 +33,29 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage route"""
 
-    return render_template("homepage.html")
+    user_id = session.get("user_id")
+
+    # If the user is logged into the session, we want to show them recommended events
+    if user_id:
+
+        recent_searches = get_recent_searches(user_id)
+
+        random_events = []
+
+        for search in recent_searches:
+
+            print search.search_term, search.search_location
+
+            events = get_events(search.search_term, search.search_location, "this_month")
+            random_event = random.choice(events)
+
+            print "This is my random event!!!! It should be just one dict...that im going to appeend!!!", random_event
+
+            random_events.append(random_event)
+
+        print "This should be a list of 5 dictionaries!!!", random_events
+
+    return render_template("homepage.html", random_events=random_events)
 
 
 # @app.route('/register', methods=['GET'])

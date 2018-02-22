@@ -125,7 +125,7 @@ def get_events(search_term, location, start_date_kw):
             event_details["logo"] = "https://upload.wikimedia.org/wikipedia/commons/6/69/Dog_morphological_variation.png"
 
         events.append(event_details)
-
+    # Returns a list of dictionaries for each event with event details
     return events
 
 
@@ -301,4 +301,15 @@ def save_search_to_db(user_id, search_term, location):
 
     db.session.add(new_search)
     db.session.commit()
+
+def get_recent_searches(user_id):
+    """Gets a list of recent searches based on user_id."""
+
+    current_user = User.query.filter(User.user_id == user_id).one()
+
+    recent_searches = current_user.get_recent_searches()
+
+    print "here are all of the recent searchs!!!", recent_searches
+
+    return recent_searches
 

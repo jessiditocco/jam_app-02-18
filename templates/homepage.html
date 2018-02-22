@@ -26,6 +26,12 @@
 
 <h1>Recommended Events For You Based on Search History</h1>
 
+<ul>
+{% for event in random_events%}
+    <li>{{ event["name"] }}</li>
+    <li><img class="logo" src="{{ event["logo"] }}"/></li>
+{% endfor %}
+</ul>
 
     
 {% endblock %}
