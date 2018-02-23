@@ -10,8 +10,6 @@ import os
 from flask import request
 from model import db, connect_to_db, Event, Comment, User, BookmarkType, Bookmark, Search
 
-# To use datetime module
-from datetime import datetime
 import json
 
 
@@ -72,7 +70,7 @@ def get_list_of_suggested_events(batched_results, num_searches):
         events = json.loads(batched_results[i]["body"])
         list_of_events = events["events"]
 
-        # Lets grab a random event for each search keyword and append to a list of recommended events
+       # Lets grab a random event for each search keyword and append to a list of recommended events
         suggested_events.append(random.choice(list_of_events))
 
     # print suggested_events
@@ -80,7 +78,6 @@ def get_list_of_suggested_events(batched_results, num_searches):
 
     return suggested_events
 
-# suggested_events = get_list_of_suggested_events(get_batched_results(), 3)
 
 def get_suggested_event_details(suggested_events):
     """Takes in a list of dicts of suggested events and returns details"""

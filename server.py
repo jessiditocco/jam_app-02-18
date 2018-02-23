@@ -66,6 +66,7 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage route"""
 
+    ##### THIS USES BATCHED API REQUEST #####
     user_id = session.get("user_id")
 
     # If the user is logged into the session, we want to show them recommended events
@@ -90,6 +91,11 @@ def index():
     else:
         suggested_event_details = None
 
+    ##### THIS USES BATCHED SEPARATE API CALLS PER SEARCH TERM ####
+    # if user_id:
+    #     # # This is a list of 5 search objects
+    #     recent_searches = get_recent_searches(user_id)    
+
     #     random_events = []
 
     #     for search in recent_searches:
@@ -102,10 +108,11 @@ def index():
     #         print "This is my random event!!!! It should be just one dict...that im going to appeend!!!", random_event
 
     #         random_events.append(random_event)
-
-    #     print "This should be a list of 5 dictionaries!!!", random_events
+    #         print "This should be a list of 5 dictionaries!!!", random_events
     # else:
     #     random_events = None
+
+    # print "RANDOM EVENTS!!!!!!!!", random_events
     
 
     return render_template("homepage.html", suggested_event_details=suggested_event_details)

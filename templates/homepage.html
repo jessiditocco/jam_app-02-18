@@ -2,9 +2,11 @@
 {% block title %}Homepage{% endblock %}
 
 {%block content %}
+
+ <!--Search For Events-->
 <br>
 <br>
-<img style="height:150px;width:750px" src="http://cdn1.umg3.net/214/files/2015/10/biglogo.png">
+    <img style="height:150px;width:750px" src="http://cdn1.umg3.net/214/files/2015/10/biglogo.png">
 <br>
 <br>
     <form action="/show_events" method="POST">
@@ -23,17 +25,22 @@
 
         <input type="submit">
     </form>
+
+ <!--Shows user a list of suggested events based on past search results-->
+    
 {% if suggested_event_details %}
 
-<h1>Recommended Events For You Based on Search History</h1>
+    <h1>Recommended Events For You Based on Search History</h1>
 
-{% for event in suggested_event_details %}
-    <p>{{ event["name"] }}</p>
-    <p>{{ event["id"] }}</p>
-    <a href="/event_details?event_id={{ event['id'] }}"><img src="{{ event['logo'] }}"/></a>
+    {% for event in suggested_event_details %}
+        <p>{{ event["name"] }}</p>
+        <p>{{ event["id"] }}</p>
+        <a href="/event_details?event_id={{ event['id'] }}">
+            <img src="{{ event['logo'] }}"/>
+        </a>
 
 
-{% endfor %}
+    {% endfor %}
 
 {% endif %}
 
