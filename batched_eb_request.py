@@ -70,11 +70,20 @@ def get_list_of_suggested_events(batched_results, num_searches):
         events = json.loads(batched_results[i]["body"])
         list_of_events = events["events"]
 
-       # Lets grab a random event for each search keyword and append to a list of recommended events
-        suggested_events.append(random.choice(list_of_events))
+        # Make a counter
+        tries = 0
 
-    # print suggested_events
-    # print len(suggested_events)
+        while True:
+            tries += 1
+           # Lets grab a random event for each search keyword and append to a list of recommended events
+            random_event = random.choice(list_of_events)
+
+            if random_event not in suggested_events:
+                suggested_events.append(random_event)
+                break
+            
+            if tries > 10:
+                break
 
     return suggested_events
 

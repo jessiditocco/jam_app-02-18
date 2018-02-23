@@ -32,39 +32,18 @@ app.secret_key = "ABC"
 # Fix this so that it raises an error instead
 app.jinja_env.undefined = StrictUndefined
 
-# @app.route('/')
-# def index():
-#     """Homepage route"""
-
-#     user_id = session.get("user_id")
-
-#     # If the user is logged into the session, we want to show them recommended events
-#     if user_id:
-
-#         recent_searches = get_recent_searches(user_id)
-
-#         random_events = []
-
-#         for search in recent_searches:
-
-#             print search.search_term, search.search_location
-
-#             events = get_events(search.search_term, search.search_location, "this_month")
-#             random_event = random.choice(events)
-
-#             print "This is my random event!!!! It should be just one dict...that im going to appeend!!!", random_event
-
-#             random_events.append(random_event)
-
-#         print "This should be a list of 5 dictionaries!!!", random_events
-#     else:
-#         random_events = None
-
-#     return render_template("homepage.html", random_events=random_events)
 
 @app.route('/')
 def index():
     """Homepage route"""
+
+    return render_template("homepage.html")
+
+
+@app.route('/get_recommendations.json')
+def get_recommendations():
+    """Gets recommended events for the user based on past searches"""
+
 
     ##### THIS USES BATCHED API REQUEST #####
     user_id = session.get("user_id")
@@ -88,8 +67,13 @@ def index():
 
         suggested_event_details = get_suggested_event_details(suggested_events)
 
+        suggested_event_details = {"test": "test"}
+
     else:
         suggested_event_details = None
+
+        suggested_event_details = {"test": "test"}
+
 
     ##### THIS USES BATCHED SEPARATE API CALLS PER SEARCH TERM ####
     # if user_id:
@@ -115,7 +99,7 @@ def index():
     # print "RANDOM EVENTS!!!!!!!!", random_events
     
 
-    return render_template("homepage.html", suggested_event_details=suggested_event_details)
+    return jsonify(suggested_event_details)
 
 
 # @app.route('/register', methods=['GET'])
