@@ -29,7 +29,7 @@ def get_batched_results(searches):
         search_term = search[0]
         location = search[1]
         # This passes our search term and location in as a get request for each of the users searches
-        eb_search = {"method":"GET", "relative_url": "events/search?q={}&location.address={}".format(search_term, location)}
+        eb_search = {"method":"GET", "relative_url": "events/search?q={}&location.address={}&categories=103".format(search_term, location)}
 
         batched_search_list.append(eb_search)
 
@@ -93,8 +93,8 @@ def get_suggested_event_details(suggested_events):
         event_details["name"] = event["name"]["text"]
         event_details["id"] = event["id"]
         logo = event_details.get("logo", None)
-        if logo:
-            event_details["logo"] = event["logo"]["url"]
+        
+        event_details["logo"] = event["logo"]["url"]
     
         suggested_events_details.append(event_details)
 

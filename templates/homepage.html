@@ -23,10 +23,19 @@
 
         <input type="submit">
     </form>
+{% if suggested_event_details %}
 
 <h1>Recommended Events For You Based on Search History</h1>
 
-<p>{{ suggested_event_details }}</p>
+{% for event in suggested_event_details %}
+    <p>{{ event["name"] }}</p>
+    <p>{{ event["id"] }}</p>
+    <a href="/event_details?event_id={{ event['id'] }}"><img src="{{ event['logo'] }}"/></a>
+
+
+{% endfor %}
+
+{% endif %}
 
     
 {% endblock %}

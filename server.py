@@ -70,25 +70,25 @@ def index():
 
     # If the user is logged into the session, we want to show them recommended events
     if user_id:
-        # This is a list of 5 search objects
+        # # This is a list of 5 search objects
         recent_searches = get_recent_searches(user_id)
 
         searches = []
 
+        # Making a tuple for each search (searchterm, searchlocation)
         for search in recent_searches:
             searches.append(tuple([search.search_term, search.search_location]))
 
+        # Get batched results makes a batched request to EB api and returns json
         batched_results = get_batched_results(searches)
 
+        # Returns a list of random events from batched_results; 1 random event for each search, should return 5
         suggested_events = get_list_of_suggested_events(batched_results, len(recent_searches))
 
-        print "SUGGESTED EVENTS!!!", suggested_events
-        print len(suggested_events)
         suggested_event_details = get_suggested_event_details(suggested_events)
 
-        print "This is suggested event_details!!!", suggested_event_details 
-
-    
+    else:
+        suggested_event_details = None
 
     #     random_events = []
 
@@ -106,9 +106,7 @@ def index():
     #     print "This should be a list of 5 dictionaries!!!", random_events
     # else:
     #     random_events = None
-    else:
-        suggested_event_details = None
-
+    
 
     return render_template("homepage.html", suggested_event_details=suggested_event_details)
 
