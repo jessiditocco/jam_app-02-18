@@ -26,21 +26,7 @@
 
 <h1>Recommended Events For You Based on Search History</h1>
 
-{% if random_events %}
-
-<ul>
-{% for event in random_events %}
-    <li>{{ event["name"] }}</li>
-    <li>{{ event['event_id'] }}</li>
-    <li>
-        <a href="/event_details?event_id={{ event['event_id'] }}">
-            <img class="logo" src="{{ event["logo"] }}"/>
-        </a>
-    </li>
-{% endfor %}
-</ul>
-
-{% endif %}
+<p>{{ suggested_event_details }}</p>
 
     
 {% endblock %}

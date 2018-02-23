@@ -16,6 +16,9 @@ from sendgrid_helper import send_email
 
 import random
 
+from batched_eb_request import (get_batched_results, get_list_of_suggested_events, 
+get_suggested_event_details)
+
 
 # When we create a Flask app, it needs to know what module to scan for things
 # like routes so the __name__ is required
@@ -29,6 +32,36 @@ app.secret_key = "ABC"
 # Fix this so that it raises an error instead
 app.jinja_env.undefined = StrictUndefined
 
+# @app.route('/')
+# def index():
+#     """Homepage route"""
+
+#     user_id = session.get("user_id")
+
+#     # If the user is logged into the session, we want to show them recommended events
+#     if user_id:
+
+#         recent_searches = get_recent_searches(user_id)
+
+#         random_events = []
+
+#         for search in recent_searches:
+
+#             print search.search_term, search.search_location
+
+#             events = get_events(search.search_term, search.search_location, "this_month")
+#             random_event = random.choice(events)
+
+#             print "This is my random event!!!! It should be just one dict...that im going to appeend!!!", random_event
+
+#             random_events.append(random_event)
+
+#         print "This should be a list of 5 dictionaries!!!", random_events
+#     else:
+#         random_events = None
+
+#     return render_template("homepage.html", random_events=random_events)
+
 @app.route('/')
 def index():
     """Homepage route"""
@@ -37,27 +70,47 @@ def index():
 
     # If the user is logged into the session, we want to show them recommended events
     if user_id:
-
+        # This is a list of 5 search objects
         recent_searches = get_recent_searches(user_id)
 
-        random_events = []
+        searches = []
 
         for search in recent_searches:
+            searches.append(tuple([search.search_term, search.search_location]))
 
-            print search.search_term, search.search_location
+        batched_results = get_batched_results(searches)
 
-            events = get_events(search.search_term, search.search_location, "this_month")
-            random_event = random.choice(events)
+        suggested_events = get_list_of_suggested_events(batched_results, len(recent_searches))
 
-            print "This is my random event!!!! It should be just one dict...that im going to appeend!!!", random_event
+        print "SUGGESTED EVENTS!!!", suggested_events
+        print len(suggested_events)
+        suggested_event_details = get_suggested_event_details(suggested_events)
 
-            random_events.append(random_event)
+        print "This is suggested event_details!!!", suggested_event_details 
 
-        print "This should be a list of 5 dictionaries!!!", random_events
+    
+
+    #     random_events = []
+
+    #     for search in recent_searches:
+
+    #         print search.search_term, search.search_location
+
+    #         events = get_events(search.search_term, search.search_location, "this_month")
+    #         random_event = random.choice(events)
+
+    #         print "This is my random event!!!! It should be just one dict...that im going to appeend!!!", random_event
+
+    #         random_events.append(random_event)
+
+    #     print "This should be a list of 5 dictionaries!!!", random_events
+    # else:
+    #     random_events = None
     else:
-        random_events = None
+        suggested_event_details = None
 
-    return render_template("homepage.html", random_events=random_events)
+
+    return render_template("homepage.html", suggested_event_details=suggested_event_details)
 
 
 # @app.route('/register', methods=['GET'])
