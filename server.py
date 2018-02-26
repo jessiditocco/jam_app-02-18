@@ -66,13 +66,21 @@ def get_recommendations():
         suggested_events = get_list_of_suggested_events(batched_results, len(recent_searches))
 
         suggested_event_details = get_suggested_event_details(suggested_events)
+        print "THESE ARE THE DETAILS I NEED TO MAKE A DiCT!", suggested_event_details
 
-        suggested_event_details = {"test": "test"}
+        # Initialize a dictionary of all events
+        # Loop through the list and add a key
+
+        event_recommendation_details = {}
+        num = 0
+        for event_dict in suggested_event_details:
+            event_recommendation_details["event{}".format(num)] = event_dict 
+            num += 1
+
+        print "this is the event_details dict!!!", event_recommendation_details
 
     else:
-        suggested_event_details = None
-
-        suggested_event_details = {"test": "test"}
+        event_recommendation_details = None
 
 
     ##### THIS USES BATCHED SEPARATE API CALLS PER SEARCH TERM ####
@@ -99,7 +107,7 @@ def get_recommendations():
     # print "RANDOM EVENTS!!!!!!!!", random_events
     
 
-    return jsonify(suggested_event_details)
+    return jsonify(event_recommendation_details)
 
 
 # @app.route('/register', methods=['GET'])
