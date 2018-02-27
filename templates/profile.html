@@ -55,6 +55,11 @@
   </div>
 </div>
 
+<!--Div for Google Map which shows map of users "going to" events-->
+  <h1>Events That {{ user.name }} Are Going To</h1>
+    <div id="map"></div>
+
+
 
 <!--List of events user is going to-->
 <ul>
@@ -91,6 +96,15 @@
     {% endfor %}
 </ul>
 
+<!--Script tag for email modal window-->
+
 <script src="/static/email.js"></script>
+
+<!--Script tag for google maps API-->
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+
+<!-- Script tag for my google maps javascript file-->
+
+<script src="/static/google_maps.js">
 
 {% endblock %}

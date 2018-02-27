@@ -2,18 +2,50 @@
 
 "use strict";
 
-// This function initializes a map with lat longs
-function initMap() {
-    let uluru = {lat: -25.363, lng: 131.044};
-    let map = new google.maps.Map(document.querySelector('#map'), {
-        zoom: 4,
-        center: uluru
-    });
+let eastAustralia = {lat: -34.397, lng: 150.644};
 
+let map = new google.maps.Map(document.querySelector("#map"), {
+    center: eastAustralia, 
+    zoom: 8, 
+});
+
+///////////////////
+// Adding markers//
+///////////////////
+
+function addMarker() {
+    let myImageUrl = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+    let nearSydney = new google.maps.LatLng(-34.788666, 150.41146);
     let marker = new google.maps.Marker({
-        position: uluru,
+        position: nearSydney,
         map: map, 
-        title: "Hover Text",
-        // icon: myImageUrl
+        title: 'Hover text', 
+        icon: myImageUrl
     });
+    return marker;
 }
+
+let marker = addMarker();
+
+
+/////////////////
+// info window //
+/////////////////
+
+function addInfoWindow() {
+
+  let contentString = '<div id="content">' +
+    '<h1>All my custom content</h1>' +
+    '</div>';
+
+  let infoWindow = new google.maps.InfoWindow({
+    content: contentString,
+    maxWidth: 200
+  });
+
+  marker.addListener('click', function() {
+    infoWindow.open(map, marker);
+  });
+}
+
+let infoWindow = addInfoWindow();
