@@ -44,9 +44,11 @@ button:hover, a:hover {
 
 /* Jumbotron is the background on homepage */
 .jumbotron {
-    background-image: url('http://video-university.87seconds.com/content/uploads/2015/07/music-free.jpg');
+    background-image: url('https://images.unsplash.com/photo-1478147427282-58a87a120781?ixlib=rb-0.3.5&s=36652dc7cd28bcbaa4fd6bb2ca7aae63&auto=format&fit=crop&w=1950&q=80');
+    background-size: 100%;
+    height: 500px;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-position: center center;
 }
 
 /* Date dropdown bar on the homepage-- centers it and makes it smaller */
@@ -54,7 +56,22 @@ button:hover, a:hover {
     width: 15%;
     display: block;
     margin-left: auto;
-    margin-right: auto
-    ;
+    margin-right: auto;
 
+}
+
+
+/* This is for the description under jam logo */
+.jumbotron_description {
+    color: white;
+    font-weight: bold;
+    display: inline;
+
+
+}
+
+
+/* This changes the navbar color */
+.navbar {
+    background-color: #c0ded9;
 }
