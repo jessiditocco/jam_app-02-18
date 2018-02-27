@@ -8,7 +8,7 @@ function showLoginSuccess(result) {
         $("#login_button").hide();
         $("#logout_button").show();
         $("#my_profile_button").show();
-        window.location = "/profile";
+        window.location = "/";
         alert("User has been succesfully logged in");
 
 

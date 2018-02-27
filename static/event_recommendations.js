@@ -9,19 +9,13 @@ function showRecommendations(event_recommendation_details) {
     $("#loading_gif").hide();
     $("#event_recommendations").show();
 
+    // If event recommendation_details exits
+    // Loop through and append the details for each event to HTML
     for (let event in event_recommendation_details) {
         $("#event_recommendations").append("<p>" + event_recommendation_details[event]["name"] + "</p>");
         $("#event_recommendations").append("<p>" + event_recommendation_details[event]["id"] + "</p>");
         $("#event_recommendations").append("<img src=" + event_recommendation_details[event]["logo"] + "/>");
-
     }
-
-    
-    // $("#event_recommendations").append("<p>" + event_recommendation_details["Event1"]["name"] +"</p>");
-
-    console.log($("#event_recommendations").html());
-
-
 };
 
 
