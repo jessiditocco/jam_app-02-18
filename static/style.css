@@ -44,7 +44,7 @@ button:hover, a:hover {
 
 /* Jumbotron is the background on homepage */
 .jumbotron {
-    background-image: url('https://images.unsplash.com/photo-1478147427282-58a87a120781?ixlib=rb-0.3.5&s=36652dc7cd28bcbaa4fd6bb2ca7aae63&auto=format&fit=crop&w=1950&q=80');
+    background-image: url('/static/homepage_hands.jpg');
     background-size: 100%;
     height: 500px;
     background-repeat: no-repeat;
@@ -75,3 +75,10 @@ button:hover, a:hover {
 .navbar {
     background-color: #c0ded9;
 }
+
+/* This is the style for my map*/
+ #map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+    }

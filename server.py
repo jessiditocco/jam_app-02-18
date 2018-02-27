@@ -402,6 +402,11 @@ def email_user():
 
     return jsonify(success)
 
+@app.route('/maps')
+def show_maps():
+
+    return render_template("google_maps.html")
+
 
 ################################################################################
 # listening for requests
