@@ -56,6 +56,10 @@
 </div>
 
 <!--Div for Google Map which shows map of users "going to" events-->
+
+<!--Create a hidden div that passes user id-->
+<input id="user_id_for_map" value="{{ user.user_id }}" hidden>
+
   <h1>Events that {{ user.name }} are Going to</h1>
     <div id="map"></div>
 

@@ -405,8 +405,20 @@ def email_user():
 def get_map_details():
     """Gets event details for making our map"""
 
-    # Get the user_id from the session
-    user_id = session.get("user_id")
+    # Get the user_id from the profile/contact form
+    user_id_from_form = request.args.get("user_id")
+
+    # if there is a user_id from the profile/contact form, make that the user_id
+    if user_id_from_form:
+        user_id = user_id_from_form
+    # If there isn't a user_id from the profile/contact form, user id from session
+    else: 
+        user_id = session.get("user_id")
+        print "This is the user_id from session", user_id
+
+
+    # # Get the user_id from the session
+    # user_id = session.get("user_id")
 
     # Get the user object filtered by user_id
 

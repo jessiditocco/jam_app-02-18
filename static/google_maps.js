@@ -10,7 +10,9 @@ $(document).ready(getMapJson);
 
 // Gets jsonified event details that we can pass to make map function
 function getMapJson(evt) {
-  $.get("/map.json", createMap);
+  // We need to explicitly pass the current user id in the payload in order to use it in the map.json route
+  let payload = {"user_id": $("#user_id_for_map").val()};
+  $.get("/map.json", payload, createMap);
 }
 
 // Make map function that will create the map using details from the users bookmarked events
