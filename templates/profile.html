@@ -56,14 +56,14 @@
 </div>
 
 <!--Div for Google Map which shows map of users "going to" events-->
-  <h1>Events That {{ user.name }} Are Going To</h1>
+  <h1>Events that {{ user.name }} are Going to</h1>
     <div id="map"></div>
 
 
 
 <!--List of events user is going to-->
 <ul>
-    <h3>Events You Are Going To</h3>
+    <h3>Events that {{ user.name }} are Going to</h3>
     {% for event in events_going %}
         <li><h4>{{ event.name }}</h4></li>
         <ul>
@@ -81,7 +81,7 @@
 
 <!--List of events user is interested in-->
 <ul>
-    <h3>Events You Are Interested In</h3>
+    <h3>Events that {{ user.name }} are Interested in</h3>
     {% for event in events_interested %}
         <li><h4>{{ event.name }}</h4></li>
         <ul>
@@ -101,7 +101,8 @@
 <script src="/static/email.js"></script>
 
 <!--Script tag for google maps API-->
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMBszgjUaxWxMOvynlpOfZDapTOiHSrqM">
+  </script>
 
 <!-- Script tag for my google maps javascript file-->
 

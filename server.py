@@ -402,10 +402,44 @@ def email_user():
 
     return jsonify(success)
 
-@app.route('/maps')
-def show_maps():
+@app.route('/map.json')
+def get_map_details():
+    """Gets event details for making our map"""
 
-    return render_template("google_maps.html")
+    # Get the user_id from the session
+    user_id = session.get("user_id")
+
+    # Get the user object filtered by user_id
+
+    user = User.query.filter_by(user_id=user_id).one()
+
+    # Get all of the events that the user is going to
+    events_going = user.get_events("going")
+
+    # Make a dictionary of nested dictionaries that contain info for each event the user is going to
+    map_data = {}
+
+    n = 0
+    for event in events_going:
+        map_details = {}
+        map_details["address"] = event.address
+        map_details["latitude"] = event.latitude
+        map_details["longitude"] = event.longitude
+        map_details["venue_name"] = event.venue_name
+        map_details["name"] = event.name
+        map_data["event{}".format(n)] = map_details
+        n +=1
+
+    print map_data
+
+    return jsonify(map_data)
+
+@app.route('/simple')
+def make_map():
+
+    return render_template("simple.html")
+
+
 
 
 ################################################################################
