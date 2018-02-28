@@ -184,26 +184,33 @@ def get_event_details(event_id):
 def add_event_to_db():
     """Adds an event to the database if a user bookmarks the event as going or interested."""
 
-    event_id = request.form.get("event_id")
-    status = request.form.get("status")
-    name = request.form.get("name")
+    event_id = request.form.get("event_id").strip()
+
+    # Get event by event id
+    event = Event.query.get(event_id)
+    # if that event doesn't exist in the table: add it to the table
+    if event:
+        return
+
+    status = request.form.get("status").strip()
+    name = request.form.get("name").strip()
     # Start end end time in a nice format
-    start_time = request.form.get("start_time")
-    end_time = request.form.get("end_time")
-    address = request.form.get("address")
-    latitude = request.form.get("latitude")
-    longitude = request.form.get("longitude")
-    
+    start_time = request.form.get("start_time").strip()
+    end_time = request.form.get("end_time").strip()
+    address = request.form.get("address").strip()
+    latitude = request.form.get("latitude").strip()
+    longitude = request.form.get("longitude").strip()
+
     # Since we are getting URL from form, we are getting entire element
     # We must split the URL to get only the link
-    eb_url = request.form.get("eb_url")
+    eb_url = request.form.get("eb_url").strip()
     eb_url = eb_url.split("\"")
     eb_url = eb_url[1]
 
-    description = request.form.get("description")
-    venue_name = request.form.get("venue_name")
+    description = request.form.get("description").strip()
+    venue_name = request.form.get("venue_name").strip()
     # This gets just the image url back from logo div
-    logo = request.form.get("logo")
+    logo = request.form.get("logo").strip()
 
     # This gets our timezone back in the datetime format
     start_time_tz = request.form.get("start_time_tz")
@@ -211,19 +218,17 @@ def add_event_to_db():
     end_time_tz = request.form.get("end_time_tz")
     end_time_local = request.form.get("end_time_local")
 
-    # Get event by event id
-    event = Event.query.get(event_id)
-    # if that event doesn't exist in the table: add it to the table
-    if event == None:
-        # Add event to table
-        event = Event(event_id=event_id, name=name, start_time=start_time, 
-        end_time=end_time, address=address, latitude=latitude, 
-        longitude=longitude, venue_name=venue_name, logo=logo, 
-        start_time_tz=start_time_tz, start_time_local=start_time_local, 
-        end_time_tz=end_time_tz, end_time_local=end_time_local, eb_url=eb_url)
+    # Add event to table
+    event = Event(event_id=event_id, name=name, start_time=start_time, 
+    end_time=end_time, address=address, latitude=latitude, 
+    longitude=longitude, venue_name=venue_name, logo=logo, 
+    start_time_tz=start_time_tz, start_time_local=start_time_local, 
+    end_time_tz=end_time_tz, end_time_local=end_time_local, eb_url=eb_url)
 
-        db.session.add(event)
-        db.session.commit()
+    db.session.add(event)
+    db.session.commit()
+
+   
 
 
 def add_comment_to_db(user_id, event_id, comment):

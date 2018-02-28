@@ -2,7 +2,8 @@
 
 "use strict";
 
-let map;
+var map;
+var marker;
 
 // Once the HTML loads, get the event details json for map
 $(document).ready(getMapJson);
@@ -15,24 +16,25 @@ function getMapJson(evt) {
 // Make map function that will create the map using details from the users bookmarked events
 function createMap(result) {
   // This creates the map and centers the map around east Australia
-  let eastAustralia = {lat: 37.773972, lng: -122.431297};
+  let sanFrancisco = {lat: 37.773972, lng: -122.431297};
 
   map = new google.maps.Map(document.querySelector("#map"), {
-    center: eastAustralia, 
+    center: sanFrancisco, 
     zoom: 8,
   });
 
-  console.log(result);
   // loop through each event in the result object and get data
 
   for (let musicEvent in result) {
+    console.log(musicEvent);
     let name = result[musicEvent]["name"];
     let longitude = result[musicEvent]["longitude"];
     let latitude = result[musicEvent]["latitude"];
     let address = result[musicEvent]["address"];
     let venue_name = result[musicEvent]["venue_name"];
 
-    // addMarker(latitude, longitude, name);
+    addMarker(latitude, longitude, name);
+
     // addInfoWindow(name, venue_name, address);
   }
 }
@@ -41,19 +43,21 @@ function createMap(result) {
 // Adding markers//
 ///////////////////
 
-function addMarker() {
-    let myImageUrl = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-    let nearSydney = new google.maps.LatLng(37.773972, -122.431297);
-    let marker = new google.maps.Marker({
-        position: nearSydney,
-        map: map, 
-        title: 'Hover text', 
-        icon: myImageUrl
-    });
+function addMarker(latitude, longitude, name) {
+  // console.log(latitude, longitude, name);
+  let myImageUrl = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+  let nearEvent = new google.maps.LatLng(latitude, longitude);
+  console.log(nearEvent);
+  marker = new google.maps.Marker({
+    position: nearEvent,
+    map: map, 
+    title: 'Hover text', 
+    icon: myImageUrl
+  });
+    // marker.setMap(map);
     return marker;
 }
 
-let marker = addMarker();
 
 /////////////////
 // info window //
@@ -75,4 +79,4 @@ function addInfoWindow() {
   });
 }
 
-let infoWindow = addInfoWindow();
+// let infoWindow = addInfoWindow();

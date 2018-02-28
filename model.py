@@ -76,8 +76,8 @@ class Event(db.Model):
     end_time_local = db.Column(db.DateTime, nullable=True)
 
     address = db.Column(db.String(200), nullable=False)
-    latitude = db.Column(db.String(100), nullable=False)
-    longitude = db.Column(db.String(100), nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
     eb_url = db.Column(db.String(300), nullable=True)
     description = db.Column(db.Text, nullable=True)
     venue_name = db.Column(db.String(100), nullable=False)
