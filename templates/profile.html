@@ -19,9 +19,9 @@
   <!-- Button should only show if your on another user's profile -->
   {% if user.user_id != session["user_id"] %}
   <p>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#emailModal">
+      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#emailModal">
           Email {{ user.name }}
-    </button>
+        </button> 
   </p>
   {% endif %}
 </div>
@@ -106,6 +106,6 @@
 
 <!-- Script tag for my google maps javascript file-->
 
-<script src="/static/google_maps.js">
+<script src="/static/google_maps.js"></script>
 
 {% endblock %}

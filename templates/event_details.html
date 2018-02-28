@@ -16,25 +16,25 @@
         Event Details
     </h1>
         <h2 id="name">
-            {{ event_details['name'] }}
+            {{ event_details.name }}
         </h2>
 
         <img class="logo" src="{{ event_details['logo'] }}"/>
 
         <p id="venue_name">
-            {{ event_details['venue_name'] }}
+            {{ event_details.venue_name }}
         </p>
 
         <p id="address">
-            {{ event_details['address'] }}
+            {{ event_details.address }}
         </p>
 
         <p id="start_time">
-            {{ event_details['start_time'] }}
+            {{ event_details.start_time }}
         </p>
 
         <p id="end_time">
-            {{ event_details['end_time'] }}
+            {{ event_details.end_time }}
         </p>
 
         <div id="eb_url">
@@ -45,31 +45,6 @@
 
 </div>
 
-
-<!--Hidden divs for passing data-->     
-
-        <div id="longitude" hidden>
-            {{ event_details['longitude'] }}
-        </div>
-        <div id="latitude" hidden>
-            {{ event_details['latitude'] }}
-        </div>
-        <div id="start_time_tz" hidden>
-            {{ event_details['start_time_tz'] }}
-        </div><br>
-        <div id="start_time_local" hidden>
-            {{ event_details['start_time_local'] }}
-        </div><br>
-        <div id="end_time_tz" hidden>
-            {{ event_details['end_time_tz'] }}
-        </div><br>
-        <div id="end_time_tz" hidden>
-            {{ event_details['end_time_local'] }}
-        </div>
-        <div id="logo" hidden>
-            {{ event_details['logo'] }}
-        </div>
-        
 <!--If the user is in the session, display bookmarks and comments ability, and other users going-->
 {% if "user_id" in session %}   
 
@@ -133,14 +108,14 @@
 
     <div>
         <h1>
-            Jam Users Going to {{ event_details['name'] }}
+            Jam Users Going to {{ event_details.name }}
         </h1> 
                 {% for user in users_going %}
                     {% if user.user_id != session["user_id"] %}
 
                     <div class="container">
                         <p>
-                            {{ user.name}}:
+                            {{ user.name }}:
                             <a href="/profile?user_id={{ user.user_id }}">
 
                                 <span class="glyphicon glyphicon-user">
@@ -167,7 +142,7 @@
         </h1>
 
         <p id="description">
-            {{ event_details['description'] | safe }}
+            {{ event_details.description | safe }}
         </p>
         
     </p>

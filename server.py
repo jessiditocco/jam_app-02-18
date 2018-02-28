@@ -9,8 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import db, connect_to_db, User, Event, Bookmark, BookmarkType, Comment, Search
 
-from eventbrite_helper import (get_events, get_event_details, add_event_to_db, 
-add_comment_to_db, create_user, add_bookmark_to_db, save_search_to_db, get_recent_searches)
+from eventbrite_helper import (get_events, get_event_details, add_comment_to_db, create_user, add_bookmark_to_db, save_search_to_db, get_recent_searches)
 
 from sendgrid_helper import send_email
 

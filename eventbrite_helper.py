@@ -131,7 +131,15 @@ def get_events(search_term, location, start_date_kw):
 
 def get_event_details(event_id):
     """Gets details about a specific event by id."""
+    
+    # Get event by event id
+    event = Event.query.get(event_id)
+    # If we already have the event in DB return event object
+    if event:
+        return event
 
+
+    # If not, make an API call
     headers = {'Authorization': 'Bearer ' + EVENTBRITE_TOKEN}
 
     response = requests.get(EVENTBRITE_URL + "events/{}/".format(event_id), headers=headers, verify=True)
@@ -170,65 +178,18 @@ def get_event_details(event_id):
     else:
         logo = "http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg"
     
-    # Create event details dictionary to pass through to Jinja
-    event_details = {'event_id': event_id, 'name': name, 'description': description, 
-    'eb_url': eb_url, 'start_time': start_time, 'end_time': end_time, 'venue_id': venue_id, 
-    'logo': logo, 'venue_name': venue_name, 'address': address, 'longitude': longitude, 
-    'latitude': latitude, 'address': address, 'start_time_tz': start_time_tz,
-    'start_time_local': start_time_local, 'end_time_tz': end_time_tz, 
-    'end_time_local': end_time_local}
 
-    return event_details
-
-
-def add_event_to_db():
-    """Adds an event to the database if a user bookmarks the event as going or interested."""
-
-    event_id = request.form.get("event_id").strip()
-
-    # Get event by event id
-    event = Event.query.get(event_id)
-    # if that event doesn't exist in the table: add it to the table
-    if event:
-        return
-
-    status = request.form.get("status").strip()
-    name = request.form.get("name").strip()
-    # Start end end time in a nice format
-    start_time = request.form.get("start_time").strip()
-    end_time = request.form.get("end_time").strip()
-    address = request.form.get("address").strip()
-    latitude = request.form.get("latitude").strip()
-    longitude = request.form.get("longitude").strip()
-
-    # Since we are getting URL from form, we are getting entire element
-    # We must split the URL to get only the link
-    eb_url = request.form.get("eb_url").strip()
-    eb_url = eb_url.split("\"")
-    eb_url = eb_url[1]
-
-    description = request.form.get("description").strip()
-    venue_name = request.form.get("venue_name").strip()
-    # This gets just the image url back from logo div
-    logo = request.form.get("logo").strip()
-
-    # This gets our timezone back in the datetime format
-    start_time_tz = request.form.get("start_time_tz")
-    start_time_local = request.form.get("start_time_local")
-    end_time_tz = request.form.get("end_time_tz")
-    end_time_local = request.form.get("end_time_local")
-
-    # Add event to table
+ # Add event to table
     event = Event(event_id=event_id, name=name, start_time=start_time, 
     end_time=end_time, address=address, latitude=latitude, 
     longitude=longitude, venue_name=venue_name, logo=logo, 
     start_time_tz=start_time_tz, start_time_local=start_time_local, 
-    end_time_tz=end_time_tz, end_time_local=end_time_local, eb_url=eb_url)
+    end_time_tz=end_time_tz, end_time_local=end_time_local, eb_url=eb_url, description=description)
 
     db.session.add(event)
     db.session.commit()
 
-   
+    return event
 
 
 def add_comment_to_db(user_id, event_id, comment):
@@ -258,30 +219,22 @@ def add_bookmark_to_db(status, name, event_id, user_id):
 
     # If the user is logged in
     if user_id:
-        # Add the event that they pin to db only if the event doesn't already exist
-        add_event_to_db()
-
+    
         # Get BookmarkType object out of DB based on status
         bookmark_type_object = db.session.query(BookmarkType).filter_by(bookmark_type=status).one()
 
-        print "1", bookmark_type_object, type(bookmark_type_object)
-
         # Get the bookmark_type_id out of the db, 1 for going, 2 for interested: gives us an int
         bookmark_type_id = bookmark_type_object.bookmark_type_id
-
-        print "2", bookmark_type_object, type(bookmark_type_id)
 
         # Before make bookmark, check whether it exists; if it doesn't, create it, if it does, update it w bookmark type
         # We use .first() instead of .one() because with .one() if there are none, we get error
         # With .first() none gets returned if there isn't a bookmark
         bookmark_for_event = db.session.query(Bookmark).filter((Bookmark.event_id == event_id) & (Bookmark.user_id == user_id)).first()
-        print "3", bookmark_for_event, type(bookmark_for_event)
 
         # If bookmark for event doesn't already exist, we want to create the bookmark
         if bookmark_for_event == None:
             # Make a new Bookmark, passing it the user_id, event_id, and bookmarktype object, add & commit
             bookmark = Bookmark(user_id=user_id, event_id=event_id, bookmark_type_id=bookmark_type_id)
-            print "If event doesn't exists, we make bookmark", bookmark
             db.session.add(bookmark)
             db.session.commit()
             # Return success message
@@ -289,7 +242,6 @@ def add_bookmark_to_db(status, name, event_id, user_id):
         # If the bookmark for event already exist, we want to update the bookmark type
         else:
             bookmark_for_event.bookmark_type_id = bookmark_type_id
-            print "If event does exist, we want to update the status", bookmark_for_event
             db.session.commit()
             return bookmark_success
 
