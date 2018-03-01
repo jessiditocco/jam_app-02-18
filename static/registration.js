@@ -3,7 +3,16 @@
 function showRegistrationSuccess(result) {
     if (result["message"] === "success") {
         $("#close_registration_modal").click();
-        alert("User was succesfully created");
+        $("#success_div").html("User was succesfully created and logged in");
+        $("#login_button").hide();
+        $("#registration_button").hide();
+        $("#logout_button").show();
+        $("#my_profile_button").show();
+        setTimeout(function() {$("#success_div").html("");}, 3000);
+
+        // window.location = "/";
+        // alert("User was succesfully created and logged in");
+
         
     } else {
         $("#user_in_db").html("User/password combination already exits. Please try again.");

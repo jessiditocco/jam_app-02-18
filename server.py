@@ -154,7 +154,9 @@ def register_proccess():
     # If user returns none, we want to create user
     if user == None:
         # Register new user and add user to DB, commit user
-        create_user(name, email, password)
+        new_user = create_user(name, email, password)
+        # Once the user registers, add them to the session
+        session["user_id"] = new_user.user_id
         result = {"message": "success"}
         return jsonify(result)
 

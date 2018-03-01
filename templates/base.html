@@ -38,8 +38,19 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
         <li><a href="/profile" id="my_profile_button"
-        {% if "user_id" not in session%} id="profile_link"style="display:none" {% endif %} >My Profile</a></li>
+        {% if "user_id" not in session%} id="profile_link" style="display:none" {% endif %}>My Profile</a></li>
         
+
+
+        <li><a id="registration_button" href="/register_new_user" data-toggle="modal" data-target="#registration_modal"
+        {% if "user_id" in session%} style="display:none" {% endif %} >Register</a></li>
+
+
+
+        
+
+
+
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -67,9 +78,6 @@
 </nav>
 
 
-
-
-
 <!--Navbar-->
 
  <!--    <a href="/">Home</a><br> -->
@@ -90,7 +98,12 @@
         {% for message in get_flashed_messages() %}
             <li>{{ message }}</li>
         {% endfor %}
-    </ul>       
+    </ul>
+
+<!-- Div for Flashing Success Messages of succesful login/registration-->
+
+<div id="success_div"></div>
+
 
 
 <!--Button for My Profile; should only show if the user is logged in-->
@@ -101,10 +114,10 @@
 
 
 <!--Modal button For Registration-->
-
+<!-- 
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registration_modal">
   Register User
-</button>
+</button> -->
 
 <!-- Modal Window for Registration-->
 <div class="modal fade" id="registration_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

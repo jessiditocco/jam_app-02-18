@@ -26,6 +26,8 @@ def create_user(name, email, password):
     db.session.add(new_user)
     db.session.commit()
 
+    return new_user
+
 
 def parse_datetime(timezone, local_dt_str):
     """Takes a timezone and local datetime string and returns date and time"""
