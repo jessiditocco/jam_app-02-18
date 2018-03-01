@@ -22,7 +22,7 @@ def get_batched_results(searches):
 
     batched_search_list = []
 
-    # Searches is a list of tuples in the form of (saerch term, search location)
+    # Searches is a list of tuples in the form of (search term, search location)
     for search in searches:
         search_term = search[0]
         location = search[1]
@@ -30,8 +30,6 @@ def get_batched_results(searches):
         eb_search = {"method":"GET", "relative_url": "events/search?q={}&location.address={}&categories=103".format(search_term, location)}
 
         batched_search_list.append(eb_search)
-
-    # print batched_search_list
 
     headers = {'Authorization': 'Bearer ' + EVENTBRITE_TOKEN}
 
@@ -63,7 +61,7 @@ def get_list_of_suggested_events(batched_results, num_searches):
 
     suggested_events = []
 
-    # Our number of searches is 5 because we are grabbing 5 of the users most recent search terms
+    # Our number of searches
     for i in range(num_searches):
 
         # We want to turn the json for the results into a dictionary; one key for the dict is events

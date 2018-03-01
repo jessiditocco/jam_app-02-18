@@ -43,69 +43,49 @@ def index():
 def get_recommendations():
     """Gets recommended events for the user based on past searches"""
 
-
     ##### THIS USES BATCHED API REQUEST #####
     user_id = session.get("user_id")
 
-    # If the user is logged into the session, we want to show them recommended events
-    if user_id:
-        # # This is a list of 5 search objects
-        recent_searches = get_recent_searches(user_id)
-
-        searches = []
-
-        # Making a tuple for each search (searchterm, searchlocation)
-        for search in recent_searches:
-            searches.append(tuple([search.search_term, search.search_location]))
-
-        # Get batched results makes a batched request to EB api and returns json
-        batched_results = get_batched_results(searches)
-
-        # Returns a list of random events from batched_results; 1 random event for each search, should return 5
-        suggested_events = get_list_of_suggested_events(batched_results, len(recent_searches))
-
-        suggested_event_details = get_suggested_event_details(suggested_events)
-        print "THESE ARE THE DETAILS I NEED TO MAKE A DiCT!", suggested_event_details
-
-        # Initialize a dictionary of all events
-        # Loop through the list and add a key
-
-        event_recommendation_details = {}
-        num = 0
-        for event_dict in suggested_event_details:
-            event_recommendation_details["event{}".format(num)] = event_dict 
-            num += 1
-
-        print "this is the event_details dict!!!", event_recommendation_details
-
-    else:
+    # If userID is None, return event reccomendations as none
+    if not user_id:
         event_recommendation_details = None
 
+        return jsonify(event_recommendation_details)
 
-    ##### THIS USES BATCHED SEPARATE API CALLS PER SEARCH TERM ####
-    # if user_id:
-    #     # # This is a list of 5 search objects
-    #     recent_searches = get_recent_searches(user_id)    
+    # If the user is logged into the session, we want to check if they have searches
+    if user_id:
+        # This is a list of 5 search objects
+        recent_searches = get_recent_searches(user_id)
+        # If the user has recent searches, we want to do the batched api search
+        if recent_searches:
+            # Make a list of searches to call in our batched API request
+            searches = []
 
-    #     random_events = []
+            # Making a tuple for each search (searchterm, searchlocation) and append that to searches
+            for search in recent_searches:
+                searches.append(tuple([search.search_term, search.search_location]))
+            print "SEARHCES", searches
+            # Get batched results makes a batched request to EB api and returns json
+            batched_results = get_batched_results(searches)
 
-    #     for search in recent_searches:
+            # Returns a list of random events from batched_results; 1 random event for each search, should return 5
+            suggested_events = get_list_of_suggested_events(batched_results, len(recent_searches))
 
-    #         print search.search_term, search.search_location
-
-    #         events = get_events(search.search_term, search.search_location, "this_month")
-    #         random_event = random.choice(events)
-
-    #         print "This is my random event!!!! It should be just one dict...that im going to appeend!!!", random_event
-
-    #         random_events.append(random_event)
-    #         print "This should be a list of 5 dictionaries!!!", random_events
-    # else:
-    #     random_events = None
-
-    # print "RANDOM EVENTS!!!!!!!!", random_events
+            suggested_event_details = get_suggested_event_details(suggested_events)
     
+            # Initialize a dictionary of all events
+            # Loop through the list and add a key
 
+            event_recommendation_details = {}
+            num = 0
+            for event_dict in suggested_event_details:
+                event_recommendation_details["event{}".format(num)] = event_dict 
+                num += 1
+
+        # If there are no recent searches, return none for event recommendations
+        else:
+            event_recommendation_details = None
+            
     return jsonify(event_recommendation_details)
 
 

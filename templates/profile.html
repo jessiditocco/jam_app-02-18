@@ -58,48 +58,53 @@
 <!--Div for Google Map which shows map of users "going to" events-->
 
 <!--Create a hidden div that passes user id-->
-<input id="user_id_for_map" value="{{ user.user_id }}" hidden>
+{% if events_going %}
+  <input id="user_id_for_map" value="{{ user.user_id }}" hidden>
 
-  <h1>Events that {{ user.name }} are Going to</h1>
-    <div id="map"></div>
+    <h1>Events that {{ user.name }} are Going to</h1>
+      <div id="map"></div>
 
-
+{% endif %}
 
 <!--List of events user is going to-->
-<ul>
-    <h3>Events that {{ user.name }} are Going to</h3>
-    {% for event in events_going %}
-        <li><h4>{{ event.name }}</h4></li>
-        <ul>
-            <li>{{ event.start_time }}</li>
-            <li>{{ event.end_time }}</li>
-            <li>{{ event.venue_name }}</li>
-            <li>{{ event.address }}</li>
-            <li><img class="logo" src="{{ event.logo }}"></li>
-            <li><a href="/event_details?event_id={{ event.event_id }}"/>Event Details</a></li>
-            <li><a href="{{ event.eb_url }}">Buy Tickets on Eventbrite</a></li>
-        </ul>
+{% if events_going %}
 
-    {% endfor %}
-</ul>
+  <ul>
+      <h3>Events that {{ user.name }} are Going to</h3>
+      {% for event in events_going %}
+          <li><h4>{{ event.name }}</h4></li>
+          <ul>
+              <li>{{ event.start_time }}</li>
+              <li>{{ event.end_time }}</li>
+              <li>{{ event.venue_name }}</li>
+              <li>{{ event.address }}</li>
+              <li><img class="logo" src="{{ event.logo }}"></li>
+              <li><a href="/event_details?event_id={{ event.event_id }}"/>Event Details</a></li>
+              <li><a href="{{ event.eb_url }}">Buy Tickets on Eventbrite</a></li>
+          </ul>
+
+      {% endfor %}
+  </ul>
+{% endif %}
 
 <!--List of events user is interested in-->
-<ul>
-    <h3>Events that {{ user.name }} are Interested in</h3>
-    {% for event in events_interested %}
-        <li><h4>{{ event.name }}</h4></li>
-        <ul>
-            <li>{{ event.start_time }}</li>
-            <li>{{ event.end_time }}</li>
-            <li>{{ event.address }}</li>
-             <li><img class="logo" src="{{ event.logo }}"></li>
-            <li><a href="/event_details?event_id={{ event.event_id }}"/>Event Details</a></li>
-            <li><a href="{{ event.eb_url }}">Buy Tickets on Eventbrite</a></li>
-        </ul>
+{% if events_interested %}
+  <ul>
+      <h3>Events that {{ user.name }} are Interested in</h3>
+      {% for event in events_interested %}
+          <li><h4>{{ event.name }}</h4></li>
+          <ul>
+              <li>{{ event.start_time }}</li>
+              <li>{{ event.end_time }}</li>
+              <li>{{ event.address }}</li>
+               <li><img class="logo" src="{{ event.logo }}"></li>
+              <li><a href="/event_details?event_id={{ event.event_id }}"/>Event Details</a></li>
+              <li><a href="{{ event.eb_url }}">Buy Tickets on Eventbrite</a></li>
+          </ul>
 
-    {% endfor %}
-</ul>
-
+      {% endfor %}
+  </ul>
+{% endif %}
 <!--Script tag for email modal window-->
 
 <script src="/static/email.js"></script>

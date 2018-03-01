@@ -6,16 +6,28 @@ function showRecommendations(event_recommendation_details) {
     // parse the results and create DOM elements to hold them
     // replace the loading gif with those DOM elements
 
-    $("#loading_gif").hide();
-    $("#event_recommendations").show();
+    // If event_recommendations exist, hide the loading gif, show event
+    // recommendations, and loop through events to append details to html
 
-    // If event recommendation_details exits
-    // Loop through and append the details for each event to HTML
-    for (let event in event_recommendation_details) {
-        $("#event_recommendations").append("<p>" + event_recommendation_details[event]["name"] + "</p>");
-        $("#event_recommendations").append("<p>" + event_recommendation_details[event]["id"] + "</p>");
-        $("#event_recommendations").append("<img src=" + event_recommendation_details[event]["logo"] + "/>");
+    if (event_recommendation_details) {
+        $("#loading_gif").hide();
+        $("#event_recommendations").show();
+        // Loop through and append the details for each event to HTML
+        for (let event in event_recommendation_details) {
+            $("#event_recommendations").append("<p>" + event_recommendation_details[event]["name"] + "</p>");
+            $("#event_recommendations").append("<p>" + event_recommendation_details[event]["id"] + "</p>");
+            $("#event_recommendations").append("<img src=" + event_recommendation_details[event]["logo"] + "/>");
+        }
+    // If event recommendations do not exits, we want to hide the loading gif & 
+    //display a message to the user telling them to search events to get recommendations
+    } else {
+        $("#loading_gif").hide();
+        $("#event_recommendations").show();
+        $('#event_recommendations').append("<h5>" + "Please search some events to get recommendations" 
+            + "</h5>");
     }
+    
+
 };
 
 

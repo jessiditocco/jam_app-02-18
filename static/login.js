@@ -8,8 +8,11 @@ function showLoginSuccess(result) {
         $("#login_button").hide();
         $("#logout_button").show();
         $("#my_profile_button").show();
-        window.location = "/";
-        alert("User has been succesfully logged in");
+        $("#success_div").html("User has been succesfully logged in.");
+        setTimeout(function() {$("#success_div").html("");}, 3000);
+        // // Changes url of what page you are on-- like a JS redirect
+        // window.location = "/";
+        
 
 
     } else {
@@ -32,14 +35,15 @@ function loginUser(evt) {
 $("#submit_login_button").on("click", loginUser);
 
 
-function showLogoutSuccess(result) {
-    console.log(result);
+function showLogoutSuccess() {
+    $("#success_div").html("User has been succesfully logged out.");
     $("#logout_button").hide();
     $("#login_button").show();
     $("#my_profile_button").hide();
-    // Changes url of what page you are on-- like a JS redirect
-    window.location = "/";
-    alert("User has been succesfully logged out of session.");
+    setTimeout(function() {$("#success_div").html("");}, 3000);
+    // // Changes url of what page you are on-- like a JS redirect
+    // window.location = "/";
+    
 }
 
 

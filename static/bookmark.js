@@ -1,12 +1,11 @@
 // Document ready prevents JS from loading until all HTML has loaded
 
-function flashSuccessMessage(results) {
-  console.log(results)
-  alert(results);
-  console.log(results)
+function showBookmarkSuccess(results) {
+  $("#bookmark_success").html(results);
+  $("#bookmark_success").show();
+  setTimeout(function () {$("#bookmark_success").html("");} , 3000);
 
 }
-
 
 $(document).ready(
     function() {
@@ -26,7 +25,7 @@ $(document).ready(
                    "venue_name": $("#venue_name").html(), 
                    "logo": $("#logo").html()};
 
-      $.post("/add_bookmark", payload, flashSuccessMessage);
+      $.post("/add_bookmark", payload, showBookmarkSuccess);
 
 
     });
