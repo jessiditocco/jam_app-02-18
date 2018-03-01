@@ -416,10 +416,6 @@ def get_map_details():
         user_id = session.get("user_id")
         print "This is the user_id from session", user_id
 
-
-    # # Get the user_id from the session
-    # user_id = session.get("user_id")
-
     # Get the user object filtered by user_id
 
     user = User.query.filter_by(user_id=user_id).one()
@@ -427,8 +423,20 @@ def get_map_details():
     # Get all of the events that the user is going to
     events_going = user.get_events("going")
 
+    # Finding the average lat/long to pass through to center map around events
+    sum_lat = 0
+    sum_long = 0
+
+    for event in events_going:
+        sum_lat += event.latitude
+        sum_long += event.longitude
+
+    avg_lat = sum_lat / len(events_going)
+    avg_long = sum_long / len(events_going)
+
+
     # Make a dictionary of nested dictionaries that contain info for each event the user is going to
-    map_data = {}
+    map_data = {"center": {"lat": avg_lat, "long": avg_long}}
 
     n = 0
     for event in events_going:

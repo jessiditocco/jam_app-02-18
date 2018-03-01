@@ -3,12 +3,15 @@
 "use strict";
 
 var map;
-var marker;
 
-// Once the HTML loads, get the event details json for map
+// var marker;
+// We need global array of infowindows so we can close all of the open ones
+var infoWindows = [];
+
+// Once the HTML loads, get the event details json for map (lat,long,name,address,venuename)
 $(document).ready(getMapJson);
 
-// Gets jsonified event details that we can pass to make map function
+// Gets jsonified event details that we can pass to make map function, pass the users id to get their
 function getMapJson(evt) {
   // We need to explicitly pass the current user id in the payload in order to use it in the map.json route
   let payload = {"user_id": $("#user_id_for_map").val()};
@@ -18,11 +21,14 @@ function getMapJson(evt) {
 // Make map function that will create the map using details from the users bookmarked events
 function createMap(result) {
   // This creates the map and centers the map around east Australia
-  let sanFrancisco = {lat: 37.773972, lng: -122.431297};
+  let avg_lat = result["center"]["lat"];
+  let avg_long = result["center"]["long"];
+
+  let center = {lat: avg_lat, lng: avg_long};
 
   map = new google.maps.Map(document.querySelector("#map"), {
-    center: sanFrancisco, 
-    zoom: 8,
+    center: center, 
+    zoom: 12,
   });
 
   // loop through each event in the result object and get data
@@ -35,9 +41,11 @@ function createMap(result) {
     let address = result[musicEvent]["address"];
     let venue_name = result[musicEvent]["venue_name"];
 
-    addMarker(latitude, longitude, name);
+    let newMarker = addMarker(latitude, longitude, name);
+    console.log(newMarker);
+    // markersArray.push(newMarker);
+    addInfoWindow(name, address, venue_name, newMarker);
 
-    // addInfoWindow(name, venue_name, address);
   }
 }
 
@@ -50,13 +58,12 @@ function addMarker(latitude, longitude, name) {
   let myImageUrl = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
   let nearEvent = new google.maps.LatLng(latitude, longitude);
   console.log(nearEvent);
-  marker = new google.maps.Marker({
+  let marker = new google.maps.Marker({
     position: nearEvent,
     map: map, 
     title: 'Hover text', 
     icon: myImageUrl
   });
-    // marker.setMap(map);
     return marker;
 }
 
@@ -65,10 +72,11 @@ function addMarker(latitude, longitude, name) {
 // info window //
 /////////////////
 
-function addInfoWindow() {
+
+function addInfoWindow(name, address, venue_name, marker) {
 
   let contentString = '<div id="content">' +
-    '<h1>All my custom content</h1>' +
+    '<h5>' + name +'</h5>' + '<p>' + 'Venue Name:' + venue_name + '</p>' + '<p>' + address + '</p>' + 
     '</div>';
 
   let infoWindow = new google.maps.InfoWindow({
@@ -76,9 +84,17 @@ function addInfoWindow() {
     maxWidth: 200
   });
 
+  infoWindows.push(infoWindow);
+
   marker.addListener('click', function() {
+    hideAllInfoWindows(map);
     infoWindow.open(map, marker);
   });
 }
 
-// let infoWindow = addInfoWindow();
+
+function hideAllInfoWindows(map) {
+  infoWindows.forEach(function(infoWindow) {
+    infoWindow.close();
+  });
+}
