@@ -2,157 +2,231 @@
 {% extends 'base.html' %}
 {% block title %}EventDetails{% endblock %}
 
-{%block content %}
+{% block content %}
 
-<!--Link to glyphicon stylesheet-->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Wrap the whole page in a container div-->
 
-<!--Show bookmark success div-->
-
-<div id="bookmark_success" hidden></div>
-
-
-<!--Event Details-->
-<div class="event_details">
-
-    <h1>
-        Event Details
-    </h1>
-        <h2 id="name">
-            {{ event_details.name }}
-        </h2>
-
-        <img class="logo" src="{{ event_details['logo'] }}"/>
-
-        <p id="venue_name">
-            {{ event_details.venue_name }}
-        </p>
-
-        <p id="address">
-            {{ event_details.address }}
-        </p>
-
-        <p id="start_time">
-            {{ event_details.start_time }}
-        </p>
-
-        <p id="end_time">
-            {{ event_details.end_time }}
-        </p>
-
-        <div id="eb_url">
-            <a href="{{ event_details['eb_url'] }}">
-                Browse Tickets on Evenbrite
-            </a>
-        </div>
-
-</div>
-
-<!--If the user is in the session, display bookmarks and comments ability, and other users going-->
-{% if "user_id" in session %}   
-
-    <!--Bookmark div-->
-        <div>
-
-            <h1>
-                Bookmark Event
-            </h1>
-
-            <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue"
-
-            {% if bookmark and bookmark.bookmark_type_id == 1 %}
-            checked 
-            {% endif %}
-
-            /> I'm Going!
-
-
-            <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue"
-
-             {% if bookmark and bookmark.bookmark_type_id == 2 %}
-            checked 
-            {% endif %}
-
-            /> Interested 
-
-
-        </div>
-       
-    <!--Comment div-->
-        <div>
-
-            <h1 class="comments">
-                    Comments
-            </h1>
-
-                <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
-                    <p>
-                        Leave a comment:
-                    </p>
-                    <textarea id="comment_text"></textarea><br>
-                    <input type="submit">
-                </form>
-
-        </div>
-
-    <!--Displays list of comments-->
-        <ul id="comment-list">
-
-            {% for comment in comments %}
-                <li>{{ comment.user.name}}: {{ comment.comment }}</li>
-            {% endfor %}
-
-        </ul>
-
-
-    <!--List of other users going to selected events-->
-
-    {% if users_going %}
-
-    <div>
+<div class="container">
+    <!--Row for the Title-->
+    <div class="row">
+        Title Here
         <h1>
-            Jam Users Going to {{ event_details.name }}
-        </h1> 
-                {% for user in users_going %}
-                    {% if user.user_id != session["user_id"] %}
-
-                    <div class="container">
-                        <p>
-                            {{ user.name }}:
-                            <a href="/profile?user_id={{ user.user_id }}">
-
-                                <span class="glyphicon glyphicon-user">
-                                </span>
-                            </a>
-                        </p>
+            {{ event_details.name }}
+        </h1>
+    </div>
+    <!--Row for The entire body-->
+    <div class="row">
+        <!--Column for the Event Details-->
+        <div id="column_for_details" class="col-sm-8">
+            <!--Image and event details row-->
+            <div id="row_for_img_and_deets" class="row">
+                <div class="col-sm-6">
+                    This will be my area for image
+                    <img class="logo" src="{{ event_details['logo'] }}"/>
+                </div>
+                <div class="col-sm-6">
+                    This will be area for details
+                    <p id="venue_name">
+                        {{ event_details.venue_name }}
+                    </p>
+                    <p id="address">
+                        {{ event_details.address }}
+                    </p>
+                    <p id="start_time">
+                        {{ event_details.start_time }}
+                    </p>
+                    <p id="end_time">
+                        {{ event_details.end_time }}
+                    </p>
+                    <div id="eb_url">
+                        <a href="{{ event_details['eb_url'] }}">Browse Tickets on Evenbrite
+                        </a>
                     </div>
-                
-                    {% endif %}
-                {% endfor %}
+                </div>
+                <div id="row_for_bookmarks"class="row">
+                    This will be my row for bookmarks
+
+
+                </div>
+                <div id="row_for_event_description"class="row">
+                    This will be my row for event description
+                    <!--Show event description-->
+                    <p class="event_description">
+                        <h1>
+                            Event Description
+                        </h1>
+
+                        <p id="description">
+                            {{ event_details.description | safe }}
+                        </p>
+                    </p>
+                </div>
+            </div>
+        </div>    
+        <!--Column for the Comments-->
+        <div id="column_for_comments" class="col-sm-4">
+                THIS WILL BE MY COMMENTS
+                <!--Comment div-->
+                <div>
+                    <h1 class="comments">
+                        Comments
+                    </h1>
+                    <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
+                        <p>
+                            Leave a comment:
+                        </p>
+                        <textarea id="comment_text"></textarea><br>
+                        <input type="submit">
+                    </form>
+
+                </div>
+
+                <!--Displays list of comments-->
+                <ul id="comment-list">
+                    {% for comment in comments %}
+                        <li>{{ comment.user.name}}: {{ comment.comment }}</li>
+                    {% endfor %}
+                </ul>
+        </div>
+    </div>
+ 
+
+
+
+    <!--Show bookmark success div-->
+    <div class="row">
+        <div id="bookmark_success" hidden></div>
     </div>
 
-    {% endif %}   
-
-<!--Ends if about being logged into session-->
-
-{% endif %}
-
-<!--Show event description-->
-    <p class="event_description">
-
+    <!--Page Header: Event Name-->
+    <div class="row">
         <h1>
-            Event Description
+            {{ event_details.name }}
         </h1>
+    </div>
 
-        <p id="description">
-            {{ event_details.description | safe }}
+    <!--Event Details-->
+    <div class="row">
+            <img class="logo" src="{{ event_details['logo'] }}"/>
+            <p id="venue_name">
+                {{ event_details.venue_name }}
+            </p>
+            <p id="address">
+                {{ event_details.address }}
+            </p>
+            <p id="start_time">
+                {{ event_details.start_time }}
+            </p>
+            <p id="end_time">
+                {{ event_details.end_time }}
+            </p>
+            <div id="eb_url">
+                <a href="{{ event_details['eb_url'] }}">Browse Tickets on Evenbrite
+                </a>
+            </div>
+    </div>
+
+    <!--If the user is in the session, display bookmarks and comments ability, and other users going-->
+    {% if "user_id" in session %}   
+
+        <!--Bookmark div-->
+            <div>
+
+                <h1>
+                    Bookmark Event
+                </h1>
+
+                <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue"
+
+                {% if bookmark and bookmark.bookmark_type_id == 1 %}
+                checked 
+                {% endif %}
+
+                /> I'm Going!
+
+
+                <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue"
+
+                 {% if bookmark and bookmark.bookmark_type_id == 2 %}
+                checked 
+                {% endif %}
+
+                /> Interested 
+
+
+            </div>
+           
+        <!--Comment div-->
+            <div>
+
+                <h1 class="comments">
+                        Comments
+                </h1>
+
+                    <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
+                        <p>
+                            Leave a comment:
+                        </p>
+                        <textarea id="comment_text"></textarea><br>
+                        <input type="submit">
+                    </form>
+
+            </div>
+
+        <!--Displays list of comments-->
+            <ul id="comment-list">
+
+                {% for comment in comments %}
+                    <li>{{ comment.user.name}}: {{ comment.comment }}</li>
+                {% endfor %}
+
+            </ul>
+
+
+        <!--List of other users going to selected events-->
+
+        {% if users_going %}
+
+        <div>
+            <h1>
+                Jam Users Going to {{ event_details.name }}
+            </h1> 
+                    {% for user in users_going %}
+                        {% if user.user_id != session["user_id"] %}
+                       
+                            <p>
+                                {{ user.name }}:
+                                <a href="/profile?user_id={{ user.user_id }}">
+
+                                    <span class="glyphicon glyphicon-user">
+                                    </span>
+                                </a>
+                            </p>
+                    
+                        {% endif %}
+                    {% endfor %}
+        </div>
+
+        {% endif %}   
+
+    <!--Ends if about being logged into session-->
+
+    {% endif %}
+
+    <!--Show event description-->
+        <p class="event_description">
+
+            <h1>
+                Event Description
+            </h1>
+
+            <p id="description">
+                {{ event_details.description | safe }}
+            </p>
+            
         </p>
-        
-    </p>
-
+<!--End tag for container-->    
+</div>
 <!--Javascript needs to be in the body below all of the html that it calls on. Make sure to include jquery CDN also (in base html)-->
 
     <script src="/static/bookmark.js"></script>
