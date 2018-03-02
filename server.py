@@ -89,37 +89,6 @@ def get_recommendations():
     return jsonify(event_recommendation_details)
 
 
-# @app.route('/register', methods=['GET'])
-# def register_form():
-#     """Show form for user signup."""
-
-#     return render_template("registration_form.html")
-
-
-# @app.route('/register', methods=['POST'])
-# def register_proccess():
-#     """Proccess registration"""
-
-#     # Get variables from form
-#     name = request.form.get("name")
-#     email = request.form.get('email')
-#     password = request.form.get('password')
-
-#     # Query the DB and make sure that the user doesn't already exist
-#     user = db.session.query(User).filter((User.email == email) & (User.password == password)).first()
-#     # If user returns none, we want to create user
-#     if user == None:
-#         # Register new user and add user to DB, commit user
-#         create_user(name, email, password)
-#         flash("User {} successfully added".format(name))
-#         return redirect('/')
-#     # Else, flash user already exists
-#     else:
-#         flash("That email/password combination already exists. Try again")
-#         return redirect('/register')
-
-#     # Flash a message saying that the user has successfully registered
-
 @app.route('/register_new_user', methods=['POST'])
 def register_proccess():
     """Proccess registration"""
@@ -145,38 +114,6 @@ def register_proccess():
         return jsonify(result)
 
 
-
-# @app.route('/login', methods=['GET'])
-# def login_form():
-#     """Shows login form."""
-
-#     return render_template("login.html")
-
-
-# @app.route('/login', methods=['POST'])
-# def login_proccess():
-#     """Proccesses user and adds user to session."""
-
-#     # Get form variables
-#     email = request.form.get("email")
-#     password = request.form.get("password")
-
-#     # Check the DB to see if user exists and login matches
-#     user = db.session.query(User).filter((User.email == email) & (User.password == password)).first()
-
-#     # If user is in DB, add user to the session
-#     # Flash success message
-#     # Return redirect to homepage
-#     if user:
-#         session["user_id"] = user.user_id
-#         flash("User successfully logged in")
-#         return redirect('/')
-#     # If user is not in session, redirect to login page
-#     else:
-#         flash("Email/password combination doesn't exist. Try again")
-#         return redirect('/login')
-
-
 @app.route('/login', methods=['POST'])
 def login_proccess():
     """Proccesses user and adds user to session."""
@@ -199,18 +136,6 @@ def login_proccess():
     else:
         result = {"message": "Wrong username/password combo"}
         return jsonify(result)
-
-
-# @app.route('/logout', methods=["GET"])
-# def logout():
-#     """Logs user out; removes user from session."""
-
-#     # Delete the user from the session
-#     del session["user_id"]
-#     # Flash a message the the user has been succesfully logged out
-#     flash("User has been successfully logged out")
-#     # Redirect user back to homepage
-#     return redirect("/")
 
 
 @app.route('/logout', methods=["GET"])

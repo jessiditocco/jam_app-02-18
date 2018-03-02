@@ -6,6 +6,15 @@
     height: 300px;
 }
 
+.logo.profile {
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px;  /* Rounded border */
+    padding: 5px; /* Some padding */
+    width: 400px; /* Set a small width */
+    height: 400px;
+}
+
+
 
 .profile_card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
