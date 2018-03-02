@@ -2,27 +2,42 @@
 {% block title %}Events{% endblock %}
 
 {% block content %}
-<h1>{{ search_term }}</h1>
 
-<ul>
-    {% for event in events %}
-        <li><h2 style="color:blue">Event Name: {{ event["name"] }}</h2></li>
+<!-- Bootstrap Jumbotron-->
 
-        <div class="logo"><img class="logo" src="{{ event["logo"] }}"/></div>
+<div class="jumbotron text-center">
+  <div><img src="/static/jam_logo_white.png"/></div>
+  <p class="jumbotron_description">Connecting people through music events!</p> 
+</div>
 
-        <li>Event ID: {{ event["event_id"] }}</li>
+<!-- Main Page Heading-->
+<div class="container">
+    <div class="row">
+        <h1 style="color:#8ca3a3;text-align:center">{{ search_term }} Events in {{ location }}</h1>
+    </div>
 
-        <li>Event Start: {{ event["start_time"] }}</li>
+    <div class="row">
 
-        <li>Event End: {{ event["end_time"] }}</li>
+       <!-- Events list: Each event is its own div-->
+        {% for event in events %}
 
-        <!-- This is like using a get request form: in the flask route request.form.get("event_id") -->
-        <li>
-            <a href="/event_details?event_id={{ event['event_id'] }}">Click for Event Details: {{ event['name'] }}
+        <div class="col-xs-4">
+            <h4 style="color:#484f4f;text-align:center">
+                Event Name: {{ event["name"] }}
+            </h4>
+            <p style="color:#484f4f;text-align:center">Event Start: {{ event["start_time"] }}</p>
+            <p style="color:#484f4f;text-align:center">Event End: {{ event["end_time"] }}</p>
+            <!-- This is like using a get request form: in the flask route request.form.get("event_id") -->
+            <a href="/event_details?event_id={{ event['event_id'] }}">
+                <img class="logo" src="{{ event["logo"] }}"/>
             </a>
-        </li>    
-  
-    {% endfor %}
-</ul>
+        
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
 
 {% endblock %}

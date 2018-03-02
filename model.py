@@ -52,7 +52,7 @@ class User(db.Model):
         return (db.session.query(Search)
                           .filter(Search.user_id == self.user_id)
                           .order_by(Search.timestamp.desc())
-                          .limit(5)
+                          .limit(6)
                           .all())
 
 

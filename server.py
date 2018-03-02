@@ -85,7 +85,7 @@ def get_recommendations():
         # If there are no recent searches, return none for event recommendations
         else:
             event_recommendation_details = None
-            
+
     return jsonify(event_recommendation_details)
 
 
@@ -242,7 +242,7 @@ def show_events_by_keyword():
     # Get a list of events based on search term to pass to render events page
     events = get_events(search_term, location, start_date_kw)
 
-    return render_template("events.html", events=events, search_term=search_term)
+    return render_template("events.html", events=events, search_term=search_term, location=location)
 
 
 @app.route('/event_details')
