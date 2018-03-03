@@ -230,6 +230,11 @@ def bookmark_event():
     # Get the status: going or interested
     status = request.form.get("status")
 
+    print "DEETSS!!! name", name
+    print "event_id", event_id
+    print "status", status
+    print "user_id", user_id
+
     # This helper function returns either bookmark_success or bookmark_failure message
     return add_bookmark_to_db(status, name, event_id, user_id)
 

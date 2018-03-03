@@ -3,7 +3,7 @@
 function showBookmarkSuccess(results) {
   $("#bookmark_success").html(results);
   $("#bookmark_success").show();
-  setTimeout(function () {$("#bookmark_success").html("");} , 3000);
+  setTimeout(function () {$("#bookmark_success").hide();} , 3000);
 
 }
 
