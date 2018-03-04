@@ -217,7 +217,6 @@ def add_bookmark_to_db(status, name, event_id, user_id):
     bookmark_failure = "You must be logged in to bookmark and event."
     # Removes non_ascii charecters from event names
     name = remove_non_ascii(name)
-    print "THIS SHOULD BE THE NAME NAME!!!!!!!!", name
 
 
     # If the user is logged in

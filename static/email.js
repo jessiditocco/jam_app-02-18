@@ -1,9 +1,12 @@
 // Javascript for seding email to users from the profile page
 
-function showSuccess(success) {
+function showSuccess(success_message) {
     $("#close_modal").click();
-    console.log(success);
-    alert("You have succesfully sent an email!");
+    console.log(success_message);
+    $("#email_success_div").html(success_message);
+    $("#email_success_div").show();
+    setTimeout(function () {$("#email_success_div").hide();} , 3000);
+
 
 }
 

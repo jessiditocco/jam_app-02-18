@@ -230,11 +230,6 @@ def bookmark_event():
     # Get the status: going or interested
     status = request.form.get("status")
 
-    print "DEETSS!!! name", name
-    print "event_id", event_id
-    print "status", status
-    print "user_id", user_id
-
     # This helper function returns either bookmark_success or bookmark_failure message
     return add_bookmark_to_db(status, name, event_id, user_id)
 
@@ -309,9 +304,9 @@ def email_user():
 
     send_email(name, send_from, subject, email_body, send_to)
 
-    success = {"message": "success"}
+    success_message = "Your email has been sent."
 
-    return jsonify(success)
+    return success_message
 
 @app.route('/map.json')
 def get_map_details():
