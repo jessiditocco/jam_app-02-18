@@ -15,8 +15,8 @@
 
     <!--Row for the Title-->
     <div class="row">
-        Title Here
-        <h1 class="main-page-heading" id="name" style="text-align:center">
+        <!-- Title Here -->
+        <h1 class="main-page-heading" id="name">
             {{ event_details.name }}
         </h1>
     </div>
@@ -27,51 +27,38 @@
             <!--Image and event details row-->
             <div id="row_for_img_and_deets" class="row">
                 <div class="col-sm-6">
-                    This will be my area for image
-                    <img class="logo" src="{{ event_details['logo'] }}"/>
+                    <!-- This will be my area for image -->
+                    <img class="logo event-details" src="{{ event_details['logo'] }}"/>
+                    <!-- This will be my buttons for bookmarking events -->
                 </div>
                 <div class="col-sm-6">
-                    This will be area for details
-                    <h3>Event Details</h3>
-                    <p id="venue_name">
-                        Venue Name: {{ event_details.venue_name }}
-                    </p>
-                    <p id="address">
-                        Address: {{ event_details.address }}
-                    </p>
-                    <p id="start_time">
-                        Start Time: {{ event_details.start_time }}
-                    </p>
-                    <p id="end_time">
-                        End Time: {{ event_details.end_time }}
-                    </p>
-                    <div id="eb_url">
-                        <a href="{{ event_details['eb_url'] }}">Browse Tickets on Evenbrite
-                        </a>
-                    </div>
-                </div>
-
-                <div id="row_for_bookmarks"class="row">
-                    This will be my row for bookmarks
-
-                    <!--If the user is in the session, display bookmarks and comments ability, and other users going-->
-                    {% if "user_id" in session %}   
-                    <!--Bookmark div-->
-                        <div>
-                            <h3>
-                                Bookmark Event
-                            </h3>
-                            <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" style="background-color:blue" {% if bookmark and bookmark.bookmark_type_id == 1 %} checked {% endif %}/> I'm Going!
-
-                            <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" style="background-color:blue" {% if bookmark and bookmark.bookmark_type_id == 2 %} checked {% endif %}/> Interested 
+                    <!-- This will be area for details -->
+                    <div id="event-details-block">
+                        <h3 style="text-align:center;">Event Details</h3>
+                        <p style="text-align:center;" id="venue_name">
+                            Venue Name: {{ event_details.venue_name }}
+                        </p>
+                        <p style="text-align:center;" id="address">
+                            Address: {{ event_details.address }}
+                        </p>
+                        <p style="text-align:center;" id="start_time">
+                            Start Time: {{ event_details.start_time }}
+                        </p>
+                        <p style="text-align:center;" id="end_time">
+                            End Time: {{ event_details.end_time }}
+                        </p>
+                        <div style="text-align:center;" id="eb_url">
+                            <a href="{{ event_details['eb_url'] }}">Browse Tickets on Eventbrite
+                            </a>
                         </div>
-                    {% endif %}
 
-                </div>
+                    </div>
 
-                <div id="row_for_other_users"class="row">
-                    This will be my row for other users going to an event
+                </div><br><br><br>
 
+                <div style="text-align:center;" id="other-users-going" class="col-sm-6">
+                    <!-- This will be my row for other users going to an event
+ -->
                     <!--List of other users going to selected events-->
 
                     {% if users_going and "user_id" in session %}
@@ -79,10 +66,10 @@
                     <div>
                         <h3>
                             Jam Users Going to {{ event_details.name }}
-                        </h3> 
+                        </h3><br> 
                         {% for user in users_going %}
                             {% if user.user_id != session["user_id"] %}
-                                <p>
+                                <ps>
                                     {{ user.name }}:
                                     <a href="/profile?user_id={{ user.user_id }}">
                                         <span class="glyphicon glyphicon-user">
@@ -98,10 +85,26 @@
 
 
                 </div>
+            </div>
+            <div id="row_for_bookmarks" class="row">
+            <!-- This will be my row for bookmarks -->
 
+            <!--If the user is in the session, display bookmarks and comments ability, and other users going-->
+            {% if "user_id" in session %}   
+            <!--Bookmark div-->
+                <div>
+                    <h3>
+                        Bookmark Event
+                    </h3>
+                    <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" {% if bookmark and bookmark.bookmark_type_id == 1 %} checked {% endif %}/> I'm Going!
 
-                <div id="row_for_event_description"class="row">
-                    This will be my row for event description
+                    <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" {% if bookmark and bookmark.bookmark_type_id == 2 %} checked {% endif %}/> Interested 
+                </div>
+            {% endif %}
+
+            </div>
+             <div id="row_for_event_description"class="row">
+                    <!-- This will be my row for event description -->
                     <!--Show event description-->
                     <p class="event_description">
                         <h3>
@@ -113,10 +116,9 @@
                         </p>
                     </p>
                 </div>
-            </div>
         </div>    
         <!--Column for the Comments-->
-        <div id="column_for_comments" class="col-sm-3">
+        <div id="column-for-comments" class="col-sm-3">
                 <!--Comment div-->
                 {% if "user_id" in session %} 
                     <div>
@@ -135,7 +137,7 @@
                     <!--Displays list of comments-->
                     <ul id="comment-list">
                         {% for comment in comments %}
-                            <li>{{ comment.user.name}}: {{ comment.comment }}</li>
+                            <blockquote><a href="/profile?user_id={{ comment.user.user_id }}">{{ comment.user.name}}: </a> "{{ comment.comment }}"</blockquote>
                         {% endfor %}
                     </ul>
                 {% endif %}
@@ -229,7 +231,7 @@
             <ul id="comment-list">
 
                 {% for comment in comments %}
-                    <li>{{ comment.user.name}}: {{ comment.comment }}</li>
+                <blockquote>{{ comment.user.name}}: {{ comment.comment }}</blockquote>
                 {% endfor %}
 
             </ul>

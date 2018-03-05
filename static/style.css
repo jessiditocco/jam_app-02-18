@@ -6,6 +6,13 @@
     height: 300px;
 }
 
+.logo.event-details {
+    width: 400px; /* Set a small width */
+    height: 400px;
+}
+
+}
+
 .logo.profile {
     border: 1px solid #ddd; /* Gray border */
     border-radius: 4px;  /* Rounded border */
@@ -41,7 +48,7 @@
     font-size: 18px;
 }
 
-a {
+.profile-card-link {
     text-decoration: none;
     font-size: 22px;
     color: black;
@@ -109,3 +116,22 @@ body { padding-top: 70px; }
 .main-page-heading {
     padding: 30px
 }
+
+/* This is the style for event-details page */
+
+#other-users-going {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border: 1px solid #ddd;
+}
+
+#event-details-block {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+#column-for-comments {
+    border: 1px solid #ddd;
+}
+
+/* This is the style for buttons on navbar */

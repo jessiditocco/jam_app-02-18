@@ -1,3 +1,4 @@
+
 // Javascript for posting comments on the page without reloading the page
 
 function showComments(comment_details) {
