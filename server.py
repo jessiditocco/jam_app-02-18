@@ -360,10 +360,12 @@ def get_map_details():
 
     return jsonify(map_data)
 
-@app.route('/simple')
-def make_map():
+@app.route('/dom')
+def show_example():
 
-    return render_template("simple.html")
+    return render_template("dom.html")
+
+
 
 
 

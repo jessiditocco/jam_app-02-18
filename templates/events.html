@@ -13,7 +13,7 @@
 <!-- Main Page Heading-->
 <div class="container">
     <div class="row">
-        <h1 style="color:#8ca3a3;text-align:center">{{ search_term }} Events in {{ location }}</h1>
+        <h1 style="text-align:center">{{ search_term }} Events in {{ location }}</h1>
     </div>
 
     <div class="row">
@@ -22,11 +22,11 @@
         {% for event in events %}
 
         <div class="col-xs-4">
-            <h4 style="color:#484f4f;text-align:center">
+            <h4 style="text-align:center">
                 Event Name: {{ event["name"] }}
             </h4>
-            <p style="color:#484f4f;text-align:center">Event Start: {{ event["start_time"] }}</p>
-            <p style="color:#484f4f;text-align:center">Event End: {{ event["end_time"] }}</p>
+            <p style="text-align:center">Event Start: {{ event["start_time"] }}</p>
+            <p style="text-align:center">Event End: {{ event["end_time"] }}</p>
             <!-- This is like using a get request form: in the flask route request.form.get("event_id") -->
             <a href="/event_details?event_id={{ event['event_id'] }}">
                 <img class="logo" src="{{ event["logo"] }}"/>

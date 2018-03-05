@@ -89,13 +89,13 @@ button:hover, a:hover {
 /* This changes the navbar color */
 .navbar {
     background-color: #c0ded9;
+    color: black;
 }
 
 /* This is the style for my map*/
  #map {
         width: 100%;
         height: 400px;
-        background-color: grey;
     }
 /* This is so the navbar doesn't overlay other content */
 body { padding-top: 70px; }
@@ -134,4 +134,24 @@ body { padding-top: 70px; }
     border: 1px solid #ddd;
 }
 
-/* This is the style for buttons on navbar */
+/* This is the style for the background photo */
+
+body {
+    background: url(/static/triangles.png) no-repeat center center;
+    background-size: cover;
+}
+
+blockquote, p, h1, h2, h3, h4, h5, h6, div{
+    color: white;
+
+}
+
+/* Fixes CSS for navbar */
+
+.navbar-nav>li>a {
+    color: black;
+}
+
+.container .navbar-brand, .navbar>.container-fluid .navbar-brand{
+    color:black;
+}
