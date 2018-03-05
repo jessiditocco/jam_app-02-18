@@ -8,14 +8,14 @@
     <!--1st Row: Bookmark Success Div-->
     <div class="row">
         <div class="alert alert-success" role="alert" id="bookmark_success" hidden></div>
-    </div>
+    </div> <!-- closes bookmark success div -->
     <!--2nd Row: Row For Title-->
     <div class="row">
         <!-- Title Here -->
         <h1 class="main-page-heading" id="name">
             {{ event_details.name }}
         </h1>
-    </div>
+    </div> <!-- closes row for main page title -->
     <!--3rd Row: Row For Both Main Page Columns(size6 each)-->
     <!--Inside this div, we will have -->
     <div class="row" id="main_row_of_page">
@@ -25,172 +25,114 @@
                 <!--This is my column for my image only -->
                 <div class="col-xs-6">
                     This should be the entire column for image
-                </div>
+                    <img class="logo event-details" src="{{ event_details['logo'] }}"/>
+                </div> <!-- This closes my column for im image -->
                 <!--This is my column for my event details and people going -->
                 <div class="col-xs-6" id="column_for_details">
                     <!--This is my column for my event details and people going, this will be two nested rows -->
-                    <div class="row">Event Details</div>
-                    <div class="row">People Going</div>
-                </div>
-            </div> <!-- end row -->
+                    <div class="row">
+                        Event Details
+                        <div id="event-details-block">
+                            <h3 style="text-align:center;">Event Details
+                            </h3>
+                            <p style="text-align:center;" id="venue_name">
+                            Venue Name: {{ event_details.venue_name }}
+                            </p>
+                            <p style="text-align:center;" id="address">
+                            Address: {{ event_details.address }}
+                            </p>
+                            <p style="text-align:center;" id="start_time">
+                            Start Time: {{ event_details.start_time }}
+                            </p>
+                            <p style="text-align:center;" id="end_time">
+                            End Time: {{ event_details.end_time }}
+                            </p>
+                            <div style="text-align:center;" id="eb_url">
+                            <a href="{{ event_details['eb_url'] }}">Browse Tickets on Eventbrite
+                            </a>
+                            </div> <!-- This close my EB url div -->
+                        </div> <!-- This closes my event details div -->
+                    </div> <!-- This closes my event details row -->
+                    <div class="row">
+                        People Going
+                        <div style="text-align:center;" id="other-users-going">
+                            {% if users_going and "user_id" in session %}
+                                <h3>
+                                    Jam Users Going to {{ event_details.name }}
+                                </h3>
+                                {% for user in users_going %}
+                                    {% if user.user_id != session["user_id"] %}
+
+                                        <p>
+                                            {{ user.name }}:
+                                        </p>
+                                        <a href="/profile?user_id={{ user.user_id }}">
+                                            <span class="glyphicon glyphicon-user">
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %} 
+                        </div> <!-- This closes my people going div -->
+                    </div> <!-- This closes my people going row -->
+                </div> <!-- This closes my col xs 6 column for event details -->
+            </div> <!-- This closes row for img and details-->
             <!--This is my row for bookmarked events-->
             <div class="row">
                 Bookmark event
-            </div>
-            <!--This is my row for Event Details-->
-            <div class="row">
-                Event Details
-            </div>
-        </div> <!-- end col-9 -->
-        <!--Inside column for details, we will have comments only in this column -->
-        <div id="column_for_comments" class="col-xs-3">COMMENTS ONLY HERE</div>
-    </div>
-</div>
-
-
-<!-- Wrap the whole page in a container div-->
-
-<div class="container">
-    <!--Show bookmark success div-->
-    <div class="row">
-        <div class="alert alert-success" role="alert" id="bookmark_success" hidden></div>
-    </div>
-
-    <!--Row for the Title-->
-    <div class="row">
-        <!-- Title Here -->
-        <h1 class="main-page-heading" id="name">
-            {{ event_details.name }}
-        </h1>
-    </div>
-    <!--Row for The entire body-->
-    <div class="row">
-        <!--Column for the Event Details-->
-        <div id="column_for_details" class="col-sm-9">
-            <!--Image and event details row-->
-            <div id="row_for_img_and_deets" class="row">
-                <div class="col-sm-6">
-                    <!-- This will be my area for image -->
-                    <img class="logo event-details" src="{{ event_details['logo'] }}"/>
-                    <!-- This will be my buttons for bookmarking events -->
-                </div> <!-- This will close col-sm-6 -->
-                <div class="col-sm-4">
-                    <!-- This will be area for details -->
-                    <div id="event-details-block">
-                        <h3 style="text-align:center;">Event Details</h3>
-                        <p style="text-align:center;" id="venue_name">
-                            Venue Name: {{ event_details.venue_name }}
-                        </p>
-                        <p style="text-align:center;" id="address">
-                            Address: {{ event_details.address }}
-                        </p>
-                        <p style="text-align:center;" id="start_time">
-                            Start Time: {{ event_details.start_time }}
-                        </p>
-                        <p style="text-align:center;" id="end_time">
-                            End Time: {{ event_details.end_time }}
-                        </p>
-                        <div style="text-align:center;" id="eb_url">
-                            <a href="{{ event_details['eb_url'] }}">Browse Tickets on Eventbrite
-                            </a>
-                        </div>
-
-                    </div> <!-- This will close details -->
-
-                </div> <!-- end col -->
-                <br><br><br>
-
-                <div style="text-align:center;" id="other-users-going" class="col-sm-4">
-                    <!-- This will be my row for other users going to an event
- -->
-                    <!--List of other users going to selected events-->
-
-                    {% if users_going and "user_id" in session %}
-
-                    <div>
+                <div id="row_for_bookmarks">
+                    {% if "user_id" in session %}
                         <h3>
-                            Jam Users Going to {{ event_details.name }}
-                        </h3><br> 
-                        {% for user in users_going %}
-                            {% if user.user_id != session["user_id"] %}
-                                <ps>
-                                    {{ user.name }}:
-                                    <a href="/profile?user_id={{ user.user_id }}">
-                                        <span class="glyphicon glyphicon-user">
-                                        </span>
-                                    </a>
-                                </p>
-                                
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                            Bookmark Event
+                        </h3>
+                        <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" {% if bookmark and bookmark.bookmark_type_id == 1 %} checked {% endif %}/> I'm Going!
 
-                    {% endif %}   
-
-
-                </div> <!-- other users going -->
-            </div>
-            <div id="row_for_bookmarks" class="row">
-            <!-- This will be my row for bookmarks -->
-
-            <!--If the user is in the session, display bookmarks and comments ability, and other users going-->
-            {% if "user_id" in session %}   
-            <!--Bookmark div-->
+                        <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" {% if bookmark and bookmark.bookmark_type_id == 2 %} checked {% endif %}/> Interested 
+                    {% endif %}
+                </div> <!-- This closes my bookmark event div -->
+            </div> <!-- This closes my div for my bookmark event row -->
+            <!--This is my row for Event Description-->
+            <div class="row" id="row_for_event_description">
+                Event Description
+                <h3>
+                    Event Description
+                </h3>
+                <p id="description">
+                    {{ event_details.description | safe }}
+                </p>
+            </div> <!-- This closes my div for my event description -->
+        </div> <!-- end col-9; column for event details -->
+        <!--Inside column for details, we will have comments only in this column -->
+        <div id="column_for_comments" class="col-xs-3">
+            {% if "user_id" in session %}
+                <!--Comment div-->
                 <div>
-                    <h3>
-                        Bookmark Event
+                    <h3 class="comments">
+                        Comments
                     </h3>
-                    <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" {% if bookmark and bookmark.bookmark_type_id == 1 %} checked {% endif %}/> I'm Going!
+                    
+                    <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
+                        <p>
+                            Leave a comment:
+                        </p>
+                        <textarea id="comment_text">
+                        </textarea><br>
+                        <input type="submit">
+                    </form>
+                </div><br> <!-- This closes the div made for the comment box -->
 
-                    <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" {% if bookmark and bookmark.bookmark_type_id == 2 %} checked {% endif %}/> Interested 
-                </div>
+                <!--Displays list of comments-->
+                <ul id="comment-list">
+                    {% for comment in comments %}
+                        <blockquote><a href="/profile?user_id={{ comment.user.user_id }}">{{ comment.user.name}}: </a> "{{ comment.comment }}"</blockquote>
+                    {% endfor %}
+                </ul>
+
             {% endif %}
 
-            </div>
-             <div id="row_for_event_description"class="row">
-                    <!-- This will be my row for event description -->
-                    <!--Show event description-->
-                    <p class="event_description">
-                        <h3>
-                            Event Description
-                        </h3>
-
-                        <p id="description">
-                            {{ event_details.description | safe }}
-                        </p>
-                    </p>
-                </div>
-        </div>    
-        <!--Column for the Comments-->
-        <div id="column-for-comments" class="col-sm-3">
-                <!--Comment div-->
-                {% if "user_id" in session %} 
-                    <div>
-                        <h3 class="comments">
-                            Comments
-                        </h3>
-                        <form id="comment" action="/add_comment" data-eventid="{{ event_id }}" method="POST">
-                            <p>
-                                Leave a comment:
-                            </p>
-                            <textarea id="comment_text"></textarea><br>
-                            <input type="submit">
-                        </form>
-                    </div>
-
-                    <!--Displays list of comments-->
-                    <ul id="comment-list">
-                        {% for comment in comments %}
-                            <blockquote><a href="/profile?user_id={{ comment.user.user_id }}">{{ comment.user.name}}: </a> "{{ comment.comment }}"</blockquote>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-        </div>
-    </div>
- 
-
-<!--End tag for container-->    
-</div>
+        </div> <!-- This div closes the column for the comments -->
+    </div> <!-- This div closes the main row of the page that holds both columns size 9 and 3-->
+</div> <!-- close container div -->
 
 
 <!--Javascript needs to be in the body below all of the html that it calls on. Make sure to include jquery CDN also (in base html)-->
