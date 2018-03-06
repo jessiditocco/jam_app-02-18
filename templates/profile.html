@@ -1,4 +1,4 @@
-1px solid #ddd;t{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block title %}Profile{% endblock %}
 
 {% block content %}
@@ -6,136 +6,111 @@
 <!-- Add icon library that has User Profile Img Card-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+
+<!-- Add icon library that has User Profile Img Card-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!--Bootstrap GRID -->
 <div class="container">
-  <!-- Row for email sending success div-->
-  <div class="row">
-    <div id="email_success_div" class="alert alert-success" role="alert" hidden></div>
-  </div>
-
-  <!-- Row for profile card and map-->
-  <div class="row">
-    <div class="col-xs-4">
-      <h1 style="text-align:center">Profile</h1>
-    <!--This is the profile card -->
-        <div class="profile_card">
-          <img src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png" alt="John" style="width:100%">
-          <h1>{{ user.name }}</h1>
-          <p class="title">theJAM user</p>
-          <p>University of Florida</p>
-          <a class="profile-card-link" href="#"><i class="fa fa-dribbble"></i></a> 
-          <a class="profile-card-link" href="#"><i class="fa fa-twitter"></i></a> 
-          <a class="profile-card-link" href="#"><i class="fa fa-linkedin"></i></a> 
-          <a class="profile-card-link" href="#"><i class="fa fa-facebook"></i></a>
-          <!-- Button to the trigger modal -->
-          <!-- Button should only show if your on another user's profile -->
-          {% if user.user_id != session["user_id"] %}
-          <p>
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#emailModal">
-                Email {{ user.name }}
-              </button> 
-          </p>
-        {% endif %}
-        </div>
-    </div>
-
-    <div class="col-xs-8">
-      <!--Div for Google Map which shows map of users "going to" events-->
-      <!--Create a hidden div that passes user id-->
-        {% if events_going %}
-            <input id="user_id_for_map" value="{{ user.user_id }}" hidden>
-            <h3>Events that {{ user.name }} are Going to</h3>
-            <div id="map"></div>
-        {% endif %}
-    </div>
-  </div>
-  <!-- Row for events going and maybe events-->
-  <div class="row">
-    <div class="col-xs-6">
-       <!-- Column for going events-->
-       {% if events_going %}
-              <h3>Events that {{ user.name }} are Going to</h3>
-            <div>
+    <!--This is the row for the email success div -->
+    <div class="row">
+         <div id="email_success_div" class="alert alert-success" role="alert" hidden>
+         </div>
+    </div> <!-- This closes div to email success div  -->
+    <!--This is the row for the profile card and map -->
+    <div class="row" id="profile-card-and-map">
+        <!--This is the column for the profile card -->
+        <div class="col-xs-4" id="profile-card-div">
+            Profile Card Here
+            <div class="profile_card">
+              <img src="https://www.eharmony.co.uk/dating-advice/wp-content/uploads/2011/04/profilephotos-960x640.jpg" alt="John" style="width:100%">
+              <h1>{{ user.name }}</h1>
+              <p class="title">JAM. user</p>
+              <p>University of Florida</p>
+              <a class="profile-card-link" href="#"><i class="fa fa-dribbble"></i></a> 
+              <a class="profile-card-link" href="#"><i class="fa fa-twitter"></i></a> 
+              <a class="profile-card-link" href="#"><i class="fa fa-linkedin"></i></a> 
+              <a class="profile-card-link" href="#"><i class="fa fa-facebook"></i></a>
+              <!-- Button to the trigger modal -->
+              <!-- Button should only show if your on another user's profile -->
+              {% if user.user_id != session["user_id"] %}
+                <p>
+                  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#emailModal">
+                      Email {{ user.name }}
+                  </button> 
+                </p>
+              {% endif %}
+            </div> <!-- This div closes the profile card -->
+        </div> <!-- Closing div for profile card column -->
+        <!--This is the column for the map-->
+        <div class="col-xs-8" id="google-map-div">
+            Google Map Here
+            <!--Div for Google Map which shows map of users "going to" events-->
+            <!--Create a hidden div that passes user id-->
+            {% if events_going %}
+              <input id="user_id_for_map" value="{{ user.user_id }}" hidden>
+              <!-- <h3>
+                Events that {{ user.name }} are Going to
+              </h3> -->
+              <div id="map"></div>
+            {% endif %}
+        </div> <!-- This is the closing tag for the google map div -->
+    </div> <!-- closing div for profile/map row -->
+    <!--This is the row for the events going and events interested-->
+    <div class="row">
+        <!--Column For Events going-->
+        <div class="col-xs-6">
+            {% if events_going %}
+              <h3>
+                Events that {{ user.name }} are Going to
+              </h3>
               {% for event in events_going %}
-                  <h4>{{ event.name }}</h4>
-                  <a href="/event_details?event_id={{ event.event_id }}"/>
-                    <img class="logo profile" src="{{ event.logo }}">
-                  </a>
-                  <p>Event Start: {{ event.start_time }}</p>
-                  <p>Event End: {{ event.end_time }}</p>
-                  <p>Venue name: {{ event.venue_name }}</p>
-                  <p>Address: {{ event.address }}</p>
-                  <a href="{{ event.eb_url }}">Browse Tickets on Eventbrite</a>
+                  <div>
+                      <h4>
+                        {{ event.name }}
+                      </h4>
+                      <a href="/event_details?event_id={{ event.event_id }}">
+                          <img class="logo profile" src="{{ event.logo }}">
+                      </a>
+                      <p>Event Start: {{ event.start_time }}</p>
+                      <p>Event End: {{ event.end_time }}</p>
+                      <p>Venue name: {{ event.venue_name }}</p>
+                      <p>Address: {{ event.address }}</p>
+                      <a href="{{ event.eb_url }}">Browse Tickets on Eventbrite
+                      </a>
+                  </div> <!-- This div closes the div for each event going -->
               {% endfor %}
-            </div>
-        {% endif %}
+            {% endif %}    
 
-    </div>
-    <div class="col-xs-6">
-       <!-- Column for interested events-->
-       {% if events_interested %}
-              <h3>Events that {{ user.name }} are Interested In</h3>
-            <div>
+        </div> <!-- closing div for events going -->
+        <!--Column For Events interested-->
+        <div class="col-xs-6">
+            {% if events_interested %}
+              <h3>
+                Events that {{ user.name }} are Interested In
+              </h3>
               {% for event in events_interested %}
-                  <h4>{{ event.name }}</h4>
-                  <a href="/event_details?event_id={{ event.event_id }}"/>
-                    <img class="logo profile" src="{{ event.logo }}">
-                  </a>
-                  <p>Event Start: {{ event.start_time }}</p>
-                  <p>Event End: {{ event.end_time }}</p>
-                  <p>Venue name: {{ event.venue_name }}</p>
-                  <p>Address: {{ event.address }}</p>
-                  <a href="{{ event.eb_url }}">Browse Tickets on Eventbrite</a>
+                  <div>
+                      <h4>
+                        {{ event.name }}
+                      </h4>
+                      <a href="/event_details?event_id={{ event.event_id }}">
+                        <img class="logo profile" src="{{ event.logo }}">
+                      </a>
+                      <p>Event Start: {{ event.start_time }}</p>
+                      <p>Event End: {{ event.end_time }}</p>
+                      <p>Venue name: {{ event.venue_name }}</p>
+                      <p>Address: {{ event.address }}</p>
+                      <a href="{{ event.eb_url }}">Browse Tickets on Eventbrite</a>
+                  </div> <!-- This closes the div for each event interested in -->
               {% endfor %}
-            </div>
-        {% endif %}
-
-<!-- 
-
-       {% if events_interested %}
-          <ul>
-              <h3>Events that {{ user.name }} are Interested in</h3>
-              {% for event in events_interested %}
-                  <li><h4>{{ event.name }}</h4></li>
-                  <ul>
-                      <li>{{ event.start_time }}</li>
-                      <li>{{ event.end_time }}</li>
-                      <li>{{ event.address }}</li>
-                       <li><img class="logo" src="{{ event.logo }}"></li>
-                      <li><a href="/event_details?event_id={{ event.event_id }}"/>Event Details</a></li>
-                      <li><a href="{{ event.eb_url }}">Buy Tickets on Eventbrite</a></li>
-                  </ul>
-
-              {% endfor %}
-          </ul>
-        {% endif %} -->
-
-    </div>
-  </div>
-</div>
+            {% endif %}
+        </div> <!-- closing div for events interested -->
+    </div><!--  This is the closing div for the events going and events interested row -->
+</div> <!-- Closing div for whole page container -->
 
 
-<!-- Profile Card -->
-<!-- <div class="profile_card">
-  <img src="http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png" alt="John" style="width:100%">
-  <h1>{{ user.name }}</h1>
-  <p class="title">theJAM user</p>
-  <p>University of Florida</p>
-  <a href="#"><i class="fa fa-dribbble"></i></a> 
-  <a href="#"><i class="fa fa-twitter"></i></a> 
-  <a href="#"><i class="fa fa-linkedin"></i></a> 
-  <a href="#"><i class="fa fa-facebook"></i></a> -->
-
-  <!-- Button to the trigger modal -->
-  <!-- Button should only show if your on another user's profile -->
-  <!-- {% if user.user_id != session["user_id"] %}
-  <p>
-      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#emailModal">
-          Email {{ user.name }}
-        </button> 
-  </p>
-  {% endif %}
-</div> -->
 
 
 <!--Email the user: This is the modal window!-->
@@ -166,58 +141,7 @@
   </div>
 </div>
 
-<!--Div for Google Map which shows map of users "going to" events-->
 
-<!--Create a hidden div that passes user id-->
-<!-- {% if events_going %}
-  <input id="user_id_for_map" value="{{ user.user_id }}" hidden>
-
-    <h1>Events that {{ user.name }} are Going to</h1>
-      <div id="map"></div>
-
-{% endif %}
-
- -->
-<!--List of events user is going to-->
-<!-- {% if events_going %}
-
-  <ul>
-      <h3>Events that {{ user.name }} are Going to</h3>
-      {% for event in events_going %}
-          <li><h4>{{ event.name }}</h4></li>
-          <ul>
-              <li>{{ event.start_time }}</li>
-              <li>{{ event.end_time }}</li>
-              <li>{{ event.venue_name }}</li>
-              <li>{{ event.address }}</li>
-              <li><img class="logo" src="{{ event.logo }}"></li>
-              <li><a href="/event_details?event_id={{ event.event_id }}"/>Event Details</a></li>
-              <li><a href="{{ event.eb_url }}">Buy Tickets on Eventbrite</a></li>
-          </ul>
-
-      {% endfor %}
-  </ul>
-{% endif %} -->
-
-<!--List of events user is interested in-->
-<!-- {% if events_interested %}
-  <ul>
-      <h3>Events that {{ user.name }} are Interested in</h3>
-      {% for event in events_interested %}
-          <li><h4>{{ event.name }}</h4></li>
-          <ul>
-              <li>{{ event.start_time }}</li>
-              <li>{{ event.end_time }}</li>
-              <li>{{ event.address }}</li>
-               <li><img class="logo" src="{{ event.logo }}"></li>
-              <li><a href="/event_details?event_id={{ event.event_id }}"/>Event Details</a></li>
-              <li><a href="{{ event.eb_url }}">Buy Tickets on Eventbrite</a></li>
-          </ul>
-
-      {% endfor %}
-  </ul>
-{% endif %} -->
-<!--Script tag for email modal window-->
 
 <script src="/static/email.js"></script>
 
