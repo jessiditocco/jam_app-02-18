@@ -136,8 +136,8 @@ body { padding-top: 70px; }
 /* This is the style for the background photo */
 
 body {
-    background: url(/static/triangles.png) no-repeat center center;
     background-size: cover;
+    background-color: #484f4f 
 }
 
 /* This is the style for my text: titles and paragraph font */
@@ -184,6 +184,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #profile-card-and-map {
     border: 5px solid white;
+    background-color: #563f46
 }
 
 /* Event details page */
@@ -191,4 +192,23 @@ h1, h2, h3, h4, h5, h6 {
 p#description {
     padding-right: 30px;
     text-align: justify;
+}
+
+/* Style for comments button and text area on evt. details */
+
+#comment-submit-button {
+    padding: 6px;
+    border: 2px solid #563f46;
+    background: #8ca3a3;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+#comment_text {
+  padding: 6px;
+  border: 2px solid #563f46;
+  background-color: #c8c3cc;
+  font-size: 16px;
+  border-radius: 8px;
 }
