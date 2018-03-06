@@ -54,7 +54,6 @@
             <!--Div for Google Map which shows map of users "going to" events-->
             <!--Create a hidden div that passes user id-->
             {% if events_going %}
-              <h3 style="text-align:center">Events that {{ user.name }} is Going To</h3>
               <input id="user_id_for_map" value="{{ user.user_id }}" hidden>
               <!-- <h3>
                 Events that {{ user.name }} are Going to
@@ -67,16 +66,16 @@
     <!--This is the row for the events going and events interested-->
     <div class="row">
         <!--Column For Events going-->
-        <div class="col-xs-6">
+        <div class="col-xs-6 event-scroll">
             {% if events_going %}
               <h3 class="profile-events-list">
                 Events that {{ user.name }} is Going To
               </h3>
               {% for event in events_going %}
                   <div class="profile-events-list">
-                      <h4>
+                      <h3>
                         {{ event.name }}
-                      </h4>
+                      </h3>
                       <a href="/event_details?event_id={{ event.event_id }}">
                           <img class="logo profile" src="{{ event.logo }}">
                       </a>
@@ -92,16 +91,16 @@
 
         </div> <!-- closing div for events going -->
         <!--Column For Events interested-->
-        <div class="col-xs-6">
+        <div class="col-xs-6 event-scroll">
             {% if events_interested %}
               <h3 class="profile-events-list">
                 Events that {{ user.name }} is Interested In
               </h3>
               {% for event in events_interested %}
                   <div class="profile-events-list">
-                      <h4>
+                      <h3>
                         {{ event.name }}
-                      </h4>
+                      </h3>
                       <a href="/event_details?event_id={{ event.event_id }}">
                         <img class="logo profile" src="{{ event.logo }}">
                       </a>

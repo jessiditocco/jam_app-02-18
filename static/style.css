@@ -115,7 +115,10 @@ body { padding-top: 70px; }
 }
 
 .main-page-heading {
-    padding: 30px
+    padding: 30px;
+    color: #e0e2e4;
+    font-weight: bold;
+    font-size: 45px;
 }
 
 /* This is the style for event-details page */
@@ -137,7 +140,7 @@ body { padding-top: 70px; }
 
 body {
     background-size: cover;
-    background-color: #484f4f 
+    background-color: #484f4f; 
 }
 
 /* This is the style for my text: titles and paragraph font */
@@ -149,7 +152,7 @@ blockquote, p {
 
 h1, h2, h3, h4, h5, h6 {
     color: #8ca3a3;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bold;
 }
 
@@ -158,6 +161,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-nav>li>a {
     border-color: #ae142a;
+    font-size: 17px;
     color: black;
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -169,17 +173,9 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #ae142a;
     color:white ;
     text-transform: uppercase;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Bowlby One SC';
     font-weight: 700;
     background-color: black;
-}
-
-/* Profile Page Events List */
-
-.profile-events-list {
-    text-align: center;
-    padding: 15px;
-    /*border: 1px solid white;*/
 }
 
 /* Event details page */
@@ -212,5 +208,48 @@ p#description {
 
 .row.well {
     border: 5px solid black;
-    background-color: #563f46;
+    /*background-color: #8ca3a3;*/
     text-align: center;
+    color: #484f4f;
+    background-image: url('/static/homepage_hands.jpg');
+
+}
+
+
+/* This turns my comment list into a scrolling list */
+ul#comment-list {
+    height: 500px;
+    overflow: scroll;
+}
+
+/* Styling for my profile */
+img.logo.profile {
+    height: 385px;
+    width: 385px;
+}
+
+h3.profile-events-list {
+    font-size: 30px;
+    font-weight: bold;
+    color: #e0e2e4;
+    font-family: 'Coiny';
+    border: 5px solid black;
+    background-image: url('/static/homepage_hands.jpg');
+
+}
+
+.profile-events-list {
+    text-align: center;
+    padding: 15px;
+    /*border: 1px solid white;*/
+}
+
+.col-xs-6.event-scroll {
+    height: 600px;
+    overflow: scroll;
+}
+
+/* Style for my homepage header */
+.homepage-header {
+    font-size: 45px;
+}

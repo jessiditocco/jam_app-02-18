@@ -14,7 +14,6 @@ function showLoginSuccess(result) {
         // window.location = "/";
         
 
-
     } else {
         $("#incorrect_login_message").html("Email/password combo incorrect. Try again please.");
 

@@ -125,12 +125,13 @@
                 </div><br> <!-- This closes the div made for the comment box -->
 
                 <!--Displays list of comments-->
-                <ul id="comment-list">
-                    {% for comment in comments %}
-                        <blockquote><a href="/profile?user_id={{ comment.user.user_id }}">{{ comment.user.name}}: </a> "{{ comment.comment }}"</blockquote>
-                    {% endfor %}
-                </ul>
-
+                <div id="comment-scroll-box">
+                    <ul id="comment-list">
+                        {% for comment in comments %}
+                            <blockquote><a href="/profile?user_id={{ comment.user.user_id }}">{{ comment.user.name}}: </a> "{{ comment.comment }}"</blockquote>
+                        {% endfor %}
+                    </ul>
+                </div> <!-- This div closes the comment div -->
             {% endif %}
 
         </div> <!-- This div closes the column for the comments -->
