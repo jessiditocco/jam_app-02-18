@@ -221,6 +221,7 @@ def bookmark_event():
     """Adds event bookmark to user profile."""
 
     name = request.form.get("name")
+    print "NAME!!!!!!", name
     # Get event ID
     event_id = request.form.get("event_id")
     # Status of bookmark type "going", "interested"
@@ -281,7 +282,8 @@ def post_comment():
     user_name = user_object.name
 
     comment_details = {"comment": comment,
-                "user_name": user_name}
+                "user_name": user_name,
+                "user_id": user_id}
 
     return jsonify(comment_details)
 

@@ -237,6 +237,7 @@ def add_bookmark_to_db(status, name, event_id, user_id):
         if bookmark_for_event == None:
             # Make a new Bookmark, passing it the user_id, event_id, and bookmarktype object, add & commit
             bookmark = Bookmark(user_id=user_id, event_id=event_id, bookmark_type_id=bookmark_type_id)
+            print "BOOKMARK", bookmark
             db.session.add(bookmark)
             db.session.commit()
             # Return success message

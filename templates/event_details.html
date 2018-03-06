@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container" id="event_details_container">
     <!--1st Row: Bookmark Success Div-->
     <div class="row">
         <div class="alert alert-success" role="alert" id="bookmark_success" hidden></div>
@@ -24,14 +24,12 @@
             <div class="row" id="row_for_img_and_details">
                 <!--This is my column for my image only -->
                 <div class="col-xs-6">
-                    This should be the entire column for image
                     <img class="logo event-details" src="{{ event_details['logo'] }}"/>
                 </div> <!-- This closes my column for im image -->
                 <!--This is my column for my event details and people going -->
                 <div class="col-xs-6" id="column_for_details">
                     <!--This is my column for my event details and people going, this will be two nested rows -->
                     <div class="row">
-                        Event Details
                         <div id="event-details-block">
                             <h3 style="text-align:center;">Event Details
                             </h3>
@@ -54,11 +52,10 @@
                         </div> <!-- This closes my event details div -->
                     </div> <!-- This closes my event details row -->
                     <div class="row">
-                        People Going
                         <div style="text-align:center;" id="other-users-going">
                             {% if users_going and "user_id" in session %}
                                 <h3>
-                                    Jam Users Going to {{ event_details.name }}
+                                    Other Jam Users Going
                                 </h3>
                                 {% for user in users_going %}
                                     {% if user.user_id != session["user_id"] %}
@@ -79,21 +76,27 @@
             </div> <!-- This closes row for img and details-->
             <!--This is my row for bookmarked events-->
             <div class="row">
-                Bookmark event
                 <div id="row_for_bookmarks">
                     {% if "user_id" in session %}
                         <h3>
                             Bookmark Event
                         </h3>
-                        <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" {% if bookmark and bookmark.bookmark_type_id == 1 %} checked {% endif %}/> I'm Going!
+                        <input class="bookmark" id="going_button" type="radio" name="bookmark" value="going" data-eventid="{{ event_id }}" data-status="going" {% if bookmark and bookmark.bookmark_type_id == 1 %} checked {% endif %}/>
+                        <lablel for="going_button" style="color:white">
+                            I'm Going!
+                        </label>
+                
+                        <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" {% if bookmark and bookmark.bookmark_type_id == 2 %} checked {% endif %}/>
+                        <lablel for="interested_button" style="color:white">
+                            Interested
+                        </label>
 
-                        <input class="bookmark" id="interested_button" type="radio" name="bookmark" value="interested" data-eventid="{{ event_id }}" data-status="interested" {% if bookmark and bookmark.bookmark_type_id == 2 %} checked {% endif %}/> Interested 
+                        
                     {% endif %}
                 </div> <!-- This closes my bookmark event div -->
             </div> <!-- This closes my div for my bookmark event row -->
             <!--This is my row for Event Description-->
             <div class="row" id="row_for_event_description">
-                Event Description
                 <h3>
                     Event Description
                 </h3>
@@ -103,10 +106,10 @@
             </div> <!-- This closes my div for my event description -->
         </div> <!-- end col-9; column for event details -->
         <!--Inside column for details, we will have comments only in this column -->
-        <div id="column_for_comments" class="col-xs-3">
+        <div id="column_for_comments" style= "border:1px solid white;"class="col-xs-3">
             {% if "user_id" in session %}
                 <!--Comment div-->
-                <div>
+                <div style="text-align:center">
                     <h3 class="comments">
                         Comments
                     </h3>
@@ -115,8 +118,8 @@
                         <p>
                             Leave a comment:
                         </p>
-                        <textarea id="comment_text">
-                        </textarea><br>
+                        <input name="event_id" hidden value="{{ event_id }}">
+                        <textarea id="comment_text" name="comment"></textarea><br>
                         <input type="submit">
                     </form>
                 </div><br> <!-- This closes the div made for the comment box -->

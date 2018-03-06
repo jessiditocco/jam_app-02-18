@@ -141,10 +141,17 @@ body {
     background-size: cover;
 }
 
-blockquote, p, h1, h2, h3, h4, h5, h6{
-    color: white;
+/* This is the style for my text: titles and paragraph font */
+
+blockquote, p {
+    color: #c8c3cc;
 
 }
+
+h1, h2, h3, h4, h5, h6 {
+    color: #8ca3a3;
+}
+
 
 /* Fixes CSS for navbar */
 
@@ -153,5 +160,6 @@ blockquote, p, h1, h2, h3, h4, h5, h6{
 }
 
 .container .navbar-brand, .navbar>.container-fluid .navbar-brand{
-    color:black;
+    color: black;
+    font-weight: bold;
 }
