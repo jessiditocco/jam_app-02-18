@@ -182,11 +182,6 @@ h1, h2, h3, h4, h5, h6 {
     /*border: 1px solid white;*/
 }
 
-#profile-card-and-map {
-    border: 5px solid white;
-    background-color: #563f46
-}
-
 /* Event details page */
 
 p#description {
@@ -212,3 +207,10 @@ p#description {
   font-size: 16px;
   border-radius: 8px;
 }
+
+/* Style for my wells */
+
+.row.well {
+    border: 5px solid black;
+    background-color: #563f46;
+    text-align: center;
