@@ -26,7 +26,7 @@
             <div class="profile_card">
               <img src="https://www.eharmony.co.uk/dating-advice/wp-content/uploads/2011/04/profilephotos-960x640.jpg" alt="John" style="width:100%">
               <h1>{{ user.name }}</h1>
-              <p class="title">JAM. user</p>
+              <p class="title">JAM user</p>
               <p>University of Florida</p>
               <a class="profile-card-link" href="#"><i class="fa fa-dribbble"></i></a> 
               <a class="profile-card-link" href="#"><i class="fa fa-twitter"></i></a> 
@@ -40,15 +40,22 @@
                       Email {{ user.name }}
                   </button> 
                 </p>
+              {% else %}
+              <!-- This button is a placeholder: cant currently edit profile -->
+                 <p>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#editProfile">
+                        Edit Your Profile
+                    </button> 
+                  </p>
               {% endif %}
             </div> <!-- This div closes the profile card -->
         </div> <!-- Closing div for profile card column -->
         <!--This is the column for the map-->
         <div class="col-xs-8" id="google-map-div">
-            Google Map Here
             <!--Div for Google Map which shows map of users "going to" events-->
             <!--Create a hidden div that passes user id-->
             {% if events_going %}
+              <h3 style="text-align:center">Events that {{ user.name }} is Going To</h3>
               <input id="user_id_for_map" value="{{ user.user_id }}" hidden>
               <!-- <h3>
                 Events that {{ user.name }} are Going to
@@ -57,16 +64,17 @@
             {% endif %}
         </div> <!-- This is the closing tag for the google map div -->
     </div> <!-- closing div for profile/map row -->
+
     <!--This is the row for the events going and events interested-->
     <div class="row">
         <!--Column For Events going-->
         <div class="col-xs-6">
             {% if events_going %}
-              <h3>
-                Events that {{ user.name }} are Going to
+              <h3 class="profile-events-list">
+                Events that {{ user.name }} is Going To
               </h3>
               {% for event in events_going %}
-                  <div>
+                  <div class="profile-events-list">
                       <h4>
                         {{ event.name }}
                       </h4>
@@ -79,7 +87,7 @@
                       <p>Address: {{ event.address }}</p>
                       <a href="{{ event.eb_url }}">Browse Tickets on Eventbrite
                       </a>
-                  </div> <!-- This div closes the div for each event going -->
+                  </div><br> <!-- This div closes the div for each event going -->
               {% endfor %}
             {% endif %}    
 
@@ -87,11 +95,11 @@
         <!--Column For Events interested-->
         <div class="col-xs-6">
             {% if events_interested %}
-              <h3>
-                Events that {{ user.name }} are Interested In
+              <h3 class="profile-events-list">
+                Events that {{ user.name }} is Interested In
               </h3>
               {% for event in events_interested %}
-                  <div>
+                  <div class="profile-events-list">
                       <h4>
                         {{ event.name }}
                       </h4>
@@ -103,7 +111,7 @@
                       <p>Venue name: {{ event.venue_name }}</p>
                       <p>Address: {{ event.address }}</p>
                       <a href="{{ event.eb_url }}">Browse Tickets on Eventbrite</a>
-                  </div> <!-- This closes the div for each event interested in -->
+                  </div><br> <!-- This closes the div for each event interested in -->
               {% endfor %}
             {% endif %}
         </div> <!-- closing div for events interested -->
@@ -143,14 +151,14 @@
 
 
 
-<script src="/static/email.js"></script>
+  <script src="/static/email.js"></script>
 
-<!--Script tag for google maps API-->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMBszgjUaxWxMOvynlpOfZDapTOiHSrqM">
-  </script>
+  <!--Script tag for google maps API-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMBszgjUaxWxMOvynlpOfZDapTOiHSrqM">
+    </script>
 
-<!-- Script tag for my google maps javascript file-->
+  <!-- Script tag for my google maps javascript file-->
 
-<script src="/static/google_maps.js"></script>
+  <script src="/static/google_maps.js"></script>
 
 {% endblock %}

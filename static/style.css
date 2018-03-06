@@ -28,6 +28,7 @@
     max-width: 300px;
     margin: auto;
     text-align: center;
+    background-color: white;
 }
 
 .title {
@@ -122,12 +123,10 @@ body { padding-top: 70px; }
 #other-users-going {
     padding-bottom: 10px;
     padding-top: 10px;
-    border: 1px solid #ddd;
 }
 
 #event-details-block {
     padding: 10px;
-    border: 1px solid #ddd;
 }
 
 #column-for-comments {
@@ -145,21 +144,51 @@ body {
 
 blockquote, p {
     color: #c8c3cc;
-
+    font-family: 'Lato', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: #8ca3a3;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
 }
 
 
 /* Fixes CSS for navbar */
 
 .navbar-nav>li>a {
+    border-color: #ae142a;
     color: black;
+    text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+
 }
 
 .container .navbar-brand, .navbar>.container-fluid .navbar-brand{
-    color: black;
-    font-weight: bold;
+    border-color: #ae142a;
+    color:white ;
+    text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    background-color: black;
+}
+
+/* Profile Page Events List */
+
+.profile-events-list {
+    text-align: center;
+    padding: 15px;
+    /*border: 1px solid white;*/
+}
+
+#profile-card-and-map {
+    border: 5px solid white;
+}
+
+/* Event details page */
+
+p#description {
+    padding-right: 30px;
+    text-align: justify;
 }
