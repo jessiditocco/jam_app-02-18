@@ -19,7 +19,7 @@ function showRecommendations(event_recommendation_details) {
             $("#event_recommendations").append("<div id=" + divId + " class='col-xs-6'>" +"</div>");
             $("#" + divId).append("<div class='event-name'><h3 class='child'>" + event_recommendation_details[event]["name"] + "</h3></div>");
             // $("#event_recommendations").append("<img src=" + event_recommendation_details[event]["logo"] + "/>");
-            $("#" + divId).append("<a href='/event_details?event_id=" + event_recommendation_details[event]["id"] +"'><img src=" + event_recommendation_details[event]["logo"] + "/></a>");
+            $("#" + divId).append("<a href='/event_details?event_id=" + event_recommendation_details[event]["id"] +"'><img src=" + event_recommendation_details[event]["logo"] + "></a>");
         }
 
 

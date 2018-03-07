@@ -218,7 +218,7 @@ p#description {
 
 /* This turns my comment list into a scrolling list */
 ul#comment-list {
-    height: 500px;
+    height: 450px;
     overflow: scroll;
 }
 
@@ -229,7 +229,7 @@ img.logo.profile {
 }
 
 h3.profile-events-list {
-    font-size: 30px;
+    font-size: 27px;
     font-weight: bold;
     color: #e0e2e4;
     font-family: 'Coiny';

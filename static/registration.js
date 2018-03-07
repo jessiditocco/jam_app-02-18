@@ -8,7 +8,8 @@ function showRegistrationSuccess(result) {
         $("#registration_button").hide();
         $("#logout_button").show();
         $("#my_profile_button").show();
-        setTimeout(function() {$("#success_div").html("");}, 3000);
+        $("#success_div").show();
+        setTimeout(function() {$("#success_div").hide();}, 3000);
 
         // window.location = "/";
         // alert("User was succesfully created and logged in");
@@ -25,7 +26,6 @@ function showRegistrationSuccess(result) {
 
 
 function registerUser(evt) {
-    console.log("hiiiiii");
     evt.preventDefault();
     let payload = {
         "name": $("#registration_name").val(),

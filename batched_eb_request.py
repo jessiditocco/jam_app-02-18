@@ -96,10 +96,12 @@ def get_suggested_event_details(suggested_events):
         event_details = {}
         event_details["name"] = event["name"]["text"]
         event_details["id"] = event["id"]
-        logo = event_details.get("logo", None)
+        logo = event.get("logo", None)
         
-        event_details["logo"] = event["logo"]["url"]
-    
+        if logo:
+            event_details["logo"] = event["logo"]["url"]
+        else:
+            event_details["logo"] = "http://engagedlearning.co.uk/wp-content/uploads/2015/03/placeholder-300x300-e14277390609001.jpg"
         suggested_events_details.append(event_details)
 
     return suggested_events_details

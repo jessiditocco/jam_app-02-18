@@ -12,9 +12,9 @@ def load_bookmark_types():
 
 def load_jam_users():
     """Seed fake users into jams db."""
-
-    user1 = User(email="jessica.ditocco@ufl.edu", name="Jessi DiTocco(UFL)", password="test")
-    user2 = User(email="jessi.ditocco@gmail.com", name="Jessi DiTocco(GMAIL)", password="test")
+    
+    user1 = User(email="jessica.ditocco@ufl.edu", name="Jessi DiTocco", password="test")
+    user2 = User(email="jessi.ditocco@gmail.com", name="Jane Doe", password="test")
     user3 = User(email="twonaroll@yahoo.com", name="Liz Lee", password="test")
     db.session.add_all([user1, user2, user3])
     db.session.commit()

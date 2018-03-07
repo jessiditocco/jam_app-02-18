@@ -9,7 +9,8 @@ function showLoginSuccess(result) {
         $("#logout_button").show();
         $("#my_profile_button").show();
         $("#success_div").html("User has been succesfully logged in.");
-        setTimeout(function() {$("#success_div").html("");}, 3000);
+        $("#success_div").show("User has been succesfully logged in.");
+        setTimeout(function() {$("#success_div").hide();}, 3000);
         // // Changes url of what page you are on-- like a JS redirect
         // window.location = "/";
         
@@ -39,7 +40,8 @@ function showLogoutSuccess() {
     $("#logout_button").hide();
     $("#login_button").show();
     $("#my_profile_button").hide();
-    setTimeout(function() {$("#success_div").html("");}, 3000);
+    $("#success_div").show();
+    setTimeout(function() {$("#success_div").hide();}, 3000);
     // // Changes url of what page you are on-- like a JS redirect
     // window.location = "/";
     
