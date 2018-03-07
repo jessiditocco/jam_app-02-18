@@ -66,6 +66,7 @@ button:hover, a:hover {
     height: 500px;
     background-repeat: no-repeat;
     background-position: center center;
+    box-shadow: 5px 10px;
 }
 
 /* Date dropdown bar on the homepage-- centers it and makes it smaller */
@@ -151,7 +152,7 @@ blockquote, p {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: #8ca3a3;
+    color: #e0e2e4;
     font-family: 'Rubik', sans-serif;
     font-weight: bold;
 }
@@ -252,4 +253,6 @@ h3.profile-events-list {
 /* Style for my homepage header */
 .homepage-header {
     font-size: 45px;
+    padding-bottom: 25px;
+    padding-top: 30px;
 }
