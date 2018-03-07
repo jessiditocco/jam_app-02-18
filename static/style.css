@@ -154,7 +154,7 @@ blockquote, p {
 
 h1, h2, h3, h4, h5, h6 {
     color: #e0e2e4;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-weight: bold;
 }
 
@@ -166,7 +166,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 17px;
     color: black;
     text-transform: uppercase;
-    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-weight: 700;
 
 }
@@ -175,7 +175,7 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #ae142a;
     color:white ;
     text-transform: uppercase;
-    font-family: 'Bowlby One SC';
+    font-family: 'Oswald', sans-serif;
     font-weight: 700;
     background-color: black;
 }
@@ -209,11 +209,10 @@ p#description {
 /* Style for my wells */
 
 .row.well {
-    border: 5px solid black;
-    /*background-color: #8ca3a3;*/
+    background-color: #8ca3a3;
     text-align: center;
     color: #484f4f;
-    background-image: url('/static/homepage_hands.jpg');
+    background-image: url('/static/dark_wood.png');
 
 }
 
@@ -234,9 +233,8 @@ h3.profile-events-list {
     font-size: 27px;
     font-weight: bold;
     color: #e0e2e4;
-    font-family: 'Coiny';
-    border: 5px solid black;
-    background-image: url('/static/homepage_hands.jpg');
+    font-family: 'Oswald', sans-serif;
+    background-image: url('/static/dark_wood.png');
 
 }
 
@@ -251,9 +249,20 @@ h3.profile-events-list {
     overflow: scroll;
 }
 
-/* Style for my homepage header */
+/* Style for my homepage */
 .homepage-header {
     font-size: 45px;
     padding-bottom: 25px;
     padding-top: 30px;
+}
+
+#search-div {
+    background-image: url('/static/dark_wood.png');
+    margin-bottom: 34px;
+}
+
+input.btn.btn-primary {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    background-color: #8ca3a3;
 }
