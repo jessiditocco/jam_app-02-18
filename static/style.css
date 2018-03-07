@@ -91,6 +91,7 @@ button:hover, a:hover {
 /* This changes the navbar color */
 .navbar {
     background-color: #c0ded9;
+    opacity: 0.8;
     color: black;
 }
 
