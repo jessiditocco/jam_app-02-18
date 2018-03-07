@@ -67,6 +67,7 @@ button:hover, a:hover {
     background-repeat: no-repeat;
     background-position: center center;
     box-shadow: 5px 10px;
+    margin-top: -20px;
 }
 
 /* Date dropdown bar on the homepage-- centers it and makes it smaller */
