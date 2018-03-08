@@ -25,6 +25,6 @@ Once logged in, the user can access their profile page to view a list of bookmar
 ### Screenshot 1:
 
 Inline-style: 
-![alt text](/homepage.png "Logo Title Text 1")
+![alt text](https://raw.githubusercontent.com/jessiditocco/jam_app-02-18/master/readme_screenshots/homepage.png) "Homepage Screenshot")
 
 Reference-style: 
