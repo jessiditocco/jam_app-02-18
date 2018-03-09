@@ -48,3 +48,58 @@ On the homepage, a user can view a list of recommended events based on the user'
 
 ![alt text](https://raw.githubusercontent.com/jessiditocco/jam_app-02-18/master/readme_screenshots/event_recommendations.png) "Event Recommendations")
 
+
+## Setup/Installation
+
+* PostgreSQL
+* Python 2.7
+* Eventbrite and SendGrid API Keys
+
+To have this app running on your local computer, please follow the below steps:
+
+Clone Repository: 
+```
+$ git clone https://github.com/jessiditocco/jam_app-02-18
+```
+
+Create a virtual environment🔮:
+```
+$ virtualenv env
+```
+
+Activate the virtual environment:
+```
+$ source env/bin/activate
+```
+
+Install dependencies🔗:
+```
+$ pip install -r requirements.txt
+```
+
+Get your own secret keys🔑 for Eventbrite and SendGrid. Save them to a file secrets.py. We will want to export the secrets keys into our virtual environment. Your file should look something like this:
+```
+export EVENTBRITE_TOKEN="K24Y3YW4SN66CIIPMPNG"
+
+export SENDGRID_API_KEY="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"
+
+export GOOGLE_MAPS_API_KEY="AIzaSyCMBszgjUaxWxMOvynlpOfZDapTOiHSrqM"
+```
+
+Create database 'jams'.
+```
+$ createdb jams
+```
+
+Create your database tables and seed🌱 example data.
+```
+$ python seed.py
+```
+
+Run the app from the command line.
+```
+$ python server.py
+```
+
+
+
