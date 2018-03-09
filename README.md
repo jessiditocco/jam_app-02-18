@@ -79,11 +79,11 @@ $ pip install -r requirements.txt
 
 Get your own secret keys🔑 for Eventbrite and SendGrid. Save them to a file secrets.py. We will want to export the secrets keys into our virtual environment. Your file should look something like this:
 ```
-export EVENTBRITE_TOKEN="K24Y3YW4SN66CIIPMPNG"
+export EVENTBRITE_TOKEN="ABC123"
 
-export SENDGRID_API_KEY="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"
+export SENDGRID_API_KEY="ABC123"
 
-export GOOGLE_MAPS_API_KEY="AIzaSyCMBszgjUaxWxMOvynlpOfZDapTOiHSrqM"
+export GOOGLE_MAPS_API_KEY="ABC123"
 ```
 
 Create database 'jams'.
